@@ -3,6 +3,8 @@ package array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TwoSum {
     /**
@@ -126,5 +128,55 @@ public class TwoSum {
 	}
 
 	return end;
+    }
+
+    /*
+     * [2014 Dec] alternative what if the array elements are not distinct? --It
+     * says you can assume there is only one solution, so: if the duplicated
+     * elements are not part of the answer element -> does not matter if the
+     * duplicated elements are part of the answer -> the target value must equal
+     * to 2x this element (and there can only be two duplications)
+     */
+    public class Solution {
+	public int[] twoSum(int[] numbers, int target) {
+	    if (numbers == null || numbers.length == 0) {
+		return null;
+	    }
+
+	    int[] res = new int[2];
+
+	    Map<Integer, Integer> idxValMap = new HashMap<Integer, Integer>();
+	    for (int i = 0; i < numbers.length; i++) {
+		if (idxValMap.containsKey(numbers[i])
+			&& target == (numbers[i] * 2)) {
+		    res[0] = 1 + idxValMap.get(numbers[i]);
+		    res[1] = 1 + i;
+		    return res;
+		}
+
+		idxValMap.put(numbers[i], i);
+	    }
+
+	    Arrays.sort(numbers);
+
+	    int i = 0;
+	    int j = numbers.length - 1;
+	    while (i < j) {
+		int sum = numbers[i] + numbers[j];
+		if (sum == target) {
+		    res[0] = 1 + Math.min(idxValMap.get(numbers[i]),
+			    idxValMap.get(numbers[j]));
+		    res[1] = 1 + Math.max(idxValMap.get(numbers[i]),
+			    idxValMap.get(numbers[j]));
+		    break;
+		} else if (sum < target) {
+		    i++;
+		} else {
+		    j--;
+		}
+	    }
+
+	    return res;
+	}
     }
 }
