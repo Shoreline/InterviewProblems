@@ -2,16 +2,55 @@ package string;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Longest Substring Without Repeating Characters
+ * 
+ * Given a string, find the length of the longest substring without repeating
+ * characters. For example, the longest substring without repeating letters for
+ * "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring
+ * is "b", with the length of 1.
+ */
 
 public class LongestSubstringWithoutRepeatingCharacters {
-    /**
-     * Longest Substring Without Repeating Characters
-     * 
-     * Given a string, find the length of the longest substring without
-     * repeating characters. For example, the longest substring without
-     * repeating letters for "abcabcbb" is "abc", which the length is 3. For
-     * "bbbbb" the longest substring is "b", with the length of 1.
+    
+    public static void main(String[] args) {
+	String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
+
+	System.out.println(lengthOfLongestSubstring3(s));
+    }
+
+    /*
+     * Jan 2015
+     * O(n), sliding window
      */
+    public static int lengthOfLongestSubstring3(String s) {
+	if (s == null || s.length() == 0)
+	    return 0;
+
+	int maxLength = 0;
+	int curLength = 0;
+	Map<Character, Integer> charLastPos = new HashMap<Character, Integer>();
+
+	int i = 0;
+	while (i < s.length()) {
+	    char c = s.charAt(i);
+
+	    if (charLastPos.containsKey(c)
+		    && i - charLastPos.get(c) <= curLength) {
+		// find a repeated char, curLength will be changed
+		maxLength = Math.max(curLength, maxLength);
+		curLength = i - charLastPos.get(c);
+	    } else {
+		curLength++;
+	    }
+	    charLastPos.put(c, i);
+	    i++;
+	}
+	maxLength = Math.max(curLength, maxLength);
+	return maxLength;
+    }
 
     /*
      * second round. 2 time pass
@@ -33,9 +72,8 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	while (j < s.length()) {
 	    char c = s.charAt(j);
 
-	    if (pos.get(c) == null || pos.get(c) == -1) {
+	    if (!pos.containsKey(c) || pos.get(c) == -1) {
 		pos.put(c, j);
-
 	    } else {
 		pos.put(c, j);
 		for (int k = i; k < j; k++) {
@@ -73,7 +111,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	if (s == null || s.length() == 0)
 	    return 0;
 
-	int max = 0;
+	int maxLength = 0;
 	ArrayList<Character> uniqueSequence = new ArrayList<Character>();
 	for (int i = 0; i < s.length(); i++) {
 	    char c = s.charAt(i);
@@ -94,9 +132,9 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	    }
 
 	    uniqueSequence.add(c);
-	    max = Math.max(max, uniqueSequence.size());
+	    maxLength = Math.max(maxLength, uniqueSequence.size());
 
 	}
-	return max;
+	return maxLength;
     }
 }
