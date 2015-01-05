@@ -18,10 +18,50 @@ public class LongestPalindromicSubstring {
      */
 
     /*
+     *  Same idea as solution 2.
+     *  A little optimization: while n == s.length(), can break the loop and return res.
+     */
+    public String longestPalindrome3(String s) {
+	if (s == null || s.length() < 2) {
+	    return s;
+	}
+
+	String res = "";
+
+	for (int i = 0; i < s.length(); i++) {
+	    if (i > 0 && s.charAt(i) == s.charAt(i - 1)) {
+		continue;
+	    }
+
+	    int m = i;
+	    int n = i;
+
+	    while (n + 1 < s.length() && s.charAt(n + 1) == s.charAt(n)) {
+		n++;
+	    }
+
+	    while (m - 1 >= 0 && n + 1 < s.length()
+		    && s.charAt(m - 1) == s.charAt(n + 1)) {
+		m--;
+		n++;
+	    }
+
+	    if (res.length() < n - m + 1) {
+		res = s.substring(m, n + 1);
+	    }
+
+	    if (n == s.length()) {
+		break;
+	    }
+	}
+
+	return res;
+    }
+    
+    /*
      * second round.
      */
-    public String longestPalindrome(String s) {
-
+    public String longestPalindrome2(String s) {
 	if (s == null || s.length() < 2)
 	    return s;
 
@@ -37,8 +77,8 @@ public class LongestPalindromicSubstring {
 	    int n = i;
 
 	    /*
-	     * make sure C[m]/C[n] is the first/last char of the substring that
-	     * has repeated characters
+	     * Let C[m]/C[n] to be the first/last char of the center part of a palindromic substring: 
+	     * C[m] = C[m+1] = ... = C[n]
 	     */
 	    while (n + 1 < C.length && C[n + 1] == C[i]) {
 		n++;
@@ -62,47 +102,52 @@ public class LongestPalindromicSubstring {
     /*
      * first round. Used an additional help method.
      */
-    public static String longestPalindrome1(String s) {
-	if (s == null || s.length() == 0) {
-	    return "";
+    static class Solution1 {
+	public static String longestPalindrome1(String s) {
+	    if (s == null || s.length() == 0) {
+		return "";
+	    }
+	    String curLongest = "";
+
+	    for (int i = 0; i < s.length(); i++) {
+		// find the longest palindrome at i
+		String temp = longestPalindromeHelp1(s, i);
+
+		if (temp.length() > curLongest.length())
+		    curLongest = temp;
+
+	    }
+
+	    return curLongest;
 	}
-	String curLongest = "";
-
-	for (int i = 0; i < s.length(); i++) {
-	    // find the longest palindrome at i
-	    String temp = longestPalindromeHelp1(s, i);
-
-	    if (temp.length() > curLongest.length())
-		curLongest = temp;
-
-	}
-
-	return curLongest;
-    }
-
-    private static String longestPalindromeHelp1(String s, int index) {
-	int left = index - 1;
-	int right = index + 1;
 
 	/*
-	 * locate the boundaries
-	 * 
-	 * For "xxxa2222bxxx", and index =4 ~7, the boudaries will be "a" and
-	 * "b"
+	 * return the Palindromic substring in s centered at a given index
 	 */
-	while (left >= 0 && s.charAt(index) == s.charAt(left)) {
-	    left--;
-	}
-	while (right < s.length() && s.charAt(index) == s.charAt(right)) {
-	    right++;
-	}
+	private static String longestPalindromeHelp1(String s, int index) {
+	    int left = index - 1;
+	    int right = index + 1;
 
-	while (left >= 0 && right < s.length()
-		&& s.charAt(left) == s.charAt(right)) {
-	    left--;
-	    right++;
-	}
+	    /*
+	     * locate the boundaries
+	     * 
+	     * For "xxxa2222bxxx", and index =4 ~7, the boudaries will be "a"
+	     * and "b"
+	     */
+	    while (left >= 0 && s.charAt(index) == s.charAt(left)) {
+		left--;
+	    }
+	    while (right < s.length() && s.charAt(index) == s.charAt(right)) {
+		right++;
+	    }
 
-	return s.substring(left + 1, right);
+	    while (left >= 0 && right < s.length()
+		    && s.charAt(left) == s.charAt(right)) {
+		left--;
+		right++;
+	    }
+
+	    return s.substring(left + 1, right);
+	}
     }
 }

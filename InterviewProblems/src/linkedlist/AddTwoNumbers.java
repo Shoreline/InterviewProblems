@@ -12,17 +12,51 @@ public class AddTwoNumbers {
      * 
      */
 
-    /*
-     * second round.
+    /* 
+     * A more simplified version: let val1 = 0 if l1 == null; similar handling for l2.
      */
-    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
-	// Start typing your Java solution below
-	// DO NOT write main() function
-	if (l1 == null || l2 == null)
+    public ListNode addTwoNumbers3(ListNode l1, ListNode l2) {
+	if (l1 == null && l2 == null) {
 	    return null;
+	}
 
 	ListNode preHead = new ListNode(-1);
 	ListNode cur = preHead;
+	int carrier = 0;
+
+	while (l1 != null || l2 != null) {
+	    int val1 = (l1 == null ? 0 : l1.val);
+	    int val2 = (l2 == null ? 0 : l2.val);
+
+	    int sum = val1 + val2 + carrier;
+
+	    cur.next = new ListNode(sum % 10);
+	    carrier = sum / 10;
+
+	    cur = cur.next;
+	    if (l1 != null) {
+		l1 = l1.next;
+	    }
+	    if (l2 != null) {
+		l2 = l2.next;
+	    }
+	}
+
+	if (carrier != 0) {
+	    cur.next = new ListNode(carrier);
+	}
+
+	return preHead.next;
+    }
+    
+    
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+	if (l1 == null && l2 == null) {
+	    return null;
+	}
+
+	ListNode preHead = new ListNode(-1);
+	ListNode cur = preHead; // cur also starts with preHead
 
 	int carrier = 0;
 
@@ -38,13 +72,7 @@ public class AddTwoNumbers {
 	    l2 = l2.next;
 	}
 
-	ListNode rest = null;
-
-	if (l1 == null) {
-	    rest = l2;
-	} else {
-	    rest = l1;
-	}
+	ListNode rest = (l1 == null ? l2 : l1);
 
 	while (rest != null) {
 	    int sum = rest.val + carrier;
@@ -52,6 +80,7 @@ public class AddTwoNumbers {
 	    carrier = sum / 10;
 
 	    cur.next = new ListNode(value);
+
 	    cur = cur.next;
 	    rest = rest.next;
 	}
@@ -61,7 +90,6 @@ public class AddTwoNumbers {
 	}
 
 	return preHead.next;
-
     }
 
     /*
