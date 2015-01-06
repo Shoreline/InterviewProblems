@@ -20,6 +20,36 @@ public class ZigZagConversion {
      * convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
      * 
      */
+    
+    /*
+     * Same idea as solution2. But more concise.
+     * The inner for loop can be further simplified, but will reduce readability 
+     */
+    public String convert3(String s, int nRows) {
+	if (s == null || s.length() < 2 || nRows == 1) {
+	    return s;
+	}
+
+	int len = s.length();
+	StringBuilder sb = new StringBuilder(len);
+
+	for (int r = 0; r < nRows; r++) {
+	    for (int i = r; i < len; i += (2 * nRows - 2)) {
+		if (r == 0 || r == nRows - 1) {
+		    sb.append(s.charAt(i));
+		} else {
+		    sb.append(s.charAt(i));
+		    int offset = 2 * (nRows - r - 1);
+		    if (i + offset < len) {
+			sb.append(s.charAt(i + offset));
+		    }
+		}
+	    }
+	}
+
+	return sb.toString();
+    }
+    
     /*
      * second round. one time pass!
      * 
