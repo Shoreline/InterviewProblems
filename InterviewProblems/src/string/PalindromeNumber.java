@@ -58,4 +58,39 @@ public class PalindromeNumber {
 
 	return true;
     }
+
+    /*
+     * this solution using reverse integer and handles int overflow cases
+     */
+    public class Solution2 {
+	public boolean isPalindrome(int x) {
+	    if (x < 0) {
+		return false;
+	    } else if (x / 10 == 0) {
+		return true;
+	    }
+
+	    return x == reverse(x) ? true : false;
+
+	}
+
+	private int reverse(int x) {
+	    int res = 0;
+	    int sign = x >= 0 ? 1 : -1;
+	    x = Math.abs(x);
+
+	    while (x > 0 && res < Integer.MAX_VALUE / 10) {
+		res = res * 10 + x % 10;
+		x = x / 10;
+	    }
+
+	    if (x > 0 && Integer.MAX_VALUE / 10 == res
+		    && Integer.MAX_VALUE % 10 >= x % 10) {
+		res = res * 10 + x % 10;
+		x = x / 10;
+	    }
+
+	    return x == 0 ? (res * sign) : 0;
+	}
+    }
 }

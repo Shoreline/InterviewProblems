@@ -26,39 +26,64 @@ public class ReverseInteger {
      */
 
     /*
-     * One time pass!
+     * considered overflow.
+     */
+    class solution2 {
+	public int reverse(int x) {
+	    int res = 0;
+	    int sign = x >= 0 ? 1 : -1;
+	    x = Math.abs(x);
+
+	    while (x > 0 && res < Integer.MAX_VALUE / 10) {
+		res = res * 10 + x % 10;
+		x = x / 10;
+	    }
+
+	    if (x > 0 && Integer.MAX_VALUE / 10 == res
+		    && Integer.MAX_VALUE % 10 >= x % 10) {
+		res = res * 10 + x % 10;
+		x = x / 10;
+	    }
+
+	    return x == 0 ? (res * sign) : 0;
+	}
+    }
+
+    /*
+     * Cannot handle overflow cases.
      * 
      * No need to convert x and result to String/StringBuilder
      */
-    public int reverse(int x) {
-	// StringBuilder result = new StringBuilder();
-	int result = 0;
-	int sign = 0;
+    class solution1 {
+	public int reverse(int x) {
+	    int result = 0;
+	    int sign = 0;
 
-	if (x < 0) {
-	    sign = -1;
-	    x = x * sign;
-	} else {
-	    sign = 1;
-	}
-
-	while (x / 10 > 0) {
-	    int aDigit = x % 10;
-	    if (result == 0 && aDigit == 0) {
-		x = x / 10;
-		continue;
+	    if (x < 0) {
+		sign = -1;
+		x = x * sign;
+	    } else {
+		sign = 1;
 	    }
 
-	    // result.append(aDigit);
-	    result = result * 10 + aDigit;
-	    x = x / 10;
-	}
-	result = result * 10 + x;
+	    while (x / 10 > 0) {
+		int aDigit = x % 10;
+		if (result == 0 && aDigit == 0) {
+		    x = x / 10;
+		    continue;
+		}
 
-	if (sign < 0) {
-	    result = -result;
-	}
+		// result.append(aDigit);
+		result = result * 10 + aDigit;
+		x = x / 10;
+	    }
+	    result = result * 10 + x;
 
-	return result;
+	    if (sign < 0) {
+		result = -result;
+	    }
+
+	    return result;
+	}
     }
 }
