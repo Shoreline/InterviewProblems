@@ -19,31 +19,31 @@ public class ContainerWithMostWater {
      * Important: This time the array is not sorted.
      */
     public static int maxArea(int[] height) {
-	int maxArea = 0;
+	if(height == null || height.length== 0){
+            return 0;
+        }        
+        
+	int max = 0;
 
 	int i = 0;
 	int j = height.length - 1;
 
 	while (i < j) {
-	    int curArea = Math.min(height[i], height[j]) * (j - i);
-	    if (curArea > maxArea) {
-		maxArea = curArea;
-		/*
-		 * Do not need to change i, j here, since the condition is
-		 * curArea>maxArea, not >=
-		 */
+	    int cur = (j - i) * Math.min(height[i], height[j]);
 
+	    if (cur > max) {
+		// Here do not need to change i, j, since the condition is
+		// cur>max, not >=
+		max = cur;
 	    } else if (height[i] <= height[j]) {
-		/*
-		 * when left <= right, then the only possible case in to find a
-		 * larger left
-		 */
+		// when leftHeight<=rightHeight, any possible larger container
+		// will not use this left line
 		i++;
 	    } else {
 		j--;
 	    }
 	}
 
-	return maxArea;
+	return max;
     }
 }

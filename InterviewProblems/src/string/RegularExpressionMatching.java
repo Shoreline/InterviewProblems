@@ -13,51 +13,58 @@ public class RegularExpressionMatching {
      * The function prototype should be: bool isMatch(const char *s, const char
      * *p)
      * 
-     * Some examples:
-     * 
-     * isMatch("aa","a") ¡ú false
-     * 
-     * isMatch("aa","aa") ¡ú true
-     * 
-     * isMatch("aaa","aa") ¡ú false
-     * 
-     * isMatch("aa", "a*") ¡ú true
-     * 
-     * isMatch("aa", ".*") ¡ú true
-     * 
-     * isMatch("ab", ".*") ¡ú true
-     * 
-     * isMatch("aab", "c*a*b") ¡ú true
+     * Some examples: isMatch("aa","a") â†’ false 
+     * isMatch("aa","aa") â†’ true
+     * isMatch("aaa","aa") â†’ false 
+     * isMatch("aa", "a*") â†’ true 
+     * isMatch("aa", ".*") â†’ true 
+     * isMatch("ab", ".*") â†’ true 
+     * isMatch("aab", "c*a*b") â†’ true
      */
 
     /*
-     * My thoughts: two pointers, starting form the end of each String
+     * Understand the problem correctly. '*' means the number of the character
+     * ahead of it, can be 0 to N
+     * 
+     * '\0' (char c = 0) is a special control char, use it for null
+     * 
+     * corner case: s = "", p = "a*b*c*"; they still match
      */
+    class solution2 {
+	public boolean isMatch(String s, String p) {
+	    if ((s == null && p == null) || s.length() == 0 && p.length() == 0) {
+		return true;
+	    }
 
-    /*
-     * A high hand: http://blog.csdn.net/hopeztm/article/details/7992253
-     * 
-     * ÆäÊµºËÐÄµÄË¼Â·ÊÇÒ»¸ö¶¯Ì¬¹æ»®
-     * 
-     * dp[i][j]±íÊ¾×Ö´® s[i...len(s)], p[j...len(p)] ÊÇ·ñ¿ÉÒÔÆ¥Åä¡£
-     * 
-     * ÄÇÃ´×´Ì¬×ªÒÆ·½³ÌÈçÏÂ£º
-     * 
-     * dp[i][j] =
-     * 
-     * c1. p[j+1] != *. if s[i] == p[j] dp[i][j] = dp[i+1][j+1]
-     * 
-     * else dp[i][j] = false
-     * 
-     * c2 p[j+1] == '*' (Õâ¸öÇé¿öÏÂ£¬ÒªÀ©Õ¹ *, dp[i][j] ´ÓÍØÕ¹µÄÇé¿öÏÂ£¬Ñ¡ÔñÒ»¸öÊÇÕæµÄ½á¹û£©
-     * 
-     * if( s[i] == p[j] || p[j] == '.' && (*s) != 0) µ±s[i] ºÍ p[j] Ò»ÑùµÄÊ±ºò£¬ÀýÈç aba,
-     * a*bÕâ¸öÊ±ºò£¬i = 0, j = 0, ×ÔÈ»¿ÉÒÔÆ¥Åäa a
-     * 
-     * Èç¹ûp[j] == . ÒòÎªËû¿ÉÒÔÆ¥ÅäÈÎºÎ×Ö·û£¬ËùÒÔºÍÏàµÈ¹ØÏµÓÐ»ù±¾Ò»ÑùµÄ·½Ê½¡£
-     * 
-     * ²¢ÇÒÃ¿Ò»²½Æ¥Åä¶¼ÒªµÝÔö i µÄÖµ£¬Èç¹ûÓÐ³ÉÁ¢µÄ£¬Ôò·µ»Øtrue£¬·ñÔòµ½Æ¥ÅäÖÕÁË£¬·µ»ØÍ¨Åä·ûÆ¥ÅäÍê³ÉºóµÄ½á¹û¡£
-     */
+	    if (p.length() == 0 && s.length() > 0) {
+		return false;
+	    }
+
+	    char s0 = (s.length() > 0 ? s.charAt(0) : 0);
+	    char p0 = p.charAt(0);
+	    char p1 = (p.length() > 1 ? p.charAt(1) : 0);
+
+	    if (p1 == '*') {
+		if (isMatch(s, p.substring(2))) {
+		    return true;
+		}
+
+		int i = 0;
+		while (i < s.length() && (p0 == '.' || p0 == s.charAt(i))) {
+		    if (isMatch(s.substring(i + 1), p.substring(2))) {
+			return true;
+		    }
+		    i++;
+		}
+
+		return false;
+	    } else if (s.length() != 0 && (p0 == '.' || p0 == s0)) {
+		return isMatch(s.substring(1), p.substring(1));
+	    } else {
+		return false;
+	    }
+	}
+    }
 
     /*
      * Recursion shall be enough.
@@ -66,33 +73,35 @@ public class RegularExpressionMatching {
      * 
      * not finished
      */
-    public boolean isMatch(String s, String p) {
-	if (s == null || p == null) {
+    class solution1 {
+	public boolean isMatch(String s, String p) {
+	    if (s == null || p == null) {
+		return false;
+	    }
+	    if (p.length() == 0) {
+		return true;
+	    }
+
+	    return isMatch(s, 0, p, 0);
+	}
+
+	private boolean isMatch(String s, int m, String p, int n) {
+
+	    if (m == s.length() && n == p.length()) {
+		return true;
+	    }
+
+	    if (s.charAt(m) == p.charAt(n) || p.charAt(n) == '.') {
+		return isMatch(s, m + 1, p, n + 1);
+	    } else {
+		if (p.charAt(n) == '*') {
+		    if (p.length() == n + 1)
+			return true;
+
+		}
+	    }
+
 	    return false;
 	}
-	if (p.length() == 0) {
-	    return true;
-	}
-
-	return isMatch(s, 0, p, 0);
-    }
-
-    private boolean isMatch(String s, int m, String p, int n) {
-
-	if (m == s.length() && n == p.length()) {
-	    return true;
-	}
-
-	if (s.charAt(m) == p.charAt(n) || p.charAt(n) == '.') {
-	    return isMatch(s, m + 1, p, n + 1);
-	} else {
-	    if (p.charAt(n) == '*') {
-		if (p.length() == n + 1)
-		    return true;
-
-	    }
-	}
-
-	return false;
     }
 }
