@@ -24,10 +24,10 @@ public class ReverseNodesInKGroup {
 
     /*
      * second round
+     * 
+     * Two passes. The first one is to count the LinkedList length
      */
     public static ListNode reverseKGroup2(ListNode head, int k) {
-	// Start typing your Java solution below
-	// DO NOT write main() function
 	if (head == null || k == 1)
 	    return head;
 

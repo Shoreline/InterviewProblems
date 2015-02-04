@@ -13,7 +13,8 @@ public class MergeKSortedLists {
      */
 
     /*
-     * Maintain a heap of size no bigger than the number of lists.
+     * Maintain a heap whose size is no bigger than the number of lists. 
+     * (only save the head nodes of each list)
      * 
      * Since all elements in each lists are already sorted, not need to add all
      * elements to the heap at a time -> use much less memory
@@ -40,7 +41,7 @@ public class MergeKSortedLists {
 	}
 
 	ListNode preHead = new ListNode(-1);
-	ListNode pre = preHead;
+	ListNode cur = preHead;
 
 	/*
 	 * once element is popped out, add its next node (if there is one) to
@@ -48,11 +49,13 @@ public class MergeKSortedLists {
 	 */
 	while (!pq.isEmpty()) {
 	    ListNode temp = pq.poll();
-	    pre.next = temp;
+	    
 	    if (temp.next != null) {
 		pq.add(temp.next);
 	    }
-	    pre = pre.next;
+	    
+	    cur.next = temp;
+	    cur = cur.next;
 
 	}
 
