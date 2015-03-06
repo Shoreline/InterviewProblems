@@ -11,12 +11,12 @@ public class MaximalRectangle {
     /*
      * rectangle! not square
      * 
-     * 1) DP║ёсцf[i][j]ю╢╪гб╪iппртjапн╙╫Ан╡ё╛мЫг╟а╛пЬ╣д1╣д╦ЖйЩ║ёх╩╨Стыр╩╦ЖO(n^3)╣дя╜╩╥ю╢уррт(i,
-     * j)н╙сроб╫г╣д╬ьпнвН╢С╣д1╣дцФ╩Щ║ё
+     * 1) DPО©╫О©╫О©╫О©╫f[i][j]О©╫О©╫О©╫О©╫б╪iО©╫О©╫О©╫О©╫jО©╫О©╫н╙О©╫О©╫н╡О©╫О©╫О©╫О©╫г╟О©╫О©╫О©╫О©╫О©╫1О©╫д╦О©╫О©╫О©╫х╩О©╫О©╫О©╫О©╫р╩О©╫О©╫O(n^3)О©╫О©╫я╜О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫(i,
+     * j)н╙О©╫О©╫О©╫б╫г╣д╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫1О©╫О©╫О©╫О©╫О©╫
      * 
      * 2)
-     * O(n^2)╣дкЦ╥╗ё╛©ирт╟янйлБ©╢ЁигС╤Ю╦Жж╠╥╫м╪╣двН╢С╬ьпнцФ╩Щё╛уБяЫ╬м©ирт╢сиомЫобю╢вЖюЩхГ╣зi╡Ц╬мйг0~i╣дж╠╥╫м╪ё╛╣зi+1╬мйг0~i+1╣дж╠╥╫м╪ё╛
-     * уБяЫгСж╠╥╫м╪╣д╦╢тс╤хO(n)ё╛сзйг╬мспO(n^2)
+     * O(n^2)О©╫О©╫О©╫Ц╥╗О©╫О©╫О©╫О©╫О©╫т╟О©╫О©╫О©╫О©╫Б©╢О©╫О©╫О©╫О©╫О©╫О©╫ж╠О©╫О©╫м╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫м©О©╫О©╫т╢О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫iО©╫О©╫О©╫О©╫О©╫0~iО©╫О©╫ж╠О©╫О©╫м╪О©╫О©╫О©╫О©╫i+1О©╫О©╫О©╫О©╫0~i+1О©╫О©╫ж╠О©╫О©╫м╪О©╫О©╫
+     * О©╫О©╫О©╫О©╫О©╫О©╫ж╠О©╫О©╫м╪О©╫д╦О©╫О©╫с╤О©╫O(n)О©╫О©╫О©╫О©╫О©╫г╬О©╫О©╫О©╫O(n^2)
      */
 
     /*
@@ -30,63 +30,63 @@ public class MaximalRectangle {
      * 
      * It will return 2, which is wrong.
      */
-	public int maximalRectangle(char[][] matrix) {
-		if (matrix == null || matrix.length == 0) {
-			return 0;
-		}
-
-		int[][] dp = new int[matrix.length][matrix[0].length];
-		int[][] dp2 = new int[matrix.length][matrix[0].length];
-
-		int max = 0;
-
-		// initial condition set up
-		for (int i = 0; i < matrix.length; i++) {
-			if (matrix[i][matrix[0].length - 1] == '1') {
-				dp[i][matrix[0].length - 1] = 1;
-				max = 1;
-			} else {
-				dp[i][matrix[0].length - 1] = 0;
-			}
-		}
-
-		for (int i = 0; i < matrix[0].length; i++) {
-			if (matrix[matrix.length - 1][i] == '1') {
-				dp2[matrix.length - 1][i] = 1;
-				max = 1;
-			} else {
-				dp2[matrix.length - 1][i] = 0;
-			}
-		}
-
-		// start filling dp matrix
-		for (int i = matrix.length - 1; i >= 0; i--) {
-			for (int j = matrix[0].length - 2; j >= 0; j--) {
-				if (matrix[i][j] == '0') {
-					dp[i][j] = 0;
-				} else {
-					dp[i][j] = 1 + dp[i][j + 1];
-				}
-			}
-		}
-
-		for (int i = matrix.length - 2; i >= 0; i--) {
-			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j] == '0') {
-					dp2[i][j] = 0;
-				} else {
-					dp2[i][j] = 1 + dp2[i + 1][j];
-				}
-			}
-		}
-
-		// compute maximum rectangle area
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				max = Math.max(max, dp[i][j] * dp2[i][j]);
-			}
-		}
-
-		return max;
+    public int maximalRectangle(char[][] matrix) {
+	if (matrix == null || matrix.length == 0) {
+	    return 0;
 	}
+
+	int[][] dp = new int[matrix.length][matrix[0].length];
+	int[][] dp2 = new int[matrix.length][matrix[0].length];
+
+	int max = 0;
+
+	// initial condition set up
+	for (int i = 0; i < matrix.length; i++) {
+	    if (matrix[i][matrix[0].length - 1] == '1') {
+		dp[i][matrix[0].length - 1] = 1;
+		max = 1;
+	    } else {
+		dp[i][matrix[0].length - 1] = 0;
+	    }
+	}
+
+	for (int i = 0; i < matrix[0].length; i++) {
+	    if (matrix[matrix.length - 1][i] == '1') {
+		dp2[matrix.length - 1][i] = 1;
+		max = 1;
+	    } else {
+		dp2[matrix.length - 1][i] = 0;
+	    }
+	}
+
+	// start filling dp matrix
+	for (int i = matrix.length - 1; i >= 0; i--) {
+	    for (int j = matrix[0].length - 2; j >= 0; j--) {
+		if (matrix[i][j] == '0') {
+		    dp[i][j] = 0;
+		} else {
+		    dp[i][j] = 1 + dp[i][j + 1];
+		}
+	    }
+	}
+
+	for (int i = matrix.length - 2; i >= 0; i--) {
+	    for (int j = matrix[0].length - 1; j >= 0; j--) {
+		if (matrix[i][j] == '0') {
+		    dp2[i][j] = 0;
+		} else {
+		    dp2[i][j] = 1 + dp2[i + 1][j];
+		}
+	    }
+	}
+
+	// compute maximum rectangle area
+	for (int i = 0; i < matrix.length; i++) {
+	    for (int j = 0; j < matrix[0].length; j++) {
+		max = Math.max(max, dp[i][j] * dp2[i][j]);
+	    }
+	}
+
+	return max;
+    }
 }
