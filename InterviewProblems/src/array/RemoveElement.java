@@ -34,4 +34,30 @@ public class RemoveElement {
 
 	return idx;
     }
+    
+    /*
+     * Even using while loop, increment 1 step each time
+     */
+    public class Solution {
+	public int removeElement(int[] A, int elem) {
+	    if (A == null || A.length == 0) {
+		return 0;
+	    }
+
+	    int ptr1 = 0;
+	    int ptr2 = 0;
+
+	    while (ptr2 < A.length) {
+		if (A[ptr2] != elem) {
+		    A[ptr1] = A[ptr2];
+		    ptr1++;
+		    ptr2++;
+		} else {
+		    ptr2++;
+		}
+	    }
+
+	    return ptr1;
+	}
+    }
 }

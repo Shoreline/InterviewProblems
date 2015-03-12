@@ -48,4 +48,27 @@ public class RemoveDuplicatesFromSortedArray {
 
 	return uniqueIdx;
     }
+
+    // Intuitive solution. The while loop can be more concise
+    public class Solution {
+	public int removeDuplicates(int[] A) {
+	    if (A == null || A.length == 0) {
+		return 0;
+	    }
+
+	    int ptr1 = 0;
+	    int ptr2 = 1;
+	    while (ptr2 < A.length) {
+		if (A[ptr1] == A[ptr2]) {
+		    ptr2++;
+		} else {
+		    ptr1++;
+		    A[ptr1] = A[ptr2];
+		    ptr2++;
+		}
+	    }
+
+	    return ptr1 + 1;
+	}
+    }
 }
