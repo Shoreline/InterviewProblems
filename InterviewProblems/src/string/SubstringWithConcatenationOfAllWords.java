@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class SubstringWithConcatenationOfAllWords {
     /**
@@ -29,6 +31,47 @@ public class SubstringWithConcatenationOfAllWords {
      * A much simple way: check all possible windows, see if anyone of them
      * contains all Strings in L --> slow, but can pass the largest
      */
+    public class Solution {
+	public List<Integer> findSubstring(String S, String[] L) {
+	    List<Integer> res = new ArrayList<Integer>();
+	    if (S == null || S.length() == 0 || L == null || L.length == 0) {
+		return res;
+	    }
+
+	    Map<String, Integer> wordCount = new HashMap<String, Integer>();
+	    for (String word : L) {
+		wordCount.put(word,
+			(wordCount.containsKey(word) ? wordCount.get(word) + 1
+				: 1));
+	    }
+
+	    int wordSize = L[0].length();
+	    int slideWindowLength = wordSize * L.length;
+
+	    for (int i = 0; i <= S.length() - slideWindowLength; i++) {
+		String slideWindow = S.substring(i, i + slideWindowLength);
+
+		Map<String, Integer> winWordCount = new HashMap<String, Integer>();
+		for (int j = 0; j < slideWindowLength; j += wordSize) {
+		    String word = slideWindow.substring(j, j + wordSize);
+		    if (wordCount.containsKey(word)) {
+			winWordCount.put(
+				word,
+				(winWordCount.containsKey(word) ? winWordCount
+					.get(word) + 1 : 1));
+		    } else {
+			break;
+		    }
+		}
+		if (winWordCount.equals(wordCount)) {
+		    res.add(i);
+		}
+	    }
+
+	    return res;
+	}
+    }
+    
     public static ArrayList<Integer> findSubstring(String S, String[] L) {
 	ArrayList<Integer> result = new ArrayList<Integer>();
 	if (S == null || S.length() == 0 || L == null || L.length == 0)

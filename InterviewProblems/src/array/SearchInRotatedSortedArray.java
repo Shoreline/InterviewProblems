@@ -22,43 +22,43 @@ public class SearchInRotatedSortedArray {
      * 
      * time complexity: O(lgN)
      */
+    public class Solution {
+	public int search(int[] A, int target) {
+	    if (A == null) {
+		return -1;
+	    }
 
-    public static int search(int[] A, int target) {
+	    int low = 0;
+	    int high = A.length - 1;
 
-	if (A == null) {
-	    return -1;
-	}
+	    while (low <= high) {
+		int mid = (low + high) / 2;
 
-	int lowEnd = 0;
-	int highEnd = A.length - 1;
+		if (A[mid] == target)
+		    return mid;
 
-	while (lowEnd <= highEnd) {
-	    int mid = lowEnd + (highEnd - lowEnd) / 2;
+		if (A[mid] >= A[low]) {
+		    // {lowEnd ~ mid} is the sorted half
 
-	    if (A[mid] == target)
-		return mid;
-
-	    if (A[mid] >= A[lowEnd]) {
-		// lowEnd ~ mid is the sorted half
-
-		// see if target is in this half
-		if (A[lowEnd] <= target && target < A[mid]) {
-		    // target is in this half
-		    highEnd = mid - 1;
+		    // see if target is in this half
+		    if (A[low] <= target && target < A[mid]) {
+			// target is in this half
+			high = mid - 1;
+		    } else {
+			low = mid + 1;
+		    }
 		} else {
-		    lowEnd = mid + 1;
-		}
-	    } else {
-		// mid ~ highEnd is the sorted half
+		    // {mid ~ highEnd} is the sorted half
 
-		if (A[mid] < target && target <= A[highEnd]) {
-		    lowEnd = mid + 1;
-		} else {
-		    highEnd = mid - 1;
+		    if (A[mid] < target && target <= A[high]) {
+			low = mid + 1;
+		    } else {
+			high = mid - 1;
+		    }
 		}
 	    }
-	}
 
-	return -1;
+	    return -1;
+	}
     }
 }

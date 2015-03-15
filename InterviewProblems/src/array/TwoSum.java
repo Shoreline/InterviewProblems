@@ -34,54 +34,54 @@ public class TwoSum {
      * 
      * 2. The output index starts from 1
      */
-	public static int[] twoSum(int[] numbers, int target) {
-		if (numbers == null || numbers.length == 0)
-			return null;
+    public static int[] twoSum(int[] numbers, int target) {
+	if (numbers == null || numbers.length == 0)
+	    return null;
 
-		Element[] elements = new Element[numbers.length];
-		for (int k = 0; k < numbers.length; k++) {
-			elements[k] = new Element(numbers[k], k);
-		}
-		Arrays.sort(elements, new Comparator<Element>() {
-			@Override
-			public int compare(Element e1, Element e2) {
-				return e1.val - e2.val;
-			}
-		});
+	Element[] elements = new Element[numbers.length];
+	for (int k = 0; k < numbers.length; k++) {
+	    elements[k] = new Element(numbers[k], k);
+	}
+	Arrays.sort(elements, new Comparator<Element>() {
+	    @Override
+	    public int compare(Element e1, Element e2) {
+		return e1.val - e2.val;
+	    }
+	});
 
-		int[] result = new int[2];
+	int[] result = new int[2];
 
-		int i = 0;
-		int j = elements.length - 1;
+	int i = 0;
+	int j = elements.length - 1;
 
-		while (i < j) {
-			int sum = elements[i].val + elements[j].val;
+	while (i < j) {
+	    int sum = elements[i].val + elements[j].val;
 
-			if (sum == target) {
-				int i1 = elements[i].pos + 1;
-				int i2 = elements[j].pos + 1;
-				result[0] = Math.min(i1, i2);
-				result[1] = Math.max(i1, i2);
-				return result;
-			} else if (sum < target) {
-				i++;
-			} else {
-				j--;
-			}
-		}
-
-		return null;
+	    if (sum == target) {
+		int i1 = elements[i].pos + 1;
+		int i2 = elements[j].pos + 1;
+		result[0] = Math.min(i1, i2);
+		result[1] = Math.max(i1, i2);
+		return result;
+	    } else if (sum < target) {
+		i++;
+	    } else {
+		j--;
+	    }
 	}
 
-	public static class Element {
-		int val;
-		int pos;
+	return null;
+    }
 
-		public Element(int v, int p) {
-			val = v;
-			pos = p;
-		}
+    public static class Element {
+	int val;
+	int pos;
+
+	public Element(int v, int p) {
+	    val = v;
+	    pos = p;
 	}
+    }
 
     public static int[] twoSum1(int[] numbers, int target) {
 	if (numbers.length < 2) {

@@ -17,6 +17,69 @@ public class SearchForARange {
      * 
      * return [3, 4].
      */
+    
+    /*
+     * Straightforward way:Use two binary search to find low and high bound of
+     * the target.
+     * 
+     * Can be more concise by combining the two searching methods.
+     */
+    public class Solution {
+	public int[] searchRange(int[] A, int target) {
+	    int[] res = new int[] { -1, -1 };
+	    if (A == null) {
+		return res;
+	    }
+
+	    // find the low bound
+	    res[0] = searchLowBound(A, 0, A.length - 1, target);
+
+	    if (res[0] == -1) {
+		return res;
+	    }
+
+	    // find the high bound
+	    res[1] = searchHighBound(A, res[0], A.length - 1, target);
+
+	    return res;
+	}
+
+	private int searchLowBound(int[] A, int low, int high, int target) {
+	    int res = -1;
+
+	    while (low <= high) {
+		int mid = (low + high) / 2;
+		if (A[mid] == target) {
+		    res = mid;
+		    high = mid - 1;
+		} else if (A[mid] < target) {
+		    low = mid + 1;
+		} else {
+		    high = mid - 1;
+		}
+	    }
+
+	    return res;
+	}
+
+	private int searchHighBound(int[] A, int low, int high, int target) {
+	    int res = -1;
+	    while (low <= high) {
+		int mid = (low + high) / 2;
+		if (A[mid] == target) {
+		    res = mid;
+		    low = mid + 1;
+		} else if (A[mid] < target) {
+		    low = mid + 1;
+		} else {
+		    high = mid - 1;
+		}
+	    }
+	    return res;
+	}
+
+    }
+
     /*
      * My solution shall be correct. But there is a more concise version. Need
      * to check high hands' solutions

@@ -25,6 +25,47 @@ public class LongestValidParentheses {
      * 
      * tricky examples: "()()"; "()(()"
      */
+    
+    /*
+     * Even the stack has left only one left paren and sees a right paren, it
+     * may not be the start of substring.
+     * For example: "()()"
+     */
+    public class Solution {
+	public int longestValidParentheses(String s) {
+	    if (s == null || s.isEmpty()) {
+		return 0;
+	    }
+
+	    Stack<Integer> lPs = new Stack<Integer>(); // left parentheses
+	    int start = 0;
+	    int maxLength = 0;
+	    
+	    for (int i = 0; i < s.length(); i++) {
+
+		if (s.charAt(i) == '(') {
+		    lPs.push(i);
+		    continue;
+		}
+
+		if (lPs.isEmpty()) {
+		    start = i + 1;
+		} else {
+		    lPs.pop();
+
+		    if (lPs.isEmpty()) {
+			maxLength = Math.max(i - start + 1, maxLength);
+		    } else {
+			maxLength = Math.max(i - lPs.peek(), maxLength);
+		    }
+		}
+
+	    }
+
+	    return maxLength;
+	}
+    }
+    
     /*
      * O(n) solution. One-pass.
      */

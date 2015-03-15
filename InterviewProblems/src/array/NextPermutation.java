@@ -1,5 +1,8 @@
 package array;
 
+import java.util.Arrays;
+
+
 public class NextPermutation {
     /**
      * Next Permutation
@@ -15,11 +18,11 @@ public class NextPermutation {
      * Here are some examples. Inputs are in the left-hand column and its
      * corresponding outputs are in the right-hand column.
      * 
-     * 1,2,3 ¡ú 1,3,2
+     * 1,2,3 ï¿½ï¿½ 1,3,2
      * 
-     * 3,2,1 ¡ú 1,2,3
+     * 3,2,1 ï¿½ï¿½ 1,2,3
      * 
-     * 1,1,5 ¡ú 1,5,1
+     * 1,1,5 ï¿½ï¿½ 1,5,1
      */
     /*
      * hard
@@ -46,7 +49,43 @@ public class NextPermutation {
      * 
      * 4. Reverse all digits on the right of the original index of the
      * PartitionNumber (current index of the changeNumber)
+     * [2015 note] Step 4 is equivalent to sort the right hand side of array as descending order
+     * -> Arrays.sort(num, PartitionIdx, num.length); 
      */
+    public class Solution {
+	public void nextPermutation(int[] num) {
+	    if (num == null || num.length < 2) {
+		return;
+	    }
+
+	    int p = -1; // p: partition index
+	    for (int i = num.length - 1; i > 0; i--) {
+		if (num[i] > num[i - 1]) {
+		    p = i - 1;
+
+		    for (int j = num.length - 1; j > p; j--) {
+			if (num[j] > num[p]) {
+			    swap(num, j, p);
+			    break;
+			}
+		    }
+		    break;
+		}
+	    }
+
+	    Arrays.sort(num, p + 1, num.length);
+
+	    return;
+	}
+
+	private void swap(int[] num, int i, int j) {
+	    int tmp = num[i];
+	    num[i] = num[j];
+	    num[j] = tmp;
+	    return;
+	}
+    }
+
     public static void nextPermutation(int[] num) {
 	if (num == null || num.length < 2)
 	    return;
@@ -66,7 +105,7 @@ public class NextPermutation {
 			for (int k = 1; k <= (num.length - 1 - i) / 2; k++) {
 			    swap(num, i + k, num.length - k);
 			}
-
+			
 			// next permutation has been generated, return
 			return;
 		    }
