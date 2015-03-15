@@ -1,6 +1,5 @@
 package array;
 
-import java.util.HashSet;
 
 public class SolveSudoku {
     /**
@@ -14,84 +13,73 @@ public class SolveSudoku {
      */
 
     /*
-     * Backtracking
-     * 
-     * unfinished
+     * [2015] Solution
+     * DFS + backtracking 
      */
-    public void solveSudoku(char[][] board) {
-	// Start typing your Java solution below
-	// DO NOT write main() function
+    public class Solution {
 
-	if (board == null || board[0].length == 0)
-	    return;
+	private boolean[][] rows = new boolean[9][9];
+	private boolean[][] columns = new boolean[9][9];
+	private boolean[][] subBoards = new boolean[9][9];
 
-	for (int i = 0; i < 9; i++) {
-	    for (int j = 0; j < 9; j++) {
-		if (board[i][j] == '.') {
-		    for (int k = 0; k < 9; k++) {
-			char c = (char) ('1' + k);
-			board[i][j] = c;
-			if (isValidSudoku(board)) {
-			    return;
-			} else {
-			    solveSudoku(board);
-			}
+	public void solveSudoku(char[][] board) {
+	    if (board == null || board.length != 9 || board[0].length != 9) {
+		return;
+	    }
+
+	    for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+		    if (board[i][j] == '.') {
+			continue;
+		    }
+		    int c = board[i][j] - '1';
+		    rows[i][c] = true;
+		    columns[j][c] = true;
+		    subBoards[i / 3 * 3 + j / 3][c] = true;
+		}
+	    }
+
+	    solveSudokuHelper(0, 0, board);
+	}
+
+	private boolean solveSudokuHelper(int i, int j, char[][] board) {
+	    if (i > 8) {
+		return true;
+	    }
+
+	    if (board[i][j] != '.') {
+		if (j < 8) {
+		    return solveSudokuHelper(i, j + 1, board);
+		} else {
+		    return solveSudokuHelper(i + 1, 0, board);
+		}
+	    }
+
+	    for (int c = 0; c < 9; c++) {
+		if (rows[i][c] || columns[j][c]
+			|| subBoards[i / 3 * 3 + j / 3][c]) {
+		    continue;
+		} else {
+		    board[i][j] = (char) ('1' + c);
+		    rows[i][c] = true;
+		    columns[j][c] = true;
+		    subBoards[i / 3 * 3 + j / 3][c] = true;
+
+		    if (solveSudokuHelper(i, j, board)) {
+			return true;
+		    } else {
+			// if did not find a solution, restore board[i][j] status for next try
 			board[i][j] = '.';
+			rows[i][c] = false;
+			columns[j][c] = false;
+			subBoards[i / 3 * 3 + j / 3][c] = false;
 		    }
 		}
+
 	    }
-	}
 
-    }
-
-    // shall only check affected row/column/block when a new number is added
-    private static boolean isValidSudoku(char[][] board) {
-	if (board == null || board.length != 9 || board[0].length != 9)
 	    return false;
-
-	HashSet<Integer> nums = new HashSet<Integer>(9);
-
-	for (int i = 0; i < 9; i++) {
-	    nums.clear();
-	    for (int j = 0; j < 9; j++) {
-		char c = board[i][j];
-
-		if (c != '.' && nums.contains('0' - c))
-		    return false;
-		nums.add('0' - c);
-
-	    }
-
 	}
 
-	for (int i = 0; i < 9; i++) {
-	    nums.clear();
-	    for (int j = 0; j < 9; j++) {
-		char c = board[j][i];
-
-		if (c != '.' && nums.contains('0' - c))
-		    return false;
-		nums.add('0' - c);
-
-	    }
-	}
-
-	for (int m = 0; m < 9; m += 3) {
-	    for (int n = 0; n < 9; n += 3) {
-		nums.clear();
-		for (int i = m; i < m + 3; i++) {
-		    for (int j = n; j < n + 3; j++) {
-			char c = board[j][i];
-
-			if (c != '.' && nums.contains('0' - c))
-			    return false;
-			nums.add('0' - c);
-
-		    }
-		}
-	    }
-	}
-
-	return true;
     }
 }
