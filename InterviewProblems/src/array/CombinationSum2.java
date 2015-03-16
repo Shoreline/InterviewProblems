@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CombinationSum2 {
 
@@ -16,11 +18,64 @@ public class CombinationSum2 {
      * Each number in C may only be used once in the combination.
      * 
      * Note: All numbers (including target) will be positive integers. Elements
-     * in a combination (a1, a2, ¡­ , ak) must be in non-descending order. (ie,
-     * a1 ¡Ü a2 ¡Ü ¡­ ¡Ü ak). The solution set must not contain duplicate
-     * combinations. For example, given candidate set 10,1,2,7,6,1,5 and target
-     * 8, A solution set is: [1, 7] [1, 2, 5] [2, 6] [1, 1, 6]
+     * in a combination (a1, a2, ï¿½ï¿½ , ak) must be in non-descending order. (ie,
+     * a1 ï¿½ï¿½ a2 ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ak). The solution set must not contain duplicate
+     * combinations. 
+     * 
+     * For example,
+     * given candidate set 10,1,2,7,6,1,5 and target 8: 
+     * A solution set is: 
+     * [1, 7] 
+     * [1, 2, 5] 
+     * [2, 6] 
+     * [1, 1, 6]
      */
+
+    /*
+     * [2015]
+     * recursion + backtracking
+     */
+    public class Solution {
+	public List<List<Integer>> combinationSum2(int[] num, int target) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+
+	    if (num == null || num.length == 0) {
+		return res;
+	    }
+
+	    Arrays.sort(num);
+
+	    List<Integer> tmp = new ArrayList<Integer>();
+	    Set<List<Integer>> resSet = new HashSet<List<Integer>>();
+	    combinationSumHelper(num, target, 0, tmp, resSet);
+
+	    res.addAll(resSet);
+	    return res;
+	}
+
+	private void combinationSumHelper(int[] candidates, int target,
+		int pos, List<Integer> tmp, Set<List<Integer>> res) {
+	    if (target == 0) {
+		List<Integer> solution = new ArrayList<Integer>(tmp);
+		Collections.sort(solution);
+		res.add(solution);
+		return;
+	    }
+
+	    for (int i = pos; i < candidates.length; i++) {
+		if (candidates[i] > target) {
+		    break;
+		} else {
+		    tmp.add(candidates[i]);
+		    combinationSumHelper(candidates, target - candidates[i],
+			    i + 1, tmp, res);
+		    tmp.remove(tmp.size() - 1);
+		}
+	    }
+
+	    return;
+	}
+    }
 
     /*
      * Second try
