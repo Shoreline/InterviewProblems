@@ -8,7 +8,6 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	// TODO Auto-generated method stub
 
 	PalindromeNumber.isPalindrome(1);
 
@@ -37,9 +36,6 @@ public class StringTest {
 	int fib = PrimeFib.getPrimeFib(227000);
 	System.out.println(fib);
 	System.out.println(PrimeFib.getPrimeDiversorSum(fib + 1));
-
-	System.out.println("=============");
-	System.out.println(CountAndSay.countAndSay(6));
 
 	System.out.println("=============");
 	System.out.println(DecodeWays.numDecodings("01"));

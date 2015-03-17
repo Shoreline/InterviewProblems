@@ -12,42 +12,63 @@ public class CountAndSay {
      * Note: The sequence of integers will be represented as a string.
      */
 
-    public static String countAndSay(int n) {
+    public class Solution {
+	public String countAndSay(int n) {
+	    String input = "1";
 
-	if (n == 1) {
-	    return "1";
-	} else if (n == 2) {
-	    return "11";
-	}
-	String result = "11";
-	for (int i = 1; i < n; i++) {
-	    StringBuilder temp = new StringBuilder();
-	    int counter = 1;
-
-	    for (int j = 1; j < result.length(); j++) {
-		if (result.charAt(j) == result.charAt(j - 1)) {
-		    counter++;
-
-		} else {
-		    temp.append(counter);
-		    temp.append(result.charAt(j - 1));
-		    counter = 1;
-		}
-
-		if (j == result.length() - 1) {
-		    if (result.charAt(j) == result.charAt(j - 1)) {
-			temp.append(counter);
-			temp.append(result.charAt(j - 1));
-		    } else {
-			temp.append('1');
-			temp.append(result.charAt(j));
+	    int round = 1;
+	    while (round < n) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+		    char c = input.charAt(i);
+		    int count = 1;
+		    while (i + count < input.length()
+			    && input.charAt(i + count) == c) {
+			count++;
 		    }
+		    i += (count - 1);
+
+		    sb.append(count);
+		    sb.append(c);
 		}
+		input = sb.toString();
+		round++;
 	    }
 
-	    result = temp.toString();
+	    return input;
+	}
+    }
+
+    // recursive solution
+    public class Solution2 {
+	public String countAndSay(int n) {
+
+	    return countAndSayHelper("1", n);
+
 	}
 
-	return result;
+	private String countAndSayHelper(String input, int n) {
+	    if (n < 2) {
+		return input;
+	    }
+
+	    StringBuilder sb = new StringBuilder();
+
+	    int len = input.length();
+	    for (int i = 0; i < len; i++) {
+		char c = input.charAt(i);
+		int count = 1;
+		while (i + count < len && input.charAt(i + count) == c) {
+		    count++;
+		}
+		i += (count - 1);
+
+		sb.append(count);
+		sb.append(c);
+	    }
+
+	    return countAndSayHelper(sb.toString(), n - 1);
+	}
     }
+
 }

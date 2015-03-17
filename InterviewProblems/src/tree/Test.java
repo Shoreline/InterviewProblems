@@ -1,8 +1,11 @@
 package tree;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 import linkedlist.ListNode;
 
@@ -16,6 +19,10 @@ public class Test {
 
 	TreeNode root = new TreeNode(1);
 	root.left = new TreeNode(2);
+	
+	new Test().new Solution().inorderTraversal(root);
+	
+	
 	root.right = new TreeNode(3);
 	RecoverBinarySearchTree.recoverTree(root);
 
@@ -41,6 +48,34 @@ public class Test {
 	LinkedList<String> haha = new LinkedList<String>();
 	Collections.reverse(haha);
 	HashMap<String, String> hahaha = new HashMap<String, String>();
+
+    }
+    
+    public class Solution {
+
+	public List<Integer> inorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<Integer>();
+	    if (root == null) {
+		return res;
+	    }
+
+	    Stack<TreeNode> stack = new Stack<TreeNode>();
+	    stack.push(root);
+	    while (!stack.isEmpty()) {
+		TreeNode head = stack.peek();
+		if (head.left != null) {
+		    stack.push(head.left);
+		    continue;
+		}
+		res.add(head.val);
+		stack.pop();
+		if (head.right != null) {
+		    stack.push(head.right);
+		}
+	    }
+
+	    return res;
+	}
 
     }
 
