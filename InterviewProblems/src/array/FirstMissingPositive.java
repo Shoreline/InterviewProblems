@@ -16,7 +16,7 @@ public class FirstMissingPositive {
      * 
      * Use constant space -> use the input memory as cache.
      * 
-     * Key: Let positive/negative value to indicate boolean true and false
+     * Key: use sign ( + or -) to do flagging
      * 
      * First scan: set all elements whose value is not in the above interval to
      * be 0;
@@ -30,32 +30,72 @@ public class FirstMissingPositive {
      * 
      * if all elements in A is bigger than 0, return A.length+1;
      */
-    public static int firstMissingPositive(int[] A) {
-	// Start typing your Java solution below
-	// DO NOT write main() function
+    public class Solution {
+	public int firstMissingPositive(int[] A) {
+	    if (A == null) {
+		return 1;
+	    }
 
-	for (int i = 0; i < A.length; i++) {
-	    if (A[i] < 1 || A[i] > A.length)
-		A[i] = 0;
-	}
-
-	for (int i = 0; i < A.length; i++) {
-	    if (A[i] != 0) {
-		int index = Math.abs(A[i]) - 1;
-		if (A[index] != 0) {
-		    A[index] = -Math.abs(A[index]);
-		} else {
-		    A[index] = -Math.abs(A[i]);
+	    for (int i = 0; i < A.length; i++) {
+		if (A[i] < 1 || A[i] > A.length) {
+		    A[i] = 0;
 		}
 	    }
-	}
 
-	for (int i = 0; i < A.length; i++) {
-	    if (A[i] >= 0) {
-		return i + 1;
+	    for (int i = 0; i < A.length; i++) {
+		if (A[i] == 0) {
+		    continue;
+		}
+
+		/*
+		 * Note: here A[i] may not be changed and stay positive.
+		 * so in next for loop the if condition is >=0, not ==0
+		 */
+		int index = Math.abs(A[i]) - 1;
+		if (A[index] == 0) {
+		    A[index] = -Math.abs(A[i]);
+		} else {
+		    A[index] = -Math.abs(A[index]);
+		}
 	    }
-	}
 
-	return A.length + 1;
+	    for (int i = 0; i < A.length; i++) {
+		if (A[i] >= 0) {
+		    return i + 1;
+		}
+	    }
+
+	    return A.length + 1;
+	}
+    }
+
+    /*
+     * Straightforward but costs additional space. Violates the "constant space"
+     * requirement? time: O(2N); space: O(2N)
+     */
+    public class Solution_easy {
+	public int firstMissingPositive(int[] A) {
+	    if (A == null) {
+		return 1;
+	    }
+
+	    int res = A.length + 1;
+	    boolean[] existingNums = new boolean[A.length];
+
+	    for (int i = 0; i < A.length; i++) {
+		if (A[i] > 0 && A[i] <= A.length) {
+		    existingNums[A[i] - 1] = true;
+		}
+	    }
+
+	    for (int i = 0; i < existingNums.length; i++) {
+		if (existingNums[i] == false) {
+		    res = i + 1;
+		    break;
+		}
+	    }
+
+	    return res;
+	}
     }
 }
