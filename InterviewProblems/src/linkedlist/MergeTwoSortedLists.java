@@ -9,40 +9,36 @@ public class MergeTwoSortedLists {
      * 
      * ? Solve this problem
      */
-    /*
-     * one time pass
-     */
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-	if (l1 == null)
-	    return l2;
-	if (l2 == null)
-	    return l1;
 
-	ListNode pre = new ListNode(-1);
-	ListNode head = null;
-	while (l1 != null && l2 != null) {
-	    ListNode min = null;
-	    if (l1.val < l2.val) {
-		min = l1;
-		l1 = l1.next;
-	    } else {
-		min = l2;
-		l2 = l2.next;
+    public class Solution {
+	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+	    if (l1 == null) {
+		return l2;
+	    } else if (l2 == null) {
+		return l1;
 	    }
 
-	    if (head == null) {
-		head = min;
+	    ListNode head = (l1.val < l2.val ? l1 : l2);
+	    ListNode end = new ListNode(-1);
+
+	    while (l1 != null && l2 != null) {
+		ListNode min = null;
+		if (l1.val < l2.val) {
+		    min = l1;
+		    l1 = l1.next;
+		} else {
+		    min = l2;
+		    l2 = l2.next;
+		}
+
+		// add a node to the end
+		end.next = min;
+		end = end.next;
 	    }
-	    pre.next = min;
-	    pre = min;
-	}
 
-	if (l1 != null) {
-	    pre.next = l1;
-	} else if (l2 != null) {
-	    pre.next = l2;
-	}
+	    end.next = (l1 == null ? l2 : l1);
 
-	return head;
+	    return head;
+	}
     }
 }

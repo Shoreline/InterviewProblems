@@ -15,24 +15,7 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	// Solution haha = new NextPermutation().new Solution();
-	// haha.nextPermutation(new int[] { 3, 2, 1 });
-	List<Integer> wahaha = new ArrayList<Integer>();
-	List<Integer> yahaha = new ArrayList<Integer>();
-	Collections.sort(wahaha);
-	wahaha.add(1);
-	yahaha.addAll(wahaha);
-	wahaha.remove(0);
-
-	System.out.println(wahaha.equals(yahaha));
-
-	Set<List<Integer>> okok = new HashSet<List<Integer>>();
-	List<List<Integer>> lala = new ArrayList<List<Integer>>();
-	lala.addAll(0, okok);
-	okok.add(yahaha);
-	okok.add(wahaha);
-	System.out.println(okok);
-
+	new Permutations().new Solution3().permute(new int[]{1});
     }
 
    
