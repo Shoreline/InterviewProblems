@@ -10,6 +10,63 @@ public class TrappingRainWater {
      * 
      * For example, Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
      */
+
+    /*
+     * Best solution costs only O(N) time
+     * http://blog.csdn.net/linhuanmars/article/details/20888505 
+     */
+    
+    
+    /*
+     * If the highest bar on the left hand side of A[i] is maxLeft, and the
+     * highest bar on its right hand side is maxRight, then A[i] can hole at
+     * most v = (min(maxLeft, maxRight) - A[i]) units of water. 
+     * (of course, if v < 0 then A[i] won't hold any water) 
+     * 
+     * time: O(3N); space: O(2N)
+     * 
+     * Note: the 2nd and 3rd scans can be integrated to reduce time complexity
+     */
+    public class Solution {
+	public int trap(int[] A) {
+	    if (A == null || A.length < 3) {
+		return 0;
+	    }
+
+	    int len = A.length;
+	    int[] maxLeft = new int[len];
+	    int[] maxRight = new int[len];
+
+	    maxLeft[0] = A[0];
+	    for (int i = 1; i < len - 1; i++) {
+		if (A[i - 1] > maxLeft[i - 1]) {
+		    maxLeft[i] = A[i - 1];
+		} else {
+		    maxLeft[i] = maxLeft[i - 1];
+		}
+	    }
+
+	    maxRight[len - 1] = A[len - 1];
+	    for (int i = len - 2; i > 0; i--) {
+		if (A[i + 1] > maxRight[i + 1]) {
+		    maxRight[i] = A[i + 1];
+		} else {
+		    maxRight[i] = maxRight[i + 1];
+		}
+	    }
+
+	    int sum = 0;
+	    for (int i = 1; i < len - 1; i++) {
+		int bar = Math.min(maxLeft[i], maxRight[i]) - A[i];
+		if (bar > 0) {
+		    sum += bar;
+		}
+	    }
+
+	    return sum;
+	}
+    }
+
     public static int trap(int[] A) {
 	if (A == null || A.length < 3)
 	    return 0;
