@@ -8,33 +8,81 @@ public class BinaryTreeMaximumPathSum {
      * 
      * For example: Given the below binary tree, {1,2,3} Return 6.
      */
+    public class Solution {
+
+	int max = Integer.MIN_VALUE;
+
+	public int maxPathSum(TreeNode root) {
+
+	    if (root == null) {
+		return max;
+	    }
+
+	    helper(root);
+
+	    return max;
+	}
+
+	// The helper itself returns the max sum of a path that always include
+	// root. But the 'max' argument keeps tracking all-time max (path may
+	// not include root)
+	public int helper(TreeNode root) {
+	    if (root == null) {
+		return 0;
+	    }
+
+	    int leftMax = helper(root.left);
+	    int rightMax = helper(root.right);
+
+	    int subMax = root.val;
+
+	    if (leftMax > 0) {
+		subMax += leftMax;
+	    }
+
+	    if (rightMax > 0) {
+		subMax += rightMax;
+	    }
+
+	    max = Math.max(max, subMax);
+
+	    if (Math.max(leftMax, rightMax) > 0) {
+		return root.val + Math.max(leftMax, rightMax);
+	    } else {
+		return root.val;
+	    }
+	}
+    }
 
     /*
      * High hand solution
+     * 
+     * time: O(N); space: o(1)
      */
     static int MAX = Integer.MIN_VALUE;
 
     public static int maxPathSum(TreeNode root) {
-	dfs(root);
+	findMaximumPathSum(root);
 	int result = MAX; // now MAX has been changed by dfs(root)
 	MAX = Integer.MIN_VALUE; // reset MAX, otherwise LeetCode test will have
 				 // errors
 	return result;
     }
 
-    private static int dfs(TreeNode root) {
+    private static int findMaximumPathSum(TreeNode root) {
 	if (root == null)
 	    return 0;
 
-	int l = dfs(root.left);
-	int r = dfs(root.right);
+	int l = findMaximumPathSum(root.left); // root.val may be negative
+	int r = findMaximumPathSum(root.right);
 	int m = root.val;
 	if (l > 0)
 	    m += l;
 	if (r > 0)
 	    m += r;
 
-	MAX = Math.max(MAX, m);
+	MAX = Math.max(MAX, m); // maximum possible value under subtree rooted
+				// at 'root'
 	return Math.max(l, r) > 0 ? Math.max(l, r) + root.val : root.val;
     }
 
