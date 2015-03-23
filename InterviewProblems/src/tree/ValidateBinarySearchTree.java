@@ -20,21 +20,49 @@ public class ValidateBinarySearchTree {
     /*
      * only need to recursively check the value of root, see if it satisfy the
      * (min,max) allowed
+     * 
+     * However, too may corner cases! {2147483647} or {-2147483648,
+     * -2147483648}...
      */
-    public static boolean isValidBST(TreeNode root) {
-	return isValidBSThelp(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    public class Solution {
+	public boolean isValidBST(TreeNode root) {
+	    return valid(root, null, null);
+	}
 
+	private boolean valid(TreeNode root, Integer min, Integer max) {
+	    if (root == null)
+		return true;
+
+	    if (min != null && root.val <= min)
+		return false;
+	    if (max != null && root.val >= max)
+		return false;
+
+	    return valid(root.left, min, root.val)
+		    && valid(root.right, root.val, max);
+
+	}
     }
 
-    private static boolean isValidBSThelp(TreeNode root, int min, int max) {
+    /*
+     * Cannot pass the corner case
+     */
+    class Method1 {
+	public boolean isValidBST(TreeNode root) {
+	    return isValidBSThelp(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
-	if (root == null)
-	    return true;
+	}
 
-	if (root.val >= max || root.val <= min)
-	    return false;
+	private boolean isValidBSThelp(TreeNode root, int min, int max) {
 
-	return (isValidBSThelp(root.left, min, root.val) && isValidBSThelp(
-		root.right, root.val, max));
+	    if (root == null)
+		return true;
+
+	    if (root.val >= max || root.val <= min)
+		return false;
+
+	    return (isValidBSThelp(root.left, min, root.val) && isValidBSThelp(
+		    root.right, root.val, max));
+	}
     }
 }
