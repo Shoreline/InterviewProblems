@@ -1,7 +1,5 @@
 package string;
 
-import java.util.ArrayList;
-
 public class MultiplyStrings {
     /**
      * Multiply Strings
@@ -12,78 +10,57 @@ public class MultiplyStrings {
      * Note: The numbers can be arbitrarily large and are non-negative.
      */
 
-    /*
-     * My thought: mimic manual multiplying
+    /* Similar to the human way of doing multiply, but not identical   
      * 
-     * coding speed too slow!!!!! need to finish in 15 min, instead of 2h
+     * Save 
      * 
-     * Be aware:
+     * Reverse String first to simplify the problem 
      * 
-     * 1. carrier needs to be reset!
-     * 
-     * 2. start from the end of each String
      */
-
-    public static String multiply(String num1, String num2) {
-	if (num1 == null || num2 == null || num1.length() == 0
-		|| num2.length() == 0)
-	    return "";
-	if (num1.equals("0") || num2.equals("0"))
-	    return "0";
-
-	ArrayList<String> product = new ArrayList<String>();
-
-	for (int i = num1.length() - 1; i >= 0; i--) {
-	    int i1 = num1.charAt(i) - '0';
-	    StringBuilder aProduct = new StringBuilder();
-	    int carrier = 0;
-	    for (int j = num2.length() - 1; j >= 0; j--) {
-		int i2 = num2.charAt(j) - '0';
-
-		char c = (char) ('0' + (i1 * i2 + carrier) % 10);
-		carrier = (i1 * i2 + carrier) / 10;
-		aProduct.append(c);
-	    }
-	    if (carrier > 0) {
-		aProduct.append((char) ('0' + carrier));
+    public class Solution {
+	// numbers are non-negtive, no need to judege sign
+	public String multiply(String num1, String num2) {
+	    if (num1 == null || num2 == null) {
+		return null;
 	    }
 
-	    aProduct.reverse();
-	    for (int k = 0; k < num1.length() - 1 - i; k++) {
-		aProduct.append('0');
+	    String n1r = new StringBuilder(num1).reverse().toString();
+	    String n2r = new StringBuilder(num2).reverse().toString();
+
+	    int len1 = n1r.length();
+	    int len2 = n2r.length();
+	    int[] tmp = new int[len1 + len2];
+
+	    for (int i = 0; i < len1; i++) {
+		for (int j = 0; j < len2; j++) {
+		    int d1 = n1r.charAt(i) - '0';
+		    int d2 = n2r.charAt(j) - '0';
+		    tmp[i + j] += d1 * d2; // *key
+		}
 	    }
-	    product.add(aProduct.toString());
+
+	    StringBuilder sb = new StringBuilder();
+	    int carry = 0;
+	    for (int i = 0; i < tmp.length; i++) {
+		carry = tmp[i] / 10;
+		if (i + 1 < tmp.length) {
+		    tmp[i + 1] += carry;
+		}
+		tmp[i] = tmp[i] % 10;
+		sb.append(tmp[i]);
+	    }
+
+	    int validLength = sb.length();
+	    // corner case: the whole product is '0'
+	    while (validLength >= 2 && sb.charAt(validLength - 1) == '0') {
+		validLength--;
+	    }
+	    sb.setLength(validLength);
+
+	    // leet code bug? cannot return directly
+	    String res = sb.reverse().toString();
+	    return res;
+
 	}
-
-	// use the longest one as base
-	String s = product.get(product.size() - 1);
-	product.remove(product.size() - 1);
-	int carrier = 0;
-	for (String aProduct : product) {
-	    // fill "0"s at the beginning
-	    StringBuilder zeros = new StringBuilder();
-	    for (int i = 0; i < s.length() - aProduct.length(); i++) {
-		zeros.append('0');
-	    }
-	    aProduct = zeros.toString() + aProduct;
-
-	    StringBuilder curResult = new StringBuilder();
-	    for (int i = aProduct.length() - 1; i >= 0; i--) {
-		int i1 = s.charAt(i) - '0';
-		int i2 = aProduct.charAt(i) - '0';
-		char c = (char) ('0' + (i1 + i2 + carrier) % 10);
-		carrier = (i1 + i2 + carrier) / 10;
-		curResult.append(c);
-	    }
-	    if (carrier > 0) {
-		curResult.append((char) ('0' + carrier));
-		// Do not forget to reset carrier!
-		carrier = 0;
-	    }
-
-	    s = curResult.reverse().toString();
-	}
-
-	return s;
-    }
+    } 
 }

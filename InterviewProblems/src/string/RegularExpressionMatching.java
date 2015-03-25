@@ -13,15 +13,21 @@ public class RegularExpressionMatching {
      * The function prototype should be: bool isMatch(const char *s, const char
      * *p)
      * 
-     * Some examples: isMatch("aa","a") → false 
-     * isMatch("aa","aa") → true
-     * isMatch("aaa","aa") → false 
-     * isMatch("aa", "a*") → true 
-     * isMatch("aa", ".*") → true 
-     * isMatch("ab", ".*") → true 
-     * isMatch("aab", "c*a*b") → true
+     * Some examples: isMatch("aa","a") 鈫�false 
+     * isMatch("aa","aa") 鈫�true
+     * isMatch("aaa","aa") 鈫�false 
+     * isMatch("aa", "a*") 鈫�true 
+     * isMatch("aa", ".*") 鈫�true 
+     * isMatch("ab", ".*") 鈫�true 
+     * isMatch("aab", "c*a*b") 鈫�true
      */
 
+    /*
+     * DP: http://blog.csdn.net/linhuanmars/article/details/21145563 
+     * 
+     */
+    
+    
     /*
      * Understand the problem correctly. '*' means the number of the character
      * ahead of it, can be 0 to N
@@ -66,42 +72,4 @@ public class RegularExpressionMatching {
 	}
     }
 
-    /*
-     * Recursion shall be enough.
-     * 
-     * many corner cases.
-     * 
-     * not finished
-     */
-    class solution1 {
-	public boolean isMatch(String s, String p) {
-	    if (s == null || p == null) {
-		return false;
-	    }
-	    if (p.length() == 0) {
-		return true;
-	    }
-
-	    return isMatch(s, 0, p, 0);
-	}
-
-	private boolean isMatch(String s, int m, String p, int n) {
-
-	    if (m == s.length() && n == p.length()) {
-		return true;
-	    }
-
-	    if (s.charAt(m) == p.charAt(n) || p.charAt(n) == '.') {
-		return isMatch(s, m + 1, p, n + 1);
-	    } else {
-		if (p.charAt(n) == '*') {
-		    if (p.length() == n + 1)
-			return true;
-
-		}
-	    }
-
-	    return false;
-	}
-    }
 }

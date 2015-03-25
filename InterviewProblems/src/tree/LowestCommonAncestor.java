@@ -4,7 +4,8 @@ public class LowestCommonAncestor {
     /**
      * Find the lowest common ancestor in a binary tree
      * 
-     * Assume p, q are guaranteed in this tree
+     * Assume p, q are guaranteed in this tree (p,q are guaranteed to have at
+     * least one common ancestor)
      */
     /*
      * Bottom-up method. Only takes O(n) time.
@@ -20,8 +21,9 @@ public class LowestCommonAncestor {
 
 	TreeNode L = getLCA(root.left, p, q);
 	TreeNode R = getLCA(root.right, p, q);
-	if (L != null && R != null && L != R)
+	if (L != null && R != null) {
 	    return root;
+	}
 
 	return L == null ? R : L;
 

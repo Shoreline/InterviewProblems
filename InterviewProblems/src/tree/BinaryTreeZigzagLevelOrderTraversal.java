@@ -17,9 +17,11 @@ public class BinaryTreeZigzagLevelOrderTraversal {
      * 
      * return its zigzag level order traversal as: [ [3], [20,9], [15,7] ]
      */
-    
+
     /*
-     * 
+     * Two stack instances
+     * Two while loops
+     * O(N)/O(N) 
      */
     public class Solution {
 	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
@@ -55,7 +57,8 @@ public class BinaryTreeZigzagLevelOrderTraversal {
 		if (nums.size() > 0) {
 		    res.add(nums);
 		}
-		Stack<TreeNode> tmp = curLvl;	// need a temp variable to do switching
+		Stack<TreeNode> tmp = curLvl; // need a temp variable to do
+					      // switching
 		curLvl = nextLvl;
 		nextLvl = tmp;
 		leftFirst = !leftFirst;
@@ -65,44 +68,47 @@ public class BinaryTreeZigzagLevelOrderTraversal {
 	}
     }
 
-    /* 
+    /*
+     * lazy implementation. works though
+     * 
      * Similar to previous level order traversal, just reverse some Lists in the
      * end
      */
+    class Method {
+	public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root) {
+	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
-    public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root) {
-	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+	    if (root == null)
+		return result;
 
-	if (root == null)
+	    ArrayList<TreeNode> curNodeList = new ArrayList<TreeNode>();
+	    curNodeList.add(root);
+
+	    while (!curNodeList.isEmpty()) {
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		ArrayList<TreeNode> nextNodeList = new ArrayList<TreeNode>();
+
+		for (TreeNode aNode : curNodeList) {
+		    values.add(aNode.val);
+		    if (aNode.left != null)
+			nextNodeList.add(aNode.left);
+		    if (aNode.right != null)
+			nextNodeList.add(aNode.right);
+		}
+		result.add(values);
+		curNodeList = nextNodeList;
+	    }
+
+	    int i = 0;
+	    for (ArrayList<Integer> aList : result) {
+		if (i % 2 == 1) {
+		    Collections.reverse(aList);
+		}
+		i++;
+	    }
+
 	    return result;
 
-	ArrayList<TreeNode> curNodeList = new ArrayList<TreeNode>();
-	curNodeList.add(root);
-
-	while (!curNodeList.isEmpty()) {
-	    ArrayList<Integer> values = new ArrayList<Integer>();
-	    ArrayList<TreeNode> nextNodeList = new ArrayList<TreeNode>();
-
-	    for (TreeNode aNode : curNodeList) {
-		values.add(aNode.val);
-		if (aNode.left != null)
-		    nextNodeList.add(aNode.left);
-		if (aNode.right != null)
-		    nextNodeList.add(aNode.right);
-	    }
-	    result.add(values);
-	    curNodeList = nextNodeList;
 	}
-
-	int i = 0;
-	for (ArrayList<Integer> aList : result) {
-	    if (i % 2 == 1) {
-		Collections.reverse(aList);
-	    }
-	    i++;
-	}
-
-	return result;
-
     }
 }

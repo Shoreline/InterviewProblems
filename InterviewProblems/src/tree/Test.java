@@ -15,9 +15,11 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	TreeNode root = new TreeNode(1);
-	root.left = new TreeNode(2);
-	new BinaryPostOrderTraversal().new Solution().postorderTraversal(root);
+	TreeNode root = new TreeNode(0);
+	//root.left = new TreeNode(2);
+	//new BinaryPostOrderTraversal().new Solution().postorderTraversal(root);
+	
+	new BinaryTreeMaximumPathSum().new Solution().maxPathSum(root);
     
     }
 
