@@ -2,6 +2,11 @@ package string;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Anagrams {
     /**
@@ -12,31 +17,47 @@ public class Anagrams {
      * 
      * Note: All inputs will be in lower-case.
      */
-
     /*
-     * The solution below is O(n*n*lgn), not good
+     * The goal is to output all Strings that has at least one more anagram in given String[].
      * 
-     * An O(n*n) method is to count the character frequency of each String
+     * The sorted char array of two anagrams are the same. So use it as key to group Strings.
      */
-    public static ArrayList<String> anagrams(String[] strs) {
-	ArrayList<String> result = new ArrayList<String>();
-	ArrayList<String> anagramList = new ArrayList<String>();
-
-	for (String aString : strs) {
-	    char[] temp = aString.toCharArray();
-	    Arrays.sort(temp);
-	    String tempStr = new String(temp); // get String from char[]
-	    if (!anagramList.contains(tempStr)) {
-		anagramList.add(tempStr);
-	    } else {
-		if (!result.contains(strs[anagramList.indexOf(tempStr)])) {
-		    result.add(strs[anagramList.indexOf(tempStr)]);
-		}
-		result.add(aString);
-
+    public class Solution {
+	public List<String> anagrams(String[] strs) {
+	    List<String> res = new ArrayList<String>();
+	    if (strs == null) {
+		return res;
 	    }
 
+	    Map<String, List<String>> sortedStrMap = new HashMap<String, List<String>>();
+	    for (String str : strs) {
+		char[] charArray = str.toCharArray();
+		Arrays.sort(charArray);
+		String sortedStr = new String(charArray);
+
+		if (!sortedStrMap.containsKey(sortedStr)) {
+		    sortedStrMap.put(sortedStr, new ArrayList<String>());
+		}
+
+		sortedStrMap.get(sortedStr).add(str);
+	    }
+
+	    // cannot compile in LeetCode
+//	    Iterator<Entry<String, List<String>>> itr = sortedStrMap.entrySet().iterator();
+//	    while (itr.hasNext()) {
+//		Entry<String, List<String>> entry = itr.next();
+//		if (entry.getValue().size() > 1) {
+//		    res.addAll(entry.getValue());
+//		}
+//	    }
+	    
+	    for (List<String> list : sortedStrMap.values()) {
+		if (list.size() > 1) {
+		    res.addAll(list);
+		}
+	    }
+
+	    return res;
 	}
-	return result;
-    }
+    }   
 }

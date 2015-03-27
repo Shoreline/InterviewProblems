@@ -15,42 +15,35 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	new ArrayTest().new Solution().jump(new int[] { 1, 2, 3 });
+	new ArrayTest().new Solution().rotate(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
     }
 
     public class Solution {
-	public int jump(int[] A) {
-	    if (A == null || A.length < 1) {
-		return -1;
-	    } else if (A.length == 1) {
-		return 0; // corner case
-	    } else if (A[0] >= A.length - 1) {
-		return 1;
+	public void rotate(int[][] matrix) {
+	    if (matrix == null || matrix[0] == null) {
+		return;
 	    }
 
-	    int jumps = 1; // at least one jump
-	    int curRange = 0;
-	    int nextRange = 0;
+	    int n = matrix.length;
+	    int tmp = 0;
+	    // if n is odd, no need to care the center block
+	    for (int k = 0; k < n / 2; k++) {
+		for (int i = k; i < n - 1 - k * 2; i++) {
+		    tmp = matrix[k][i];
+		    matrix[k][i] = matrix[i][n - 1 - k];
+		    matrix[i][n - 1 - k] = tmp;
 
-	    for (int i = 0; i < A.length && i <= curRange; i++) {
+		    tmp = matrix[k][i];
+		    matrix[k][i] = matrix[n - 1 - k][n - 1 - i];
+		    matrix[n - 1 - k][n - 1 - i] = tmp;
 
-		for (int j = i; j <= curRange; j++) {
-		    nextRange = Math.max(j + A[j], nextRange);
-		    if (nextRange >= A.length - 1) {
-			return jumps + 1;
-		    }
+		    tmp = matrix[k][i];
+		    matrix[k][i] = matrix[n - 1 - i][k];
+		    matrix[n - 1 - i][k] = tmp;
 		}
 
-		if (nextRange <= curRange) {
-		    return -1;
-		}
-
-		i = curRange;
-		curRange = nextRange;
-		jumps++;
 	    }
-
-	    return -1;
 	}
+
     }
 }
