@@ -15,35 +15,59 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	new ArrayTest().new Solution().rotate(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+	new ArrayTest().new Solution().spiralOrder(new int[][] { { 6, 9, 7 } });
     }
 
     public class Solution {
-	public void rotate(int[][] matrix) {
-	    if (matrix == null || matrix[0] == null) {
-		return;
+	public List<Integer> spiralOrder(int[][] matrix) {
+	    List<Integer> res = new ArrayList<Integer>();
+	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+		return res;
 	    }
 
-	    int n = matrix.length;
-	    int tmp = 0;
-	    // if n is odd, no need to care the center block
-	    for (int k = 0; k < n / 2; k++) {
-		for (int i = k; i < n - 1 - k * 2; i++) {
-		    tmp = matrix[k][i];
-		    matrix[k][i] = matrix[i][n - 1 - k];
-		    matrix[i][n - 1 - k] = tmp;
+	    int top = 0;
+	    int bottom = matrix.length - 1;
+	    int left = 0;
+	    int right = matrix[0].length - 1;
 
-		    tmp = matrix[k][i];
-		    matrix[k][i] = matrix[n - 1 - k][n - 1 - i];
-		    matrix[n - 1 - k][n - 1 - i] = tmp;
-
-		    tmp = matrix[k][i];
-		    matrix[k][i] = matrix[n - 1 - i][k];
-		    matrix[n - 1 - i][k] = tmp;
+	    /*
+	     * Unlike rotate image problem, here must take care the cases of
+	     * top==bottom or left==right
+	     * 
+	     * For rotating image, top and bottom will never be equal, same for
+	     * left and right
+	     */
+	    while (top <= bottom && left <= right) {
+		for (int i = left; i <= right; i++) {
+		    res.add(matrix[top][i]);
 		}
 
-	    }
-	}
+		for (int i = top + 1; i < bottom; i++) {
+		    res.add(matrix[i][right]);
+		}
 
+		if (top != bottom) {
+		    for (int i = right; i > left; i--) {
+			res.add(matrix[bottom][i]);
+		    }
+		}
+
+		if (left != right) {
+		    for (int i = bottom; i > top; i--) {
+			res.add(matrix[i][left]);
+		    }
+		}
+		top++;
+		bottom--;
+		left++;
+		right--;
+	    }
+
+	    // if(top == bottom && left == right){
+	    // res.add(matrix[top][left]);
+	    // }
+
+	    return res;
+	}
     }
 }
