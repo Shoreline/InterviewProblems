@@ -13,6 +13,28 @@ public class RemoveDuplicatesFromSortedList {
      * 
      * Given 1->1->2->3->3, return 1->2->3.
      */
+    /*
+     * simple 
+     */
+    public class Solution {
+	public ListNode deleteDuplicates(ListNode head) {
+	    if (head == null) {
+		return null;
+	    }
+
+	    ListNode headPtr = head;
+	    while (head.next != null) {
+		if (head.val == head.next.val) {
+		    head.next = head.next.next;
+		    continue;
+		} else {
+		    head = head.next;
+		}
+	    }
+
+	    return headPtr;
+	}
+    }
 
     /*
      * Tell the difference between commands below:
@@ -27,33 +49,35 @@ public class RemoveDuplicatesFromSortedList {
      * In the second case, preNode's address is changed. It is re-assigned to
      * another node.
      */
-
-    public ListNode deleteDuplicates(ListNode head) {
-	if (head == null) {
-	    return head;
-	}
-
-	ListNode curNode = head.next;
-	ListNode preNode = head;
-
-	while (curNode != null) {
-	    if (curNode.val == preNode.val) {
-		preNode.next = curNode.next; // does not change preNode's value
-		curNode = curNode.next;
-		/*
-		 * in this case, both preNode and curNode have already been
-		 * updated: preNode stays the same, curNode= curNode.next
-		 * 
-		 * So continue to next iteration
-		 */
-		continue;
+    class Solution_old {
+	public ListNode deleteDuplicates(ListNode head) {
+	    if (head == null) {
+		return head;
 	    }
 
-	    preNode = curNode;
-	    curNode = curNode.next;
+	    ListNode curNode = head.next;
+	    ListNode preNode = head;
 
+	    while (curNode != null) {
+		if (curNode.val == preNode.val) {
+		    preNode.next = curNode.next; // does not change preNode's
+						 // value
+		    curNode = curNode.next;
+		    /*
+		     * in this case, both preNode and curNode have already been
+		     * updated: preNode stays the same, curNode= curNode.next
+		     * 
+		     * So continue to next iteration
+		     */
+		    continue;
+		}
+
+		preNode = curNode;
+		curNode = curNode.next;
+
+	    }
+
+	    return head;
 	}
-
-	return head;
     }
 }
