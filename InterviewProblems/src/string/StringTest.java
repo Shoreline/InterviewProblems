@@ -1,6 +1,8 @@
 package string;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StringTest {
 
@@ -8,46 +10,14 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new StringTest().new Solution()
-		.isMatch("aaaaaaaaaaaaaaaaaaaaaaa", "*aaaaaaaaaaaaaaaaaaaaaaa*"));
-	new MultiplyStrings().new Solution().multiply("9", "9");
-
-	PalindromeNumber.isPalindrome(1);
-
-	System.out.println("hello word");
-
-	String str1 = "hello fuck";
-	String str2 = "fuck helosl";
-
-	System.out.println(PermutationCheck.isPermutation(str1, str2));
-
-	String strSort = "23omlske402lskf";
-	char[] aCharArray = strSort.toCharArray();
-	Arrays.sort(aCharArray);
-	// Arrays.sort(aCharArray, Comparator<char a1, char a2>)
-	String strSorted = new String(aCharArray);
-	System.out.println(strSorted);
-
-	String strPalindrome = "FourscoreandsevenyearsagoourfaathersbroughtforthonthiscontainentanewnationconceivedinzLibertyanddedicatedtothepropositionthatallmenarecreatedequalNowweareengagedinagreahtcivilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-	System.out.println(LongestPalindrome
-		.getLongestPalindrome(strPalindrome));
-
-	System.out.println("=============");
-	System.out.println(AddBinary.addBinary2("1101", "1111"));
-
-	System.out.println("=============");
-	int fib = PrimeFib.getPrimeFib(227000);
-	System.out.println(fib);
-	System.out.println(PrimeFib.getPrimeDiversorSum(fib + 1));
-
-	System.out.println("=============");
-	System.out.println(DecodeWays.numDecodings("01"));
-
-	System.out.println("=============");
-	System.out.println(DivideTwoIntegers.divideHighHand(207, 32));
-
-	System.out.println("=============");
-	System.out.println(EditDistance.minDistance("ab", "a"));
+	System.out.println("a".substring(0, 1));
+	
+//	Set<String> ssss = new HashSet<String>();
+//	ssss.add("a");
+//	new StringTest().wordBreak("a",ssss);
+//	
+//	System.out.println(new StringTest().new Solution()
+//		.isMatch("aaaaaaaaaaaaaaaaaaaaaaa", "*aaaaaaaaaaaaaaaaaaaaaaa*"));
 
     }
 
@@ -132,5 +102,32 @@ public class StringTest {
 		return false;
 	    }
 	}
+    }
+    
+    public boolean wordBreak(String s, Set<String> dict) {
+        if(s==null||s.length()==0){
+            return true;
+        }
+        else if(dict==null || dict.size()==0){
+            return false;
+        }
+        
+        // dp[i] means whether there is a perfect word break ends for the first i characters
+        // array size is s.length() + 1 since we need to include when zero character is included
+        boolean[] dp = new boolean[s.length()+1];
+        dp[0]=true;
+        
+        for(int i = 1; i<=s.length(); i++){
+            for(int j = 1; j <=i; j++){
+                String piece = s.substring(j-1,i+1);
+                
+                if(dict.contains(piece)&&dp[j-1]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        
+        return dp[dp.length-1];
     }
 }
