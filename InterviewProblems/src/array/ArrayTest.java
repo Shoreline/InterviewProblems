@@ -15,57 +15,29 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	new ArrayTest().new Solution().generateMatrix(2);
+	new ArrayTest().new Solution().minPathSum(new int[][]{{1,2},{1,1}});
     }
 
     public class Solution {
-	 public int[][] generateMatrix(int n) {
-	        
-	        if(n<0){
-	            return null;
+	    public int minPathSum(int[][] grid) {
+	        if(grid == null || grid.length==0){
+	            return -1;
 	        }
 	        
-	        int[][] res = new int[n][n];
-	        
-	        int top = 0;
-	        int bottom = n-1;
-	        int left = 0;
-	        int right = n-1;
-	        
-	        int c = 1;
-	        while(top<=bottom && left<=right){
-	            for(int i = left; i<=right; i++){
-	                res[i][top] = c*c;
-	                c++;
+	        // actually better use the smaller one of m and n
+	        int[] dp = new int[grid[0].length];
+	        for(int i = 0; i<dp.length; i++){
+	            dp[i]=grid[0][i];
+	        }
+	        for(int i = 1; i<grid.length; i++){
+	            for(int j = 0; j<grid[0].length; j++){
+	                int a = dp[j];
+	                int b = (j>0? dp[j-1]:0);
+	        	dp[j] = grid[i][j] + Math.min(dp[j],(j>0?dp[j-1]:0));
 	            }
-	            
-	            for(int i = top+1; i<=bottom-1; i++){
-	                res[i][right] = c*c;
-	                c++;
-	            }
-	            
-	            if(left!=right){
-	            for(int i = right; i>=left;i--){
-	                res[bottom][i] = c*c;
-	                c++;
-	            }
-	            }
-	            
-	            if(top!=bottom){
-	            for(int i = bottom-1;i>=top+1; i--){
-	                res[i][left] = c*c;
-	                c++;
-	            }
-	            }
-	            
-	            top++;
-	            bottom--;
-	            left++;
-	            right--;
 	        }
 	        
-	        return res;
-	        
+	        return dp[dp.length-1];
 	    }
     }
 }

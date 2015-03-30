@@ -15,32 +15,58 @@ public class ClimbStairs {
 
     /*
      * Similar to computing fibnacci sequence.
-     * 
-     * Recursion + DP
      */
-    public static int climbStairs(int n) {
+    public class Solution_DP {
+	public int climbStairs(int n) {
+	    if (n < 0) {
+		return 0;
+	    }
+	    if (n < 2) {
+		return n;
+	    }
 
-	HashMap<Integer, Integer> record = new HashMap<Integer, Integer>();
-	record.put(0, 0);
-	record.put(1, 1);
-	record.put(2, 2);
+	    // no need to use int[] dp
+	    int dp1 = 1; // n =0;
+	    int dp2 = 1; // n = 1;
+	    int steps = 0;
 
-	int result = climbStairs(n, record);
-
-	return result;
+	    for (int i = 2; i <= n; i++) {
+		steps = dp1 + dp2;
+		dp1 = dp2;
+		dp2 = steps;
+	    }
+	    return steps;
+	}
     }
 
-    private static int climbStairs(int n, HashMap<Integer, Integer> record) {
-	if (record.containsKey(n)) {
-	    return record.get(n);
+    /*
+     * Recursion + status_store
+     */
+    class Solution_Recursion {
+	public int climbStairs(int n) {
+
+	    HashMap<Integer, Integer> record = new HashMap<Integer, Integer>();
+	    record.put(0, 0);
+	    record.put(1, 1);
+	    record.put(2, 2);
+
+	    int result = climbStairs(n, record);
+
+	    return result;
 	}
 
-	int a = climbStairs(n - 1, record);
-	int b = climbStairs(n - 2, record);
-	record.put(n - 1, a);
-	record.put(n - 2, b);
+	private int climbStairs(int n, HashMap<Integer, Integer> record) {
+	    if (record.containsKey(n)) {
+		return record.get(n);
+	    }
 
-	return a + b;
+	    int a = climbStairs(n - 1, record);
+	    int b = climbStairs(n - 2, record);
+	    record.put(n - 1, a);
+	    record.put(n - 2, b);
 
+	    return a + b;
+
+	}
     }
 }
