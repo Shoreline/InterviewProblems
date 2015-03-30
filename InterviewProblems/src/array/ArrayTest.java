@@ -15,59 +15,57 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	new ArrayTest().new Solution().spiralOrder(new int[][] { { 6, 9, 7 } });
+	new ArrayTest().new Solution().generateMatrix(2);
     }
 
     public class Solution {
-	public List<Integer> spiralOrder(int[][] matrix) {
-	    List<Integer> res = new ArrayList<Integer>();
-	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-		return res;
+	 public int[][] generateMatrix(int n) {
+	        
+	        if(n<0){
+	            return null;
+	        }
+	        
+	        int[][] res = new int[n][n];
+	        
+	        int top = 0;
+	        int bottom = n-1;
+	        int left = 0;
+	        int right = n-1;
+	        
+	        int c = 1;
+	        while(top<=bottom && left<=right){
+	            for(int i = left; i<=right; i++){
+	                res[i][top] = c*c;
+	                c++;
+	            }
+	            
+	            for(int i = top+1; i<=bottom-1; i++){
+	                res[i][right] = c*c;
+	                c++;
+	            }
+	            
+	            if(left!=right){
+	            for(int i = right; i>=left;i--){
+	                res[bottom][i] = c*c;
+	                c++;
+	            }
+	            }
+	            
+	            if(top!=bottom){
+	            for(int i = bottom-1;i>=top+1; i--){
+	                res[i][left] = c*c;
+	                c++;
+	            }
+	            }
+	            
+	            top++;
+	            bottom--;
+	            left++;
+	            right--;
+	        }
+	        
+	        return res;
+	        
 	    }
-
-	    int top = 0;
-	    int bottom = matrix.length - 1;
-	    int left = 0;
-	    int right = matrix[0].length - 1;
-
-	    /*
-	     * Unlike rotate image problem, here must take care the cases of
-	     * top==bottom or left==right
-	     * 
-	     * For rotating image, top and bottom will never be equal, same for
-	     * left and right
-	     */
-	    while (top <= bottom && left <= right) {
-		for (int i = left; i <= right; i++) {
-		    res.add(matrix[top][i]);
-		}
-
-		for (int i = top + 1; i < bottom; i++) {
-		    res.add(matrix[i][right]);
-		}
-
-		if (top != bottom) {
-		    for (int i = right; i > left; i--) {
-			res.add(matrix[bottom][i]);
-		    }
-		}
-
-		if (left != right) {
-		    for (int i = bottom; i > top; i--) {
-			res.add(matrix[i][left]);
-		    }
-		}
-		top++;
-		bottom--;
-		left++;
-		right--;
-	    }
-
-	    // if(top == bottom && left == right){
-	    // res.add(matrix[top][left]);
-	    // }
-
-	    return res;
-	}
     }
 }

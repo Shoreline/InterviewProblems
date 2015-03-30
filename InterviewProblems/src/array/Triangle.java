@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Triangle {
     /**
@@ -11,7 +12,12 @@ public class Triangle {
      * 
      * For example, given the following triangle
      * 
-     * [ [2], [3,4], [6,5,7], [4,1,8,3] ]
+     * [
+             [2],
+            [3,4],
+           [6,5,7],
+          [4,1,8,3]
+        ]
      * 
      * The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
      * 
@@ -19,79 +25,69 @@ public class Triangle {
      * where n is the total number of rows in the triangle.
      */
 
-    /*
-     * Regular DP, second time pass.
-     */
-    public int minimumTotalB(ArrayList<ArrayList<Integer>> triangle) {
-	if (triangle == null || triangle.size() == 0
-		|| triangle.get(0).size() == 0) {
-	    return 0;
-	}
+    // concise bottom-up DP
+    public class Solution_BottomUp {
+	public int minimumTotal(List<List<Integer>> triangle) {
+	    if (triangle == null || triangle.isEmpty()) {
+		return 0;
+	    }
 
-	int[][] dp = new int[triangle.size()][triangle.size()];
+	    List<Integer> lastRow = triangle.get(triangle.size() - 1);
+	    int[] dp = new int[lastRow.size()];
 
-	dp[0][0] = triangle.get(0).get(0);
-	// corner case! if the triangle has only one level:
-	if (triangle.size() == 1)
-	    return dp[0][0];
+	    // initialization
+	    for (int i = 0; i < lastRow.size(); i++) {
+		dp[i] = lastRow.get(i);
+	    }
 
-	int min = Integer.MAX_VALUE;
-	for (int i = 1; i < triangle.size(); i++) {
-	    for (int j = 0; j <= i; j++) {
-		int value = triangle.get(i).get(j);
-		if (j == 0) {
-		    dp[i][j] = value + dp[i - 1][j];
-		} else if (j == i) {
-		    dp[i][j] = value + dp[i - 1][j - 1];
-		} else {
-		    dp[i][j] = value + Math.min(dp[i - 1][j], dp[i - 1][j - 1]);
-		}
-
-		if (i == triangle.size() - 1) {
-		    min = Math.min(min, dp[i][j]);
+	    for (int i = triangle.size() - 2; i >= 0; i--) {
+		List<Integer> curRow = triangle.get(i);
+		for (int j = 0; j < curRow.size(); j++) {
+		    dp[j] = curRow.get(j) + Math.min(dp[j], dp[j + 1]);
 		}
 	    }
+
+	    return dp[0];
 	}
-
-	return min;
-
     }
 
     /*
      * To use only O(n) space, we need to reuse a 1D array as dp cache
      */
-    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
-	if (triangle == null || triangle.size() == 0
-		|| triangle.get(0).size() == 0) {
-	    return 0;
-	}
+    class Solution_TopDown {
+	public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+	    if (triangle == null || triangle.size() == 0
+		    || triangle.get(0).size() == 0) {
+		return 0;
+	    }
 
-	int[] dp2 = new int[triangle.size()];
+	    int[] dp2 = new int[triangle.size()];
 
-	dp2[0] = triangle.get(0).get(0);
-	// corner case! if the triangle has only one level:
-	if (triangle.size() == 1)
-	    return dp2[0];
+	    dp2[0] = triangle.get(0).get(0);
+	    // corner case! if the triangle has only one level:
+	    if (triangle.size() == 1)
+		return dp2[0];
 
-	int min = Integer.MAX_VALUE;
-	for (int i = 1; i < triangle.size(); i++) {
-	    // This time start from the end of each level!
-	    for (int j = i; j >= 0; j--) {
-		int value = triangle.get(i).get(j);
-		if (j == i) {
-		    dp2[j] = value + dp2[j - 1];
-		} else if (j == 0) {
-		    dp2[j] = value + dp2[j];
-		} else {
-		    dp2[j] = value + Math.min(dp2[j], dp2[j - 1]);
-		}
+	    int min = Integer.MAX_VALUE;
+	    for (int i = 1; i < triangle.size(); i++) {
+		// This time start from the end of each level!
+		for (int j = i; j >= 0; j--) {
+		    int value = triangle.get(i).get(j);
+		    if (j == i) {
+			dp2[j] = value + dp2[j - 1];
+		    } else if (j == 0) {
+			dp2[j] = value + dp2[j];
+		    } else {
+			dp2[j] = value + Math.min(dp2[j], dp2[j - 1]);
+		    }
 
-		if (i == triangle.size() - 1) {
-		    min = Math.min(dp2[j], min);
+		    if (i == triangle.size() - 1) {
+			min = Math.min(dp2[j], min);
+		    }
 		}
 	    }
-	}
 
-	return min;
+	    return min;
+	}
     }
 }
