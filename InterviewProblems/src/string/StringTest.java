@@ -16,6 +16,8 @@ public class StringTest {
     public static void main(String[] args) {
 	System.out.println(Character.isLetter('c'));
 	new StringTest().isPalindrome("ab");
+	String haha = "";
+	
 	//System.out.println(new StringTest().wordBreak("catsanddog", new HashSet<String>({{add("cat"),}})));
 
 	// Set<String> ssss = new HashSet<String>();
