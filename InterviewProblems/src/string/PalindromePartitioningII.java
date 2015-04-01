@@ -18,8 +18,9 @@ public class PalindromePartitioningII {
 	    /*
 	     * whether s.substring() is a palindrome. this dp array does not
 	     * need initialization
+	     * isPalindrome[i][j]: s.substring(i,j) is palindrome or not
 	     */
-	    boolean[][] isPalindrome = new boolean[s.length()][s.length() + 1];
+	    boolean[][] isPalindrome = new boolean[s.length()][s.length()];
 
 	    int[] minCut = new int[s.length() + 1];
 	    minCut[0] = -1;
