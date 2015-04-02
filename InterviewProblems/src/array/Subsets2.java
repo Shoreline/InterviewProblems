@@ -2,18 +2,70 @@ package array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Given a collection of integers that might contain duplicates, S, return all
+ * possible subsets.
+ * 
+ * Note: Elements in a subset must be in non-descending order. The solution set
+ * must not contain duplicate subsets. For example, If S = [1,2,2], a solution
+ * is:
+ * 
+ * [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
+ */
 
 public class Subsets2 {
-    /**
-     * Given a collection of integers that might contain duplicates, S, return
-     * all possible subsets.
+    /*
+     * DFS
      * 
-     * Note: Elements in a subset must be in non-descending order. The solution
-     * set must not contain duplicate subsets. For example, If S = [1,2,2], a
-     * solution is:
+     * How to avoid repeatedly adding duplicate groups:
      * 
-     * [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
+     * -> When sees duplicated elements (say 2), let 2; 2,2; 2,2,2;... can only
+     * show once each, and in the same child branch of '2'
+     * 
+     * -> So in each branch (one "round" of DFS), if from S[pos] to
+     * S[S.length-1] there are duplicates, only allow the fist one (S[pos]) to
+     * be added to tmp list
+     * 
+     * The rest is the same with subset I
      */
+
+    public class Solution {
+	public List<List<Integer>> subsetsWithDup(int[] num) {
+
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (num == null || num.length == 0) {
+		return res;
+	    }
+
+	    Arrays.sort(num);
+	    dfs(num, 0, new ArrayList<Integer>(), res);
+	    return res;
+	}
+
+	private void dfs(int[] S, int pos, List<Integer> tmp,
+		List<List<Integer>> res) {
+
+	    // add N elements in tmp
+	    res.add(new ArrayList<Integer>(tmp));
+
+	    for (int i = pos; i < S.length; i++) {
+		
+		// this if block is the only difference with subset I
+		if (i > pos && S[i] == S[i - 1]) {
+		    continue;
+		}
+
+		tmp.add(S[i]);
+		// call next round dfs to add N+1 elements
+		dfs(S, i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
+
+	}
+
+    }
 
     /*
      * The hard part is, we are not allowed to use Set which can automatically
@@ -23,51 +75,53 @@ public class Subsets2 {
      * out which ArrayLists got added E' last round (no matter E' is a duplicate
      * one), then only add E to these lists
      */
+    class Solution_old {
+	int newListNum = 0;
 
-    static int newListNum = 0;
+	public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
+	    Arrays.sort(num);
 
-    public static ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
-	Arrays.sort(num);
+	    ArrayList<ArrayList<Integer>> result = subsetsWithDup(num,
+		    num.length - 1);
 
-	ArrayList<ArrayList<Integer>> result = subsetsWithDup(num,
-		num.length - 1);
-
-	return result;
-    }
-
-    private static ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num,
-	    int startIndex) {
-	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-
-	if (startIndex < 0) {
-	    ArrayList<Integer> emptyList = new ArrayList<Integer>();
-	    result.add(emptyList);
-	    newListNum = 1;
 	    return result;
 	}
 
-	ArrayList<ArrayList<Integer>> temp = subsetsWithDup(num, startIndex - 1);
-	result.addAll(temp);
+	private ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num,
+		int startIndex) {
+	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
-	if (startIndex > 0 && num[startIndex] == num[startIndex - 1]) {
-	    // only deal with the new elements just added last time
-	    for (int i = newListNum - 1; i >= 0; i--) {
-		ArrayList<Integer> newList = new ArrayList<Integer>();
-		newList.addAll(temp.get(temp.size() - 1 - i));
-		newList.add(num[startIndex]);
-		result.add(newList);
+	    if (startIndex < 0) {
+		ArrayList<Integer> emptyList = new ArrayList<Integer>();
+		result.add(emptyList);
+		newListNum = 1;
+		return result;
 	    }
 
-	} else {
-	    for (ArrayList<Integer> aList : temp) {
-		ArrayList<Integer> newList = new ArrayList<Integer>();
-		newList.addAll(aList);
-		newList.add(num[startIndex]);
-		result.add(newList);
+	    ArrayList<ArrayList<Integer>> temp = subsetsWithDup(num,
+		    startIndex - 1);
+	    result.addAll(temp);
+
+	    if (startIndex > 0 && num[startIndex] == num[startIndex - 1]) {
+		// only deal with the new elements just added last time
+		for (int i = newListNum - 1; i >= 0; i--) {
+		    ArrayList<Integer> newList = new ArrayList<Integer>();
+		    newList.addAll(temp.get(temp.size() - 1 - i));
+		    newList.add(num[startIndex]);
+		    result.add(newList);
+		}
+
+	    } else {
+		for (ArrayList<Integer> aList : temp) {
+		    ArrayList<Integer> newList = new ArrayList<Integer>();
+		    newList.addAll(aList);
+		    newList.add(num[startIndex]);
+		    result.add(newList);
+		}
+		newListNum = temp.size();
 	    }
-	    newListNum = temp.size();
+
+	    return result;
 	}
-
-	return result;
     }
 }
