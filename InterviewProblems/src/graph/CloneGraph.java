@@ -46,9 +46,49 @@ public class CloneGraph {
     /*
      * BFS
      * 
+     * Important: Only add first-time-seen nodes to queue
+     */
+    public class Solution_1traverse {
+	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+	    if (node == null) {
+		return null;
+	    }
+
+	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+	    Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+	    queue.add(node);
+	    nodeMap.put(node, new UndirectedGraphNode(node.label));
+
+	    while (!queue.isEmpty()) {
+		UndirectedGraphNode head = queue.poll();
+
+		UndirectedGraphNode clone = nodeMap.get(head);
+
+		for (UndirectedGraphNode neighbor : head.neighbors) {
+		    if (nodeMap.containsKey(neighbor)) {
+			clone.neighbors.add(nodeMap.get(neighbor));
+		    } else {
+			queue.add(neighbor);
+
+			UndirectedGraphNode neighborClone = new UndirectedGraphNode(
+				neighbor.label);
+			clone.neighbors.add(neighborClone);
+			nodeMap.put(neighbor, neighborClone);
+		    }
+		}
+
+	    }
+
+	    return nodeMap.get(node);
+	}
+    }
+
+    /*
+     * BFS
+     * 
      * Traverse graph twice
      */
-    public class Solution {
+    public class Solution_2traverses {
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
 	    if (node == null) {
 		return null;

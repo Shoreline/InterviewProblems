@@ -3,6 +3,7 @@ package array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class Combinations {
     /**
@@ -15,6 +16,42 @@ public class Combinations {
      * 
      * [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
      */
+
+    /*
+     * DFS traverse
+     * 
+     * prune impossible brances to save time
+     */
+    public class Solution {
+	public List<List<Integer>> combine(int n, int k) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (n < 1 || k < 1 || n < k) {
+		return res;
+	    }
+
+	    dfsHelper(n, k, 1, new ArrayList<Integer>(), res); // start from 1, not 0
+
+	    return res;
+	}
+
+	private void dfsHelper(int n, int k, int pos, List<Integer> tmp,
+		List<List<Integer>> res) {
+	    if (tmp.size() == k) {
+		res.add(new ArrayList<Integer>(tmp));
+		return;
+	    }
+
+	    for (int i = pos; i <= n; i++) {
+		if (n - i + 1 < k - tmp.size()) {
+		    break;	// prune invalid branches
+		}
+
+		tmp.add(i);
+		dfsHelper(n, k, i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
+	}
+    }
 
     /*
      * My second solution. Second pass, only one small error!

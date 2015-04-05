@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NQueens {
     /**
@@ -21,6 +22,59 @@ public class NQueens {
      * 
      * ["..Q.", // Solution 2 "Q...", "...Q", ".Q.."] ]
      */
+
+    public class Solution {
+	public List<String[]> solveNQueens(int n) {
+	        
+	        List<String[]> res = new ArrayList<String[]>();
+	        dfsHelper(n,0,new int[n],res);
+	        return res;
+	    }
+
+	// pos[i]=j: i-th row, j-th column
+	private void dfsHelper(int n, int count, int[] pos, List<String[]> res) {
+
+	    if (count == n) {
+		StringBuilder sb = new StringBuilder();
+		String[] solution = new String[n];
+		for (int i = 0; i < n; i++) {
+		    for (int j = 0; j < n; j++) {
+			if (j == pos[i]) {
+			    sb.append('Q');
+			} else {
+			    sb.append('.');
+			}
+		    }
+		    solution[i] = sb.toString();
+		    sb.setLength(0);
+		}
+		res.add(solution);
+		return;
+	    }
+
+	    for (int i = 0; i < n; i++) {
+		// try putting a queen at row count, column i
+		pos[count] = i;
+		if (isValid(count, pos)) {
+		    dfsHelper(n, count + 1, pos, res);
+		}
+	    }
+	}
+
+	// dont need to check if the whole sub-board is vaild, just check if the
+	// newly added queen has conflict with existing queens
+	private boolean isValid(int count, int[] pos) {
+
+	    for (int i = 0; i < count; i++) {
+		if (pos[i] == pos[count]
+			|| Math.abs(pos[i] - pos[count]) == Math.abs(i - count)) {
+		    return false;
+		}
+	    }
+
+	    return true;
+	}
+    }
 
     /*
      * two time pass!

@@ -15,9 +15,8 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	new ArrayTest().new Solution().minPathSum(new int[][]{{1,2},{1,1}});
-	Set<Integer>haha = new HashSet<Integer>();
 	
+	new NQueens().new Solution().solveNQueens(1);
     }
 
     public class Solution {
