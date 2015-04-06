@@ -26,7 +26,7 @@ public class StringTest {
 	//
 	// System.out.println(new StringTest().new Solution()
 	// .isMatch("aaaaaaaaaaaaaaaaaaaaaaa", "*aaaaaaaaaaaaaaaaaaaaaaa*"));
-
+	
     }
     
     public boolean isPalindrome(String s) {
