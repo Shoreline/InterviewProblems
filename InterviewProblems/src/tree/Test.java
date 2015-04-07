@@ -15,11 +15,12 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	TreeNode root = new TreeNode(0);
+	TreeNode root = new TreeNode(1);
+	root.left = new TreeNode(0);
 	//root.left = new TreeNode(2);
 	//new BinaryPostOrderTraversal().new Solution().postorderTraversal(root);
 	
-	new BinaryTreeMaximumPathSum().new Solution().maxPathSum(root);
+	new SumRootToLeafNumbers().new Solution().sumNumbers(root);
     
     }
 
