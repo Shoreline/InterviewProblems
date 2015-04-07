@@ -1,33 +1,101 @@
 package array;
 
+/**
+ * Word Search
+ * 
+ * Given a 2D board and a word, find if the word exists in the grid.
+ * 
+ * The word can be constructed from letters of sequentially adjacent cell, where
+ * "adjacent" cells are those horizontally or vertically neighboring. The same
+ * letter cell may not be used more than once.
+ * 
+ * For example, Given board =
+ * 
+ * [
+ * 
+ * ["ABCE"],
+ * 
+ * ["SFCS"],
+ * 
+ * ["ADEE"]
+ * 
+ * ]
+ * 
+ * word = "ABCCED", -> returns true,
+ * 
+ * word = "SEE", -> returns true,
+ * 
+ * word = "ABCB", -> returns false.
+ */
+
+/*
+ * DFS
+ */
 public class WordSearch {
-    /**
-     * Word Search
-     * 
-     * Given a 2D board and a word, find if the word exists in the grid.
-     * 
-     * The word can be constructed from letters of sequentially adjacent cell,
-     * where "adjacent" cells are those horizontally or vertically neighboring.
-     * The same letter cell may not be used more than once.
-     * 
-     * For example, Given board =
-     * 
-     * [
-     * 
-     * ["ABCE"],
-     * 
-     * ["SFCS"],
-     * 
-     * ["ADEE"]
-     * 
-     * ]
-     * 
-     * word = "ABCCED", -> returns true,
-     * 
-     * word = "SEE", -> returns true,
-     * 
-     * word = "ABCB", -> returns false.
-     */
+
+    public class Solution_2015 {
+	public boolean exist(char[][] board, String word) {
+	    if (board == null || board.length == 0) {
+		return false;
+	    }
+
+	    char c = word.charAt(0);
+	    for (int i = 0; i < board.length; i++) {
+		for (int j = 0; j < board[0].length; j++) {
+		    if (board[i][j] == c) {
+			board[i][j] = '.';
+			if (dfs(board, word, 1, i, j)) {
+			    return true;
+			} else {
+			    board[i][j] = c;
+			}
+		    }
+		}
+	    }
+
+	    return false;
+	}
+
+	private boolean dfs(char[][] board, String word, int pos, int i, int j) {
+	    if (pos == word.length()) {
+		return true;
+	    }
+	    char c = word.charAt(pos);
+	    if (i > 0 && board[i - 1][j] == c) {
+		board[i - 1][j] = '.';
+		if (dfs(board, word, pos + 1, i - 1, j)) {
+		    return true;
+		}
+		board[i - 1][j] = c;
+	    }
+
+	    if (i + 1 < board.length && board[i + 1][j] == c) {
+		board[i + 1][j] = '.';
+		if (dfs(board, word, pos + 1, i + 1, j)) {
+		    return true;
+		}
+		board[i + 1][j] = c;
+	    }
+
+	    if (j > 0 && board[i][j - 1] == c) {
+		board[i][j - 1] = '.';
+		if (dfs(board, word, pos + 1, i, j - 1)) {
+		    return true;
+		}
+		board[i][j - 1] = c;
+	    }
+
+	    if (j + 1 < board[0].length && board[i][j + 1] == c) {
+		board[i][j + 1] = '.';
+		if (dfs(board, word, pos + 1, i, j + 1)) {
+		    return true;
+		}
+		board[i][j + 1] = c;
+	    }
+
+	    return false;
+	}
+    }
 
     /*
      * Idea comes from a high hand.
@@ -36,65 +104,69 @@ public class WordSearch {
      * has been visited. Instead, use a special character to represent true in
      * the input 2D array
      */
-    public boolean exist(char[][] board, String word) {
+    class Solution_HighHand {
+	public boolean exist(char[][] board, String word) {
 
-	if (board == null || board.length == 0) {
+	    if (board == null || board.length == 0) {
+		return false;
+	    }
+	    if (word.length() == 0) {
+		return true;
+	    }
+
+	    char c = word.charAt(0);
+	    for (int i = 0; i < board.length; i++) {
+		for (int j = 0; j < board[0].length; j++) {
+		    if (board[i][j] == c) {
+			board[i][j] = '*'; // mark as visited
+			boolean result = dfs(board, word, i, j, 1);
+			if (result) {
+			    return true;
+			}
+			board[i][j] = c;// change it back, so no need to use
+					// other
+					// boolean array(s)
+		    }
+		}
+	    }
+
 	    return false;
 	}
-	if (word.length() == 0) {
-	    return true;
-	}
 
-	char c = word.charAt(0);
-	for (int i = 0; i < board.length; i++) {
-	    for (int j = 0; j < board[0].length; j++) {
-		if (board[i][j] == c) {
-		    board[i][j] = '*'; // mark as visited
-		    boolean result = dfs(board, word, i, j, 1);
-		    if (result) {
+	private boolean dfs(char[][] board, String word, int row, int column,
+		int index) {
+	    if (index == word.length()) {
+		return true;
+	    }
+
+	    /*
+	     * trick: use a 2D array to store possible movements in a matrix
+	     * 
+	     * Actually, at least one of the four possible moves surely does not
+	     * work (the previously move lead us to current position). But we
+	     * just do not care avoiding that
+	     */
+
+	    char c = word.charAt(index);
+	    int[][] moves = new int[][] { { 0, 1 }, { 0, -1 }, { 1, 0 },
+		    { -1, 0 } };
+
+	    for (int m = 0; m < moves.length; m++) {
+		int i = row + moves[m][0];
+		int j = column + moves[m][1];
+
+		if (i >= 0 && i < board.length && j >= 0 && j < board[0].length
+			&& board[i][j] == c) {
+		    board[i][j] = '*';
+		    if (dfs(board, word, i, j, index + 1)) {
 			return true;
 		    }
-		    board[i][j] = c;// change it back, so no need to use other
-				    // boolean array(s)
+		    board[i][j] = c;
 		}
-	    }
-	}
 
-	return false;
-    }
-
-    private static boolean dfs(char[][] board, String word, int row,
-	    int column, int index) {
-	if (index == word.length()) {
-	    return true;
-	}
-
-	/*
-	 * trick: use a 2D array to store possible movements in a matrix
-	 * 
-	 * Actually, at least one of the four possible moves surely does not
-	 * work (the previously move lead us to current position). But we just
-	 * do not care avoiding that
-	 */
-
-	char c = word.charAt(index);
-	int[][] moves = new int[][] { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-
-	for (int m = 0; m < moves.length; m++) {
-	    int i = row + moves[m][0];
-	    int j = column + moves[m][1];
-
-	    if (i >= 0 && i < board.length && j >= 0 && j < board[0].length
-		    && board[i][j] == c) {
-		board[i][j] = '*';
-		if (dfs(board, word, i, j, index + 1)) {
-		    return true;
-		}
-		board[i][j] = c;
 	    }
 
+	    return false;
 	}
-
-	return false;
     }
 }
