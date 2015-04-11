@@ -1,9 +1,15 @@
 package linkedlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class _Test {
 
     public static void main(String[] args) {
-	
+	List<Integer>haha = new ArrayList<Integer>();
+	haha.add(null);
+	haha.add(null);
+	System.out.println(haha.toString());
 	ListNode head = new ListNode(3);
 	head.next = new ListNode(5);
 	
