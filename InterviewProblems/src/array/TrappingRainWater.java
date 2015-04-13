@@ -26,6 +26,8 @@ public class TrappingRainWater {
      * time: O(3N); space: O(2N)
      * 
      * Note: the 2nd and 3rd scans can be integrated to reduce time complexity
+     * 
+     * similar to: Candy
      */
     public class Solution {
 	public int trap(int[] A) {
