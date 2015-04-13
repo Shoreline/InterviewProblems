@@ -1,27 +1,27 @@
 package array;
 
-public class SearchInRotatedSortedArray {
-    /**
-     * Stom8 Interview Question Sample
-     * 
-     * Suppose a sorted array is rotated at some pivot unknown to you
-     * beforehand.
-     * 
-     * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
-     * 
-     * You are given a target value to search. If found in the array return its
-     * index, otherwise return -1.
-     * 
-     * You may assume no duplicate exists in the array.
-     */
+/**
+ * Search In Rotated Sorted Array
+ * 
+ * Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+ * 
+ * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+ * 
+ * You are given a target value to search. If found in the array return its
+ * index, otherwise return -1.
+ * 
+ * You may assume no duplicate exists in the array.
+ */
 
-    /*
-     * idea: In each iteration, identify the sorted half of the remaining part
-     * of the array. Then with two simple comparisons we can know whether the
-     * target is in this half
-     * 
-     * time complexity: O(lgN)
-     */
+/*
+ * idea: In each iteration, identify the sorted half of the remaining part of
+ * the array. Then with two simple comparisons we can know whether the target is
+ * in this half
+ * 
+ * time complexity: O(lgN)
+ */
+
+public class SearchInRotatedSortedArray {
     public class Solution {
 	public int search(int[] A, int target) {
 	    if (A == null) {

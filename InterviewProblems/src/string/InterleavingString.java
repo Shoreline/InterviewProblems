@@ -1,18 +1,129 @@
 package string;
 
+/**
+ * Interleaving String
+ * 
+ * Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
+ * 
+ * For example, Given: s1 = "aabcc", s2 = "dbbca",
+ * 
+ * When s3 = "aadbbcbcac", return true.
+ * 
+ * When s3 = "aadbbbaccc", return false.
+ */
+
 public class InterleavingString {
-    /**
-     * Interleaving String
+
+    /*
+     * dp[i][j]: whether the first i characters in s1 and first j characters in
+     * s2 can form the first i+j characters of s3
      * 
-     * Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and
-     * s2.
-     * 
-     * For example, Given: s1 = "aabcc", s2 = "dbbca",
-     * 
-     * When s3 = "aadbbcbcac", return true.
-     * 
-     * When s3 = "aadbbbaccc", return false.
+     * Check the rolling array version, no need additional initialization
+     * process
      */
+    public class Solution_DP {
+	public boolean isInterleave(String s1, String s2, String s3) {
+	    // missing deal with s1,s2,s3 is null cases...
+	    if (s1.length() + s2.length() != s3.length()) {
+		return false;
+	    }
+
+	    boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+
+	    dp[0][0] = true;
+	    for (int i = 1; i <= s1.length(); i++) {
+		// dp[i][0] = s1.substring(0, i).equals(s3.substring(0, i));
+		dp[i][0] = dp[i - 1][0]
+			&& (s1.charAt(i - 1) == s3.charAt(i - 1));
+	    }
+
+	    for (int j = 1; j <= s2.length(); j++) {
+		// dp[0][j] = s2.substring(0, j).equals(s3.substring(0, j));
+		dp[0][j] = dp[0][j - 1]
+			&& (s2.charAt(j - 1) == s3.charAt(j - 1));
+	    }
+
+	    /*
+	     * easy to make mistake: in if check s3.charAt(i+j-1), not
+	     * s3.charAt(i+j-2)!
+	     */
+	    for (int i = 1; i <= s1.length(); i++) {
+		for (int j = 1; j <= s2.length(); j++) {
+		    if (s1.charAt(i - 1) == s3.charAt(i + j - 1)
+			    && dp[i - 1][j]
+			    || s2.charAt(j - 1) == s3.charAt(i + j - 1)
+			    && dp[i][j - 1]) {
+			dp[i][j] = true;
+		    } else {
+			dp[i][j] = false;
+		    }
+
+		}
+	    }
+
+	    return dp[s1.length()][s2.length()];
+	}
+    }
+
+    /*
+     * Saves space.
+     */
+    class Solution_DP_RollingArray {
+	public boolean isInterleave(String s1, String s2, String s3) {
+	    if (s1.length() + s2.length() != s3.length())
+		return false;
+	    String minWord = s1.length() > s2.length() ? s2 : s1;
+	    String maxWord = s1.length() > s2.length() ? s1 : s2;
+	    boolean[] res = new boolean[minWord.length() + 1];
+	    res[0] = true;
+	    for (int i = 0; i < minWord.length(); i++) {
+		res[i + 1] = res[i] && minWord.charAt(i) == s3.charAt(i);
+	    }
+	    for (int i = 0; i < maxWord.length(); i++) {
+		res[0] = res[0] && maxWord.charAt(i) == s3.charAt(i);
+		for (int j = 0; j < minWord.length(); j++) {
+		    res[j + 1] = res[j + 1]
+			    && maxWord.charAt(i) == s3.charAt(i + j + 1)
+			    || res[j]
+			    && minWord.charAt(j) == s3.charAt(i + j + 1);
+		}
+	    }
+	    return res[minWord.length()];
+	}
+    }
+
+    /*
+     * Interesting way of initialization
+     */
+    class Solution_DP_2 {
+	public boolean isInterleave(String s1, String s2, String s3) {
+	    if (s3.length() != s1.length() + s2.length())
+		return false;
+
+	    boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+	    dp[0][0] = true;
+
+	    for (int i = 1; i <= s1.length()
+		    && s1.charAt(i - 1) == s3.charAt(i - 1); i++)
+		dp[i][0] = true;
+
+	    for (int i = 1; i <= s2.length()
+		    && s2.charAt(i - 1) == s3.charAt(i - 1); i++)
+		dp[0][i] = true;
+
+	    for (int i = 1; i <= s1.length(); i++) {
+		for (int j = 1; j <= s2.length(); j++) {
+		    char c = s3.charAt(i + j - 1);
+		    if (c == s1.charAt(i - 1) && dp[i - 1][j])
+			dp[i][j] = true;
+
+		    if (c == s2.charAt(j - 1) && dp[i][j - 1])
+			dp[i][j] = true;
+		}
+	    }
+	    return dp[s1.length()][s2.length()];
+	}
+    }
 
     /*
      * Tricky sanity check
@@ -20,7 +131,6 @@ public class InterleavingString {
      * My solution... follow one of high hand's solutions. cannot pass the large
      * set
      */
-
     public boolean isInterleaveMe(String s1, String s2, String s3) {
 
 	if (s1 == null || s2 == null || s3 == null)
