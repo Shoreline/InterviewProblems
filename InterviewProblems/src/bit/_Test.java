@@ -1,10 +1,35 @@
 package bit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class _Test {
 
     public static void main(String[] args) {
-	int res = FindMissingNumber.getMissingNum(new int[] { 1, 347, 6, 6,
-		-777, 9, 13, 65, 889, 712, 889, 347, 1, 9, 65, 13, 712 });
-	System.out.println(res);
+	System.out.println(2^5);
+	System.out.println();
+	System.out.println(new _Test().grayCode(2));
+    }
+    
+    public List<Integer> grayCode(int n) {
+        List<Integer> res = new ArrayList<Integer>();
+        if(n<0){
+            return res;
+        }
+        res.add(0);
+        if(n==0){
+            return res;
+        }
+        res.add(1);
+        for(int i =2; i<=n; i++){
+            for(int j = res.size()-1; j>=0; j--){
+                int a = res.get(j);
+                int b = i-1;
+                int c = 2^b;
+        	res.add(a+c);
+            }
+        }
+        return res;
     }
 }
+

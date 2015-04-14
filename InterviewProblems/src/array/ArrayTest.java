@@ -16,70 +16,30 @@ public class ArrayTest {
      */
     public static void main(String[] args) {
 	
-	new NQueens().new Solution().solveNQueens(1);
+	System.out.println(new ArrayTest().removeDuplicates(new int[]{1}));
     }
 
-    public boolean exist(char[][] board, String word) {
-        if(board==null||board.length==0||board[0].length==0||word == null||word.length()==0){
-            return false;
+    public int removeDuplicates(int[] A) {
+        if(A==null|| A.length==0){
+            return 0;
         }
-    
         
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board[0].length;j++){
-                char c = word.charAt(0);
-                if(board[i][j]==c){
-                    board[i][j]='.';
-                    if(dfs(board,word,0,i,j)){
-                        return true;
-                    }
-                    else{
-                        board[i][j]=c;
-                    }
-                }        
+        int ptr=1;
+        int counter = 1;
+        for(int i = 1; i<A.length; i++){
+            if(A[i]==A[i-1]){
+                counter++;
+            }
+            else{
+                counter=1;
+            }
+            
+            if(counter<=2){
+                A[ptr]=A[i];
+                ptr++;
             }
         }
         
-        return false;
-    }
-    
-    private boolean dfs(char[][]board, String word, int pos, int i, int j){
-        if(pos == word.length()){
-            return true;
-        }
-        char c = word.charAt(pos);
-        if(i>0 && board[i-1][j]==c){
-            board[i-1][j]='.';
-            if(dfs(board,word,pos+1,i-1,j)){
-                return true;
-            }
-            board[i-1][j] = c;
-        }
-        
-        if(i+1<board.length && board[i+1][j]==c){
-            board[i+1][j]='.';
-            if(dfs(board,word,pos+1,i+1,j)){
-                return true;
-            }
-            board[i+1][j] = c;
-        }
-        
-        if(j>0 && board[i][j-1]==c){
-            board[i][j-1]='.';
-            if(dfs(board,word,pos+1,i,j-1)){
-                return true;
-            }
-            board[i][j-1] = c;
-        }
-        
-        if(j+1<board[0].length && board[i][j+1]==c){
-            board[i][j+1]='.';
-            if(dfs(board,word,pos+1,i,j+1)){
-                return true;
-            }
-            board[i][j+1] = c;
-        }
-        
-        return false;
+        return ptr+1;
     }
 }
