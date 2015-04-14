@@ -23,12 +23,12 @@ public class DistinctSubsequences {
      * 
      * The index of the i-th char in S is i-1. Similar for j-th char in T
      * 
-     * if S.charAt(i-1)!=T.charAt(j-1): dp[i][j] = dp[i-1][j] 
-     * The i-th char of S has no effect in this case, even if it may match other
-     * char in T before the j-th char
+     * if S.charAt(i-1)!=T.charAt(j-1): dp[i][j] = dp[i-1][j] The i-th char of S
+     * has no effect in this case, even if it may match other char in T before
+     * the j-th char
      * 
-     * otherwise, dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]  
-     * (two cases: let S.charAt(i) match T.charAt(j) or not)
+     * otherwise, dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j] (two cases: let
+     * S.charAt(i) match T.charAt(j) or not)
      */
     public class Solution {
 	public int numDistinct(String S, String T) {
@@ -54,6 +54,28 @@ public class DistinctSubsequences {
 	    }
 
 	    return dp[S.length()][T.length()];
+	}
+    }
+
+    /*
+     * rolling array
+     */
+    class Solution_optimized {
+	public int numDistinct(String S, String T) {
+	    if (T.length() == 0) {
+		return 1;
+	    }
+	    if (S.length() == 0)
+		return 0;
+	    int[] res = new int[T.length() + 1];
+	    res[0] = 1;
+	    for (int i = 0; i < S.length(); i++) {
+		for (int j = T.length() - 1; j >= 0; j--) {
+		    res[j + 1] = (S.charAt(i) == T.charAt(j) ? res[j] : 0)
+			    + res[j + 1];
+		}
+	    }
+	    return res[T.length()];
 	}
     }
 }
