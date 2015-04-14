@@ -1,80 +1,60 @@
 package tree;
 
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Unique Binary Search Trees II
+ * 
+ * Given n, generate all structurally unique BST's (binary search trees) that
+ * store values 1...n.
+ */
 
 public class UniqueBinarySearchTreesII {
-
-    /**
-     * Unique Binary Search Trees II
-     * 
-     * Given n, generate all structurally unique BST's (binary search trees)
-     * that store values 1...n.
-     */
-
     /*
-     * My thought: use a boolean array to store whether an Integer has been
-     * inserted to a BST
+     * the helper method does not return void!
      * 
-     * But, on further thought:
+     * For other dfs problems, one solution is found once reached the end
+     * (deepest place). So the dfs method can be void, only keep the
+     * intermediate result and overall solutions as arguments. Each solution is
+     * generated only once.
      * 
-     * 1. all Integers in the left sub-tree must smaller than the root; all
-     * Integers in the right sub-tree must bigger than the root
+     * The code below generate many duplicated solutions.
      * 
-     * 2. Every Integer can be the root, at least one time
-     * 
-     * -> recursion, and use iteration inside of each recursion
-     * 
-     * In tree construction, leaf nodes generally are still not the stopping
-     * cases. Their null child nodes are.
-     * 
-     * Solution from Internet:
+     * It is important to add 'null' to List.   
      */
-    public static ArrayList<TreeNode> generateTrees(int n) {
-	ArrayList<TreeNode> result = new ArrayList<TreeNode>();
-	// corner case
-	if (n <= 0) {
-	    result.add(null);
-	    return result;
+    public class Solution {
+	public List<TreeNode> generateTrees(int n) {
+	    List<TreeNode> res = new ArrayList<TreeNode>();
+	    if (n < 1) {
+		res.add(null);
+		return res;
+	    }
+	    res = genTreeHelper(1, n);
+	    return res;
 	}
 
-	result = generateTrees(1, n);
-	return result;
-    }
+	private List<TreeNode> genTreeHelper(int start, int end) {
+	    List<TreeNode> res = new ArrayList<TreeNode>();
+	    if (start > end) {
+		res.add(null);
+		return res;
+	    }
 
-    private static ArrayList<TreeNode> generateTrees(int start, int end) {
-	ArrayList<TreeNode> result = new ArrayList<TreeNode>();
-	/*
-	 * *Important* Stop condition
-	 * 
-	 * Another stop case is when start = end. It is processed in the for
-	 * loop below with other general cases
-	 */
-	if (start > end) {
-	    result.add(null);
-	    return result;
-	}
-
-	for (int i = start; i <= end; i++) {
-	    ArrayList<TreeNode> leftTrees = generateTrees(start, i - 1);
-	    ArrayList<TreeNode> rightTrees = generateTrees(i + 1, end);
-
-	    /*
-	     * Create new trees:
-	     * 
-	     * Connect each possible left sub-tree to the root, then to each
-	     * possible right sub-tree
-	     */
-	    for (TreeNode aLeftTree : leftTrees) {
-		for (TreeNode aRightTree : rightTrees) {
-		    TreeNode root = new TreeNode(i);
-		    root.left = aLeftTree;
-		    root.right = aRightTree;
-		    result.add(root);
+	    for (int i = start; i <= end; i++) {
+		List<TreeNode> leftTrees = genTreeHelper(start, i - 1);
+		List<TreeNode> rightTrees = genTreeHelper(i + 1, end);
+		for (int l = 0; l < leftTrees.size(); l++) {
+		    for (int r = 0; r < rightTrees.size(); r++) {
+			TreeNode root = new TreeNode(i);
+			root.left = leftTrees.get(l);
+			root.right = rightTrees.get(r);
+			res.add(root);
+		    }
 		}
 	    }
 
+	    return res;
 	}
-
-	return result;
     }
 }
