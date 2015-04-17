@@ -48,7 +48,7 @@ public class CloneGraph {
      * 
      * Important: Only add first-time-seen nodes to queue
      */
-    public class Solution_1traverse {
+    public class Solution_1traversal {
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
 	    if (node == null) {
 		return null;
@@ -88,7 +88,7 @@ public class CloneGraph {
      * 
      * Traverse graph twice
      */
-    public class Solution_2traverses {
+    public class Solution_2traversals {
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
 	    if (node == null) {
 		return null;
