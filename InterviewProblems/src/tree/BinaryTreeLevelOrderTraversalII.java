@@ -44,6 +44,7 @@ public class BinaryTreeLevelOrderTraversalII {
 		    values.add(node.val);
 
 		    if (node.left != null) {
+			//nextLvl.push(node.left); Wrong! Push to the head!
 			nextLvl.add(node.left);
 		    }
 		    if (node.right != null) {
