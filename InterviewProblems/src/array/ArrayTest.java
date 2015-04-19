@@ -15,6 +15,11 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
+	Point[] points = new Point[1];
+	Point p = new Point(0,0);
+	points[0]=p;
+	
+	new MaxPointsOnALine().new Solution().maxPoints(points);
 	
 	System.out.println(new ArrayTest().removeDuplicates(new int[]{1}));
     }

@@ -1,49 +1,107 @@
 package array;
 
+/**
+ * Set Matrix Zeroes
+ * 
+ * Given a m x n matrix, if an element is 0, set its entire row and column to 0.
+ * Do it in place.
+ * 
+ * Follow up: Did you use extra space? A straight forward solution using O(mn)
+ * space is probably a bad idea. A simple improvement uses O(m + n) space, but
+ * still not the best solution. Could you devise a constant space solution?
+ */
+
 public class SetMatrixZeroes {
-    /**
-     * Set Matrix Zeroes
-     * 
-     * Given a m x n matrix, if an element is 0, set its entire row and column
-     * to 0. Do it in place.
-     * 
-     * Follow up: Did you use extra space? A straight forward solution using
-     * O(mn) space is probably a bad idea. A simple improvement uses O(m + n)
-     * space, but still not the best solution. Could you devise a constant space
-     * solution?
-     */
     /*
      * constant space:
      * 
-     * use the a row and a column of input matrix to substitute boolean[] row
-     * and boolean[] column
+     * use the first row and first column of input matrix as cache to save
+     * whether we shall clean a col/row.
      * 
-     * 常数空间的话，第一可以考虑是不是固定数量的几个变量能搞定；否则可以考虑是不是问题本身已经提供了足够的空间。
-     * 这道题属于后者，就是利用矩阵的第一行和第一列来作为辅助空间使用。不用开辟新的存储空间。方法就是： 1.先确定第一行和第一列是否需要清零
-     * 2.扫描剩下的矩阵元素，如果遇到了0，就将对应的第一行和第一列上的元素赋值为0
-     * 3.根据第一行和第一列的信息，已经可以讲剩下的矩阵元素赋值为结果所需的值了 4.根据1中确定的状态，处理第一行和第一列。
+     * Whether to clean the first row/column themselves are saved into two
+     * variables.
      */
+    public class Solution {
+	public void setZeroes(int[][] matrix) {
+	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+		return;
+	    }
 
-    public void setZeroes(int[][] matrix) {
-	if (matrix == null && matrix.length == 0) {
-	    return;
-	}
-	boolean[] row = new boolean[matrix.length];
-	boolean[] column = new boolean[matrix[0].length];
+	    boolean firstRow = false;
+	    boolean firstCol = false;
 
-	for (int i = 0; i < matrix.length; i++) {
-	    for (int j = 0; j < matrix[0].length; j++) {
-		if (matrix[i][j] == 0) {
-		    row[i] = true;
-		    column[j] = true;
+	    for (int i = 0; i < matrix.length; i++) {
+		if (matrix[i][0] == 0) {
+		    firstCol = true;
+		    break;
 		}
 	    }
-	}
 
-	for (int i = 0; i < matrix.length; i++) {
 	    for (int j = 0; j < matrix[0].length; j++) {
-		if (row[i] || column[j]) {
-		    matrix[i][j] = 0;
+		if (matrix[0][j] == 0) {
+		    firstRow = true;
+		    break;
+		}
+	    }
+
+	    for (int i = 1; i < matrix.length; i++) {
+		for (int j = 1; j < matrix[0].length; j++) {
+
+		    if (matrix[i][j] == 0) {
+			matrix[i][0] = 0;
+			matrix[0][j] = 0;
+		    }
+
+		}
+	    }
+
+	    for (int i = 1; i < matrix.length; i++) {
+		for (int j = 1; j < matrix[0].length; j++) {
+		    if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+			matrix[i][j] = 0;
+		    }
+		}
+	    }
+
+	    if (firstRow) {
+		for (int j = 0; j < matrix[0].length; j++) {
+		    matrix[0][j] = 0;
+		}
+	    }
+	    if (firstCol) {
+		for (int i = 0; i < matrix.length; i++) {
+		    matrix[i][0] = 0;
+		}
+	    }
+
+	}
+    }
+
+    /*
+     * Uses O(m+n) space
+     */
+    class Solution_extraSpace {
+	public void setZeroes(int[][] matrix) {
+	    if (matrix == null || matrix.length == 0) {
+		return;
+	    }
+	    boolean[] row = new boolean[matrix.length];
+	    boolean[] column = new boolean[matrix[0].length];
+
+	    for (int i = 0; i < matrix.length; i++) {
+		for (int j = 0; j < matrix[0].length; j++) {
+		    if (matrix[i][j] == 0) {
+			row[i] = true;
+			column[j] = true;
+		    }
+		}
+	    }
+
+	    for (int i = 0; i < matrix.length; i++) {
+		for (int j = 0; j < matrix[0].length; j++) {
+		    if (row[i] || column[j]) {
+			matrix[i][j] = 0;
+		    }
 		}
 	    }
 	}
