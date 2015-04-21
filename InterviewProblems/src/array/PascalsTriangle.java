@@ -1,46 +1,43 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Pascal's Triangle
+ * 
+ * Given numRows, generate the first numRows of Pascal's triangle.
+ * 
+ * For example, given numRows = 5, Return
+ * 
+ * [ [1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1] ]
+ */
 
 public class PascalsTriangle {
-    /**
-     * Pascal's Triangle
-     * 
-     * Given numRows, generate the first numRows of Pascal's triangle.
-     * 
-     * For example, given numRows = 5, Return
-     * 
-     * [ [1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1] ]
-     */
 
-    /*
-     * second time pass
-     */
-    public ArrayList<ArrayList<Integer>> generate(int numRows) {
-	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-	if (numRows <= 0)
-	    return result;
-
-	ArrayList<Integer> firstRow = new ArrayList<Integer>();
-	firstRow.add(1);
-	result.add(firstRow);
-
-	for (int i = 2; i <= numRows; i++) {
-	    ArrayList<Integer> aRow = new ArrayList<Integer>();
-	    aRow.add(1);
-	    int pre = 1;
-
-	    // be aware! j starts from the second element, ends with the last
-	    // element (including the last element)
-	    for (int j = 1; j < result.get(result.size() - 1).size(); j++) {
-		int cur = result.get(result.size() - 1).get(j);
-		aRow.add(pre + cur);
-		pre = cur;
+    public class Solution {
+	public List<List<Integer>> generate(int numRows) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (numRows < 1) {
+		return res;
 	    }
-	    aRow.add(1);
-	    result.add(aRow);
-	}
 
-	return result;
+	    List<Integer> row1 = new ArrayList<Integer>();
+	    row1.add(1);
+	    res.add(row1);
+
+	    for (int i = 1; i < numRows; i++) {
+		List<Integer> preRow = res.get(res.size() - 1);
+		List<Integer> curRow = new ArrayList<Integer>();
+		curRow.add(1);
+		for (int j = 0; j < preRow.size() - 1; j++) {
+		    curRow.add(preRow.get(j) + preRow.get(j + 1));
+		}
+		curRow.add(1);
+		res.add(curRow);
+	    }
+
+	    return res;
+	}
     }
 }
