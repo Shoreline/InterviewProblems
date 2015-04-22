@@ -1,18 +1,70 @@
 package string;
 
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Restore IP Addresses
+ * 
+ * Given a string containing only digits, restore it by returning all
+ * possible valid IP address combinations.
+ * 
+ * For example: Given "25525511135",
+ * 
+ * return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+ */
 
 public class RestoreIPAddresses {
-    /**
-     * Restore IP Addresses
-     * 
-     * Given a string containing only digits, restore it by returning all
-     * possible valid IP address combinations.
-     * 
-     * For example: Given "25525511135",
-     * 
-     * return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
-     */
+/*
+ * Shall have a more concise version
+ */
+    public class Solution {
+	public List<String> restoreIpAddresses(String s) {
+	    List<String> res = new ArrayList<String>();
+	    if (s == null || s.length() == 0) {
+		return res;
+	    }
+
+	    int len = s.length();
+	    for (int i = 1; i <= 3 && i < len; i++) {
+		if (!isValid(s, 0, i)) {
+		    continue;
+		}
+
+		for (int j = i + 1; j <= i + 3 && j < len; j++) {
+		    if (!isValid(s, i, j)) {
+			continue;
+		    }
+
+		    for (int k = j + 1; k <= j + 3 && k < len; k++) {
+			if (!isValid(s, j, k)) {
+			    continue;
+			}
+
+			if (!isValid(s, k, len)) {
+			    continue;
+			}
+			res.add(s.substring(0, i) + '.' + s.substring(i, j)
+				+ '.' + s.substring(j, k) + '.'
+				+ s.substring(k, len));
+
+		    }
+		}
+	    }
+	    return res;
+	}
+
+	// need to check if 'end > start+3'; otherwise may exceed Integer length limit
+	private boolean isValid(String s, int start, int end) {
+	    if ((s.charAt(start) == '0' && end > start + 1) || end > start + 3
+		    || Integer.parseInt(s.substring(start, end)) > 255) {
+		return false;
+	    }
+
+	    return true;
+	}
+
+    }
 
     /*
      * The actual addresses are required. DP can only give the number of

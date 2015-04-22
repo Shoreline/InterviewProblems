@@ -14,9 +14,7 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(Character.isLetter('c'));
-	new StringTest().isPalindrome("ab");
-	String haha = "";
+	System.out.println(new RestoreIPAddresses().new Solution().restoreIpAddresses("0279245587303"));
 	
 	//System.out.println(new StringTest().wordBreak("catsanddog", new HashSet<String>({{add("cat"),}})));
 
