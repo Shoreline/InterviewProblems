@@ -6,6 +6,10 @@ package linkedlist;
  * Sort a linked list using insertion sort.
  *
  */
+
+/*
+ * Time O(N^2); Space O(1)
+ */
 public class InsersionSortList {
     public class Solution {
 	public ListNode insertionSortList(ListNode head) {
