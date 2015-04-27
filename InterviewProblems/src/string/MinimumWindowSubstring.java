@@ -2,22 +2,131 @@ package string;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Minimum Window Substring
+ * 
+ * Given a string S and a string T, find the minimum window in S which will
+ * contain all the characters in T in complexity O(n).
+ * 
+ * For example, S = "ADOBECODEBANC" T = "ABC" Minimum window is "BANC".
+ * 
+ * Note: If there is no such window in S that covers all characters in T, return
+ * the empty string "".
+ * 
+ * If there are multiple such windows, you are guaranteed that there will always
+ * be only one unique minimum window in S.
+ */
+
+/*
+ * allow resilient characters in the window substring.
+ */
 public class MinimumWindowSubstring {
-    /**
-     * Minimum Window Substring
-     * 
-     * Given a string S and a string T, find the minimum window in S which will
-     * contain all the characters in T in complexity O(n).
-     * 
-     * For example, S = "ADOBECODEBANC" T = "ABC" Minimum window is "BANC".
-     * 
-     * Note: If there is no such window in S that covers all characters in T,
-     * return the empty string "".
-     * 
-     * If there are multiple such windows, you are guaranteed that there will
-     * always be only one unique minimum window in S.
-     */
+
+    public class Solution {
+	public String minWindow(String s, String t) {
+	    if (s == null || t == null || s.length() < t.length()) {
+		return "";
+	    }
+
+	    Map<Character, Integer> charMap = new HashMap<Character, Integer>();
+	    for (int i = 0; i < t.length(); i++) {
+		Character c = t.charAt(i);
+		if (!charMap.containsKey(c)) {
+		    charMap.put(c, 0);
+		}
+		charMap.put(c, charMap.get(c) + 1);
+	    }
+
+	    // sliding window
+	    int left = 0;
+	    int count = 0;
+	    int minLen = s.length() + 1; // important, make it > s.length()
+	    int minStart = 0;
+	    for (int right = 0; right < s.length(); right++) {
+		char c = s.charAt(right);
+		if (!charMap.containsKey(c)) {
+		    continue;
+		}
+
+		charMap.put(c, charMap.get(c) - 1);
+		if (charMap.get(c) >= 0) {
+		    count++;
+		}
+		// move left boundary while there is a match
+		while (count == t.length()) {
+		    if (right - left + 1 < minLen) {
+			minLen = right - left + 1;
+			minStart = left;
+		    }
+
+		    c = s.charAt(left);
+		    if (charMap.containsKey(c)) {
+			charMap.put(c, charMap.get(c) + 1);
+			if (charMap.get(c) > 0) {
+			    count--;
+			}
+		    }
+
+		    left++;
+		}
+
+	    }
+
+	    if (minLen > s.length()) {
+		return "";
+	    }
+
+	    return s.substring(minStart, minStart + minLen);
+	}
+    }
+
+    // taking too long. Time limit exceeded.
+    public class Wrong_method {
+	public String minWindow(String s, String t) {
+	    if (s == null || t == null || s.length() < t.length()) {
+		return "";
+	    }
+	    String res = "";
+	    Map<Character, Integer> charMap = new HashMap<Character, Integer>();
+	    for (int i = 0; i < t.length(); i++) {
+		Character c = t.charAt(i);
+		if (!charMap.containsKey(c)) {
+		    charMap.put(c, 0);
+		}
+		charMap.put(c, charMap.get(c) + 1);
+	    }
+
+	    for (int i = 0; i < s.length(); i++) {
+		if (!charMap.containsKey(s.charAt(i))) {
+		    continue;
+		}
+
+		Map<Character, Integer> tmp = new HashMap<Character, Integer>();
+		int j = i;
+		while (j < s.length() && !charMap.equals(tmp)) {
+		    Character c = s.charAt(j);
+		    if (charMap.containsKey(c)) {
+			if (!tmp.containsKey(c)) {
+			    tmp.put(c, 0);
+			}
+			tmp.put(c, tmp.get(c) + 1);
+			if (tmp.get(c) > charMap.get(c)) {
+			    break;
+			}
+		    }
+		    j++;
+		}
+
+		if (charMap.equals(tmp)) {
+		    res = res.length() < j - i ? s.substring(i, j) : res;
+		}
+	    }
+
+	    return res;
+	}
+    }
 
     /*
      * second round... work so hard to debug...
