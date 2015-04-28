@@ -1,8 +1,6 @@
 package bit;
 
 /**
- * Reverse bits of an unsigned integer
- * 
  * Reverse bits of a given 32 bits unsigned integer.
  * 
  * For example, given input 43261596 (represented in binary as
@@ -13,6 +11,38 @@ package bit;
  */
 
 public class ReverseIntegerByBit {
+
+    /*
+     * use OR to change res
+     */
+    public class Solution_best {
+	// you need treat n as an unsigned value
+	public int reverseBits(int n) {
+	    int res = 0;
+
+	    for (int i = 0; i < 32; i++) {
+		// wrong with out (): res |= (n >> i) & 1 << (31 - i)
+		res |= ((n >> i) & 1) << (31 - i);
+
+	    }
+
+	    return res;
+	}
+    }
+
+    // Time limit exceeded. Perhaps addition is too slow?
+    public class Method_tle {
+	// you need treat n as an unsigned value
+	public int reverseBits(int n) {
+	    int res = 0;
+	    while (n != 0) {
+		res = (res << 1) + (n & 1);
+		n = n >> 1;
+	    }
+
+	    return res;
+	}
+    }
 
     /*
      * 0 ^ 1 = 1; 1 ^ 1 = 0
