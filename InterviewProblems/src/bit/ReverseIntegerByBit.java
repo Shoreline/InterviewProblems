@@ -1,41 +1,80 @@
 package bit;
 
+/**
+ * Reverse bits of an unsigned integer
+ * 
+ * Reverse bits of a given 32 bits unsigned integer.
+ * 
+ * For example, given input 43261596 (represented in binary as
+ * 00000010100101000001111010011100), return 964176192 (represented in binary as
+ * 00111001011110000010100101000000).
+ * 
+ * Follow up: If this function is called many times, how would you optimize it?
+ */
+
 public class ReverseIntegerByBit {
-    /**
-     * Reverse bits of an unsigned integer
-     */
+
     /*
      * 0 ^ 1 = 1; 1 ^ 1 = 0
      * 
      * --> a bit ^ 1 = NOT this bit
+     * 
+     * 0 ^ 0 = 0; 0 ^ 1 = 1;
+     * 
+     * --> a bit ^ 0 = still this bit
      */
-    public static int reverseIntegerByBit(int n) {
-
-	for (int i = 0; i < Integer.SIZE / 2; i++) {
-	    int j = Integer.SIZE - 1 - i;
-	    swapBits(n, i, j);
+    public class Solution_Swapping {
+	// you need treat n as an unsigned value
+	public int reverseBits(int n) {
+	    int res = n;
+	    for (int i = 0; i < Integer.SIZE / 2; i++) {
+		res = swap(res, i, Integer.SIZE - 1 - i);
+	    }
+	    return res;
 	}
 
-	return n;
+	private int swap(int n, int i, int j) {
+	    int iBit = (n >> i) & 1;
+	    int jBit = (n >> j) & 1;
+
+	    if (iBit != jBit) {
+		int mask = (1 << i) | (1 << j);
+		n = n ^ mask;
+	    }
+
+	    return n;
+	}
     }
 
-    private static int swapBits(int n, int i, int j) {
+    public class Solution_2013 {
+	public int reverseIntegerByBit(int n) {
 
-	int ithBit = (n >> i) & 1;
-	int jthBit = (n >> j) & 1;
+	    for (int i = 0; i < Integer.SIZE / 2; i++) {
+		int j = Integer.SIZE - 1 - i;
+		swapBits(n, i, j);
+	    }
 
-	if ((ithBit ^ jthBit) == 1) {
-	    /*
-	     * build a mask: 0...1...1...0 (Only the ith and jth bits are 1)
-	     */
-	    int mask1 = 1 << i;
-	    int mask2 = 1 << j;
-	    int mask = mask1 | mask2;
-
-	    // switch the ith and jth bit
-	    n = n ^ mask;
+	    return n;
 	}
 
-	return n;
+	private int swapBits(int n, int i, int j) {
+
+	    int ithBit = (n >> i) & 1;
+	    int jthBit = (n >> j) & 1;
+
+	    if ((ithBit ^ jthBit) == 1) {
+		/*
+		 * build a mask: 0...1...1...0 (Only the ith and jth bits are 1)
+		 */
+		int mask1 = 1 << i;
+		int mask2 = 1 << j;
+		int mask = mask1 | mask2;
+
+		// switch the ith and jth bit
+		n = n ^ mask;
+	    }
+
+	    return n;
+	}
     }
 }

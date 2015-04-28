@@ -6,7 +6,7 @@ import java.util.List;
 public class _Test {
 
     public static void main(String[] args) {
-	System.out.println(2^5);
+	System.out.println(5^6^7);
 	System.out.println();
 	System.out.println(new _Test().grayCode(2));
     }
