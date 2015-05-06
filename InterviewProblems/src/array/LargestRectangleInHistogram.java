@@ -1,5 +1,6 @@
 package array;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -48,6 +49,35 @@ import java.util.Stack;
  * 12. Since 12 is larger than the previous largest, 10, we output 12.
  */
 public class LargestRectangleInHistogram {
+
+    /*
+     * best, most concise solution so far
+     */
+    public class Solution_best {
+	public int largestRectangleArea(int[] height) {
+	    Stack<Integer> stack = new Stack<Integer>();
+	    int max = 0;
+
+	    int[] heightExt = new int[height.length + 1];
+	    heightExt = Arrays.copyOf(height, height.length + 1);
+	    for (int i = 0; i < heightExt.length; i++) {
+		if (stack.isEmpty() || heightExt[stack.peek()] <= heightExt[i]) {
+		    stack.push(i);
+		} else {
+		    int index = stack.pop(); // previous element, also = i-1
+		    int h = heightExt[index];
+		    // int l = index -(stack.isEmpty()?-1:stack.peek());
+		    int l = (stack.isEmpty() ? i : i - stack.peek() - 1);
+		    max = Math.max(max, h * l);
+
+		    i--; // great thought, avoid adding additional loop
+		}
+
+	    }
+
+	    return max;
+	}
+    }
 
     /*
      * Let the stack store height[] index, instead of height[] element values
