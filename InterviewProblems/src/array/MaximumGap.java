@@ -40,7 +40,8 @@ public class MaximumGap {
 		min = nums[i] < min ? nums[i] : min;
 	    }
 
-	    int size = (max - min - 1) / (nums.length - 1) + 1;
+	    int size = (int) Math
+		    .ceil((double) (max - min) / (nums.length - 1));
 	    Range[] buckets = new Range[(max - min) / size + 1];
 	    for (int i = 0; i < nums.length; i++) {
 		int k = (nums[i] - min) / size;
