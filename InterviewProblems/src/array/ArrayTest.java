@@ -15,36 +15,10 @@ public class ArrayTest {
      * @param args
      */
     public static void main(String[] args) {
-	Point[] points = new Point[1];
-	Point p = new Point(0,0);
-	points[0]=p;
 	
-	new MaxPointsOnALine().new Solution().maxPoints(points);
 	
-	System.out.println(new ArrayTest().removeDuplicates(new int[]{1}));
+	System.out.println(new MaximumGap().new Solution().maximumGap(new int[]{1,1000}));
     }
 
-    public int removeDuplicates(int[] A) {
-        if(A==null|| A.length==0){
-            return 0;
-        }
-        
-        int ptr=1;
-        int counter = 1;
-        for(int i = 1; i<A.length; i++){
-            if(A[i]==A[i-1]){
-                counter++;
-            }
-            else{
-                counter=1;
-            }
-            
-            if(counter<=2){
-                A[ptr]=A[i];
-                ptr++;
-            }
-        }
-        
-        return ptr+1;
-    }
+    
 }
