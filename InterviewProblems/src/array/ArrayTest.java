@@ -17,7 +17,7 @@ public class ArrayTest {
     public static void main(String[] args) {
 	
 	
-	System.out.println(new MaximumGap().new Solution().maximumGap(new int[]{1,1000}));
+	System.out.println(new MinimumSizeSubarraySum().new Solution().minSubArrayLen(4, new int[]{1,4,4}));
     }
 
     
