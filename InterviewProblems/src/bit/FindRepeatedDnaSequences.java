@@ -24,34 +24,48 @@ import java.util.Set;
  * Return: ["AAAAACCCCC", "CCCCCAAAAA"].
  *
  */
+
+/*
+ * Set the bits  
+ */
 public class FindRepeatedDnaSequences {
-    /*
-     * unfinished
-     */
     public class Solution {
 	public List<String> findRepeatedDnaSequences(String s) {
-	    List<String> res = new ArrayList<String>();
+	    Set<String> res = new HashSet<String>();
 	    if (s == null || s.length() < 10) {
-		return res;
+		return new ArrayList<String>(res);
 	    }
 
 	    Map<Character, Integer> map = new HashMap<Character, Integer>();
 	    map.put('A', 0);
-	    map.put('C', 1);
-	    map.put('G', 2);
-	    map.put('T', 3);
+	    map.put('T', 1);
+	    map.put('C', 2);
+	    map.put('G', 3);
 
-	    Set<Integer> seenDNA = new HashSet<Integer>();
-	    int tmp = 0;
-	    for (int i = 0; i + 10 <= s.length(); i++) {
-		if (i > 0) {
+	    Set<Integer> sequences = new HashSet<Integer>();
+	    int num = 0;
+	    for (int i = 0; i < s.length(); i++) {
+		char c = s.charAt(i);
+		if (i < 10) {
+		    num = (num << 2) + map.get(c);
+		    if (i == 9) {
+			sequences.add(num);
+		    }
+		} else {
+		    num = num & ((1 << 18) - 1);
+		    
+		    //num = num << 2 + map.get(c); wrong! 
+		    num = (num << 2) + map.get(c);
 
+		    if (sequences.contains(num)) {
+			res.add(s.substring(i - 9, i + 1));
+		    } else {
+			sequences.add(num);
+		    }
 		}
-
 	    }
 
-	    return res;
+	    return new ArrayList<String>(res);
 	}
-
     }
 }
