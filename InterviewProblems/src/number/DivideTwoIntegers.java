@@ -1,4 +1,4 @@
-package string;
+package number;
 
 public class DivideTwoIntegers {
     /**
