@@ -17,7 +17,7 @@ public class ArrayTest {
     public static void main(String[] args) {
 	
 	
-	System.out.println(new DungeonGame().new Solution().calculateMinimumHP(new int[][]{{0,5},{-2,-3}}));
+	System.out.println(new PermutationSequence().getPermutation(3, 4));
     }
 
     
