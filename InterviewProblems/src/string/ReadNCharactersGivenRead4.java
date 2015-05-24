@@ -20,9 +20,15 @@ package string;
  * @return The number of characters read
  */
 
+/*
+ * read4(char[] tmp) will read 4 characters from a certain file then save them
+ * to the tmp array.
+ * 
+ * read(char[] buf, int n) is supposed to read n characters (unless the file has
+ * less than n characters) into array buf, with using read4().
+ */
 public class ReadNCharactersGivenRead4 {
     public class Solution extends Reader4 {
-
 	public int read(char[] buf, int n) {
 	    int ptr = 0;
 	    char[] tmp = new char[4];

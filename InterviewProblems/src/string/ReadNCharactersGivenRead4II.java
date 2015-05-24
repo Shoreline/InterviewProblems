@@ -12,7 +12,15 @@ package string;
  * that reads n characters from the file.
  * 
  * Note: The read function may be called multiple times.
- *
+ */
+
+/*
+ * The tricky part is that this method can be invoked multiple times. While
+ * using read4(char[] tmp), there may be some characters in tmp that were not
+ * copied to char[] buf. These characters are the first to be copied while next
+ * time invoke read(char[],int)
+ * 
+ * So, need some cache to save them.
  */
 public class ReadNCharactersGivenRead4II {
 
