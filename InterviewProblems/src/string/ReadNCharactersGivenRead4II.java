@@ -1,5 +1,8 @@
 package string;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Read N Characters Given Read4 II
  * 
@@ -23,5 +26,43 @@ package string;
  * So, need some cache to save them.
  */
 public class ReadNCharactersGivenRead4II {
+    public class Solution extends Reader4 {
 
+	List<Character> remains = new ArrayList<>();
+	public int read(char[] buf, int n) {
+	    int ptr = 0;
+	    for (int i = 0; i < remains.size() && ptr < n; i++) {
+		buf[ptr] = remains.get(i);
+		// remains.remove(i); wrong
+		ptr++;
+	    }
+	    remains.subList(0, ptr).clear();
+	    if (!remains.isEmpty()) {
+		return ptr;
+	    }
+
+	    char[] tmp = new char[4];
+	    while (ptr < n) {
+		int count = read4(tmp);
+
+		int i = 0;
+		while (i < count && ptr < n) {
+		    buf[ptr] = tmp[i];
+		    i++;
+		    ptr++;
+		}
+
+		while (i < count) {
+		    remains.add(tmp[i]);
+		    i++;
+		}
+
+		if (count < 4) {
+		    break;
+		}
+	    }
+
+	    return ptr;
+	}
+    }
 }

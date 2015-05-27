@@ -14,7 +14,7 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new CompareVersionNumbers().new Solution().compareVersion("1.2.5", "0"));
+	System.out.println(new LongestSubstringWithAtMostTwoDistinctCharacters().new Solution().isOneEditDistance("a", "ac"));
 	
 	
     }
