@@ -1,12 +1,5 @@
 package string;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class StringTest {
 
@@ -14,8 +7,11 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new LongestSubstringWithAtMostTwoDistinctCharacters().new Solution().isOneEditDistance("a", "ac"));
-	
+	System.out.println(new IsOneEditDistance().new Solution().isOneEditDistance("ab","cab"));	
+	String haha = "ad";
+	String haha2 = haha;
+	haha="cde";
+	System.out.println(haha + " " + haha2);
 	
     }
     

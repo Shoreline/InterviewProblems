@@ -16,40 +16,19 @@ package string;
  */
 public class LongestSubstringWithAtMostTwoDistinctCharacters {
     public class Solution {
-	public boolean isOneEditDistance(String s, String t) {
-	    String strL = s.length() >= t.length() ? s : t;
-	    String strS = s.length() >= t.length() ? t : s;
-
-	    if (strL.length() - strS.length() > 1) {
-		return false;
-	    } else if (strS.length() == 0 && strL.length() == 0) {
-		return false;
-	    } else if (strS.length() == 0) {
-		return true;
-	    }
-
-	    boolean diff = false;
-	    int i = 0;
-	    int j = 0;
-	    while (i < strS.length()) {
-		if (strS.charAt(i) != strL.charAt(j)) {
-		    if (diff) {
-			return false;
-		    } else if (strL.length() > strS.length()) {
-			j++;
-		    }
-		    diff = true;
+	public int lengthOfLongestSubstringTwoDistinct(String s) {
+	    int i = 0, j = -1, maxLen = 0;
+	    for (int k = 1; k < s.length(); k++) {
+		if (s.charAt(k) == s.charAt(k - 1))
+		    continue;
+		if (j >= 0 && s.charAt(j) != s.charAt(k)) {
+		    maxLen = Math.max(k - i, maxLen);
+		    i = j + 1;
 		}
-
-		i++;
-		j++;
+		j = k - 1;
 	    }
+	    return Math.max(s.length() - i, maxLen);
 
-	    if (diff && j< strL.length()) {
-		return false;
-	    }
-
-	    return diff;
 	}
     }
 }
