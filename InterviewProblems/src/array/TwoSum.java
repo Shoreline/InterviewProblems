@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  * Two Sum
  * 
@@ -33,11 +32,31 @@ import java.util.Map;
  * 
  * 2. The output index starts from 1
  * 
- * Two ways:
- * 1) use hashmap. time: O(N), space O(N)
- * 2) sort array first.
+ * Two ways: 1) use hashmap. time: O(N), space O(N) 2) sort array first.
  */
 public class TwoSum {
+    class Solution_map {
+        public int[] twoSum(int[] numbers, int target) {
+            int[] res = new int[2];
+            if (numbers == null || numbers.length < 2) {
+        	return res;
+            }
+    
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < numbers.length; i++) {
+        	if (map.containsKey(target - numbers[i])) {
+        	    res[0] = map.get(target - numbers[i]);
+        	    res[1] = i + 1; // not zero-based index!
+        	    return res;
+        	}
+    
+        	map.put(numbers[i], i + 1); // not zero-based index!
+            }
+    
+            return res;
+        }
+    }
+
     /*
      * [2014 Dec] alternative what if the array elements are not distinct? --It
      * says you can assume there is only one solution, so: 1) if the duplicated
