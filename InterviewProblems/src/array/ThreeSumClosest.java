@@ -1,9 +1,10 @@
 package array;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * 3 Sum Closet
+ * 
  * Given an array S of n integers, find three integers in S such that the sum is
  * closest to a given number, target. Return the sum of the three integers. You
  * may assume that each input would have exactly one solution.
@@ -13,18 +14,18 @@ import java.util.Arrays;
  * The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
  *
  */
-public class ThreeSumClosest {
 
-    /*
-     * Skip the repeated elements
-     */
-    public class Solution1 {
+/*
+ * Very similar to the 3 sum problem.
+ */
+public class ThreeSumClosest {
+    public class Solution {
 	public int threeSumClosest(int[] num, int target) {
 	    if (num == null || num.length < 3) {
 		return target;
 	    }
 
-	    int cloestSum = num[0] + num[1] + num[2];
+	    int minDiff = num[0] + num[1] + num[2];
 	    Arrays.sort(num);
 	    for (int k = 0; k < num.length - 2; k++) {
 		if (k > 0 && num[k] == num[k - 1]) {
@@ -44,8 +45,8 @@ public class ThreeSumClosest {
 		    }
 
 		    int sum = num[k] + num[i] + num[j];
-		    if (Math.abs(target - sum) < Math.abs(target - cloestSum)) {
-			cloestSum = sum;
+		    if (Math.abs(target - sum) < Math.abs(target - minDiff)) {
+			minDiff = sum;
 		    }
 
 		    if (sum == target) {
@@ -58,63 +59,7 @@ public class ThreeSumClosest {
 		}
 	    }
 
-	    return cloestSum;
-	}
-    }
-
-    /*
-     * returns a list of triplets. Repeated elements not skipped.
-     */
-    public static class Solution0 {
-	public static ArrayList<Integer> getThreeSumCloest(Integer[] input,
-		int target) {
-	    if (input.length < 3) {
-		return null;
-	    }
-
-	    ArrayList<Integer> result = new ArrayList<Integer>();
-	    int curMin = Integer.MAX_VALUE;
-
-	    Arrays.sort(input);
-
-	    for (int i = 0; i < input.length - 2; i++) {
-		int j = i + 1;
-		int k = input.length - 1;
-
-		while (j < k) {
-
-		    int sum = input[i] + input[j] + input[k];
-		    if (sum == target) {
-			result.clear();
-			result.add(input[i]);
-			result.add(input[j]);
-			result.add(input[k]);
-			return result;
-		    } else if (sum > target) {
-			if (sum - target < curMin) {
-			    curMin = sum - target;
-			    result.clear();
-			    result.add(input[i]);
-			    result.add(input[j]);
-			    result.add(input[k]);
-			}
-			k--;
-		    } else {
-			if (target - sum < curMin) {
-			    curMin = target - sum;
-			    result.clear();
-			    result.add(input[i]);
-			    result.add(input[j]);
-			    result.add(input[k]);
-			}
-			j++;
-		    }
-
-		}
-
-	    }
-
-	    return result;
+	    return minDiff;
 	}
     }
 }
