@@ -6,32 +6,29 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-public class ThreeSum {
-    /**
-     * Three Sum
-     * 
-     * Given an array S of n integers, are there elements a, b, c in S such that
-     * a + b + c = 0? Find all unique triplets in the array which gives the sum
-     * of zero.
-     * 
-     * Note: Elements in a triplet (a,b,c) must be in non-descending order. (ie,
-     * a �� b �� c) The solution set must not contain duplicate triplets.
-     * 
-     * For example, given array S = {-1 0 1 2 -1 -4},
-     * 
-     * A solution set is: (-1, 0, 1) (-1, -1, 2)
-     */
+/**
+ * Three Sum
+ * 
+ * Given an array S of n integers, are there elements a, b, c in S such that a +
+ * b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+ * 
+ * Note: Elements in a triplet (a,b,c) must be in non-descending order. (ie, a<=
+ * b <= c) The solution set must not contain duplicate triplets.
+ * 
+ * For example, given array S = {-1 0 1 2 -1 -4},
+ * 
+ * A solution set is: (-1, 0, 1) (-1, -1, 2)
+ */
 
-    /*
-     * To get unique items, not just use Set.
-     * 
-     * Similar to solution2
-     * 
-     * Iterate by "the lowest index", k
-     * 
-     * Need to skip repeated values for all k,i, and j.
-     */
-    public class Solution4 {
+/*
+ * To get unique items, without using Set
+ * 
+ * Iterate by "the lowest index", e1
+ * 
+ * Need to skip repeated values for all e1, e2 and e3
+ */
+public class ThreeSum {
+    public class Solution {
 	public List<List<Integer>> threeSum(int[] num) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 	    if (num == null || num.length < 3) {
@@ -39,37 +36,37 @@ public class ThreeSum {
 	    }
 
 	    Arrays.sort(num);
-
-	    for (int k = 0; k < num.length - 2; k++) {
-		if (k > 0 && num[k] == num[k - 1]) {
+	    for (int e1 = 0; e1 < num.length - 2; e1++) {
+		if (e1 > 0 && num[e1] == num[e1 - 1]) {
 		    continue;
 		}
 
-		int i = k + 1;
-		int j = num.length - 1;
-		while (i < j) {
-		    int sum = num[k] + num[i] + num[j];
+		int e2 = e1 + 1;
+		int e3 = num.length - 1;
+		while (e2 < e3) {
+		    if (e2 > e1 + 1 && num[e2] == num[e2 - 1]) {
+			e2++;
+			continue;
+		    } else if (e3 < num.length - 1 && num[e3] == num[e3 + 1]) {
+			e3--;
+			continue;
+		    }
 
+		    int sum = num[e1] + num[e2] + num[e3];
 		    if (sum == 0) {
-			ArrayList<Integer> answer = new ArrayList<Integer>();
-			answer.add(num[k]);
-			answer.add(num[i]);
-			answer.add(num[j]);
-			res.add(answer);
+			ArrayList<Integer> ans = new ArrayList<Integer>();
+			ans.add(num[e1]);
+			ans.add(num[e2]);
+			ans.add(num[e3]);
 
-			while (i + 1 < j && num[i + 1] == num[i]) {
-			    i++;
-			}
-			while (i < j - 1 && num[j - 1] == num[j]) {
-			    j--;
-			}
+			res.add(ans);
 
-			i++;
-			j--;
+			e2++;
+			e3--;
 		    } else if (sum < 0) {
-			i++;
+			e2++;
 		    } else {
-			j--;
+			e3--;
 		    }
 		}
 	    }
