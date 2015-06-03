@@ -26,10 +26,10 @@ public class ConvertSortedArrayToBinarySearchTree {
 	    if (start > end) {
 		return null;
 	    }
-	    int index = (start + end) / 2;
-	    TreeNode root = new TreeNode(num[index]);
-	    root.left = treeBuilder(num, start, index - 1);
-	    root.right = treeBuilder(num, index + 1, end);
+	    int mid = (start + end) / 2;
+	    TreeNode root = new TreeNode(num[mid]);
+	    root.left = treeBuilder(num, start, mid - 1);
+	    root.right = treeBuilder(num, mid + 1, end);
 
 	    return root;
 	}
