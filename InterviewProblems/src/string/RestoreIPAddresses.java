@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Restore IP Addresses
  * 
- * Given a string containing only digits, restore it by returning all
- * possible valid IP address combinations.
+ * Given a string containing only digits, restore it by returning all possible
+ * valid IP address combinations.
  * 
  * For example: Given "25525511135",
  * 
@@ -15,9 +15,9 @@ import java.util.List;
  */
 
 public class RestoreIPAddresses {
-/*
- * Shall have a more concise version
- */
+    /*
+     * Shall have a more concise version
+     */
     public class Solution {
 	public List<String> restoreIpAddresses(String s) {
 	    List<String> res = new ArrayList<String>();
@@ -54,7 +54,8 @@ public class RestoreIPAddresses {
 	    return res;
 	}
 
-	// need to check if 'end > start+3'; otherwise may exceed Integer length limit
+	// need to check if 'end > start+3'; otherwise may exceed Integer length
+	// limit
 	private boolean isValid(String s, int start, int end) {
 	    if ((s.charAt(start) == '0' && end > start + 1) || end > start + 3
 		    || Integer.parseInt(s.substring(start, end)) > 255) {
@@ -64,6 +65,53 @@ public class RestoreIPAddresses {
 	    return true;
 	}
 
+    }
+
+    public class Solution_DFS {
+	public List<String> restoreIpAddresses(String s) {
+	    List<String> res = new ArrayList<String>();
+	    if (s == null) {
+		return res;
+	    }
+
+	    dfs(s, 0, new ArrayList<String>(), res);
+
+	    return res;
+	}
+
+	private void dfs(String s, int pos, List<String> tmp, List<String> res) {
+	    if (tmp.size() == 4) {
+		if (pos == s.length()) {
+		    StringBuilder sb = new StringBuilder();
+		    for (String num : tmp) {
+			sb.append(num);
+			sb.append(".");
+		    }
+		    sb.setLength(sb.length() - 1);
+		    res.add(sb.toString());
+		}
+		return;
+	    }
+
+	    for (int i = pos; i < s.length() && i < pos + 3; i++) {
+		String num = s.substring(pos, i + 1);
+		if (isValid(num)) {
+		    tmp.add(num);
+		    dfs(s, i + 1, tmp, res);
+		    tmp.remove(tmp.size() - 1);
+		}
+	    }
+
+	}
+
+	boolean isValid(String num) {
+	    if ((num.length() > 1 && num.charAt(0) == '0')
+		    || Integer.parseInt(num) > 255) {
+		return false;
+	    }
+
+	    return true;
+	}
     }
 
     /*
