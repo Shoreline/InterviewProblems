@@ -1,4 +1,4 @@
-package number;
+package math;
 
 import java.util.HashSet;
 import java.util.Set;

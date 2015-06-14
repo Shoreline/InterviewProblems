@@ -1,4 +1,4 @@
-package number;
+package math;
 
 import java.util.Iterator;
 import java.util.TreeSet;

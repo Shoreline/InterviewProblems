@@ -1,4 +1,4 @@
-package number;
+package math;
 
 /**
  * Pow(x, n)

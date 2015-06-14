@@ -1,4 +1,4 @@
-package number;
+package math;
 
 /**
  * Divide two integers without using multiplication, division and mod
