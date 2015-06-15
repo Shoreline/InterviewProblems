@@ -10,12 +10,15 @@ package tree;
  */
 
 /*
- * 1. Any node can be the root of a BST. Just make sure the rest nodes follow
- * the BST rule
+ * 1. The numbers used to form BSTs are irrelevant to the result(amount of
+ * unique trees), as long as they are distinct. Any number can be used as the
+ * root of a BST. When a number N is picked as the root, by BST definition the
+ * size of left subtree is the amount of numbers smaller than N. Similar to the
+ * right subtree. NO need to check if the val of a node is within some range
  * 
  * 2. Since nodes of this problem is from 1 ~ n. The possible node number of
  * left tree is from 0 to n-1, say k. And meanwhile the possible node number of
- * the right tree will be n-1-k (n-1 -k: minus the root, then minus the node
+ * the right tree will be n-1-k (n - 1 - k: minus the root, then minus the node
  * count in left tree )
  * 
  * Same as computing Catalan number
@@ -29,7 +32,7 @@ public class UniqueBinarySearchTrees {
      * 
      * 1D array, but two nested loops
      * 
-     * dp[i]: use how many nodes. from 0 ~ n
+     * dp[i]: how many unique BSTs for i different numbers.
      */
     public class Solution {
 	public int numTrees(int n) {

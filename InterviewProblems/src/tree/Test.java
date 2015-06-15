@@ -16,9 +16,7 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	WordDictionary haha = new AddAndSearchWord().new WordDictionary();
-	haha.addWord("a");
-	System.out.println(haha.search("a"));
+	
 
     }
 

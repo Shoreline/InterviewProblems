@@ -19,36 +19,33 @@ public class UniqueBinarySearchTreesII {
      * intermediate result and overall solutions as arguments. Each solution is
      * generated only once.
      * 
-     * The code below generate many duplicated solutions.
-     * 
-     * It is important to add 'null' to List.   
+     * It is important to add 'null' to List.
      */
     public class Solution {
 	public List<TreeNode> generateTrees(int n) {
-	    List<TreeNode> res = new ArrayList<TreeNode>();
-	    if (n < 1) {
-		res.add(null);
-		return res;
+	    if (n < 0) {
+		return new ArrayList<>();
 	    }
-	    res = genTreeHelper(1, n);
-	    return res;
+
+	    return helper(1, n);
 	}
 
-	private List<TreeNode> genTreeHelper(int start, int end) {
-	    List<TreeNode> res = new ArrayList<TreeNode>();
-	    if (start > end) {
+	// Returns a list of trees. Each tree represents by a TreeNode
+	private List<TreeNode> helper(int start, int end) {
+	    List<TreeNode> res = new ArrayList<>();
+	    if (start > end) { // important stop condition
 		res.add(null);
 		return res;
 	    }
 
 	    for (int i = start; i <= end; i++) {
-		List<TreeNode> leftTrees = genTreeHelper(start, i - 1);
-		List<TreeNode> rightTrees = genTreeHelper(i + 1, end);
-		for (int l = 0; l < leftTrees.size(); l++) {
-		    for (int r = 0; r < rightTrees.size(); r++) {
+		List<TreeNode> leftTrees = helper(start, i - 1);
+		List<TreeNode> rightTrees = helper(i + 1, end);
+		for (TreeNode leftNode : leftTrees) {
+		    for (TreeNode rightNode : rightTrees) {
 			TreeNode root = new TreeNode(i);
-			root.left = leftTrees.get(l);
-			root.right = rightTrees.get(r);
+			root.left = leftNode;
+			root.right = rightNode;
 			res.add(root);
 		    }
 		}

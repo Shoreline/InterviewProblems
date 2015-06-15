@@ -18,7 +18,7 @@ import java.util.List;
  * O(N) time and O(logN) space. The space is used by JVM stack to handle
  * recursion? O(1) space may be too difficult
  * 
- * In oreder traversal the BST, we shall have an ascending sequence.
+ * In order traverse the BST, we shall have an ascending sequence.
  * 
  * For example: 1,2,3,4,5,6,7
  * 
@@ -41,15 +41,54 @@ import java.util.List;
  */
 
 public class RecoverBinarySearchTree {
+    // used a global variable to save preNode
     public class Solution {
+	TreeNode preNode = null;
+
 	public void recoverTree(TreeNode root) {
 	    if (root == null) {
 		return;
 	    }
 
-	    //maximum size is 1
+	    List<TreeNode> list = new ArrayList<>();
+
+	    helper(root, list);
+
+	    int tmp = list.get(0).val;
+	    list.get(0).val = list.get(1).val;
+	    list.get(1).val = tmp;
+	}
+
+	private void helper(TreeNode cur, List<TreeNode> list) {
+	    if (cur == null) {
+		return;
+	    }
+
+	    helper(cur.left, list);
+	    if (preNode != null && preNode.val > cur.val) {
+		if (list.isEmpty()) {
+		    list.add(preNode);
+		    list.add(cur);
+		} else {
+		    list.set(1, cur);
+		}
+	    }
+	    preNode = cur;
+
+	    helper(cur.right, list);
+	}
+
+    }
+
+    public class Solution_2 {
+	public void recoverTree(TreeNode root) {
+	    if (root == null) {
+		return;
+	    }
+
+	    // maximum size is 1
 	    List<TreeNode> preNode = new ArrayList<TreeNode>();
-	    
+
 	    // maximum size is 2
 	    List<TreeNode> candidates = new ArrayList<TreeNode>();
 	    preNode.add(null); // no pre root for 'root'

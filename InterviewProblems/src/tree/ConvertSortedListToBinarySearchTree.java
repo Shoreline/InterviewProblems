@@ -12,21 +12,28 @@ import linkedlist.ListNode;
  * convert it to a height balanced BST.
  */
 
+/*
+ * In-order traversal
+ * 
+ * The in-order traversal for a BST is a sorted sequence (not true for general
+ * binary tree)
+ * 
+ * -> similarly, from left to right to traverse a sorted sequence has the same
+ * order as in-order BST traversal.
+ * 
+ * Recursion stop condition is totally depends on Integer start and end.
+ */
 public class ConvertSortedListToBinarySearchTree {
-    /*
-     * The in-order traversal for a BST is a sorted sequence
-     * 
-     * -> similarly, from left to right to traverse a sorted sequence has the
-     * same order as in-order BST traversal.
-     */
+
     public class Solution {
 	public TreeNode sortedListToBST(ListNode head) {
 	    if (head == null) {
 		return null;
 	    }
-	    // always only 1 element
-	    List<ListNode> headList = new ArrayList<ListNode>();
-	    headList.add(head);
+	    // curHead always has only 1 element, which is the first node of
+	    // unvisited nodes
+	    List<ListNode> curHead = new ArrayList<ListNode>();
+	    curHead.add(head);
 
 	    int len = 0;
 	    ListNode cur = head;
@@ -35,7 +42,7 @@ public class ConvertSortedListToBinarySearchTree {
 		len++;
 	    }
 
-	    return treeBuilder(headList, 0, len - 1);
+	    return treeBuilder(curHead, 0, len - 1); // len-1, not len!
 	}
 
 	private TreeNode treeBuilder(List<ListNode> head, int start, int end) {
@@ -44,15 +51,17 @@ public class ConvertSortedListToBinarySearchTree {
 	    }
 
 	    // in-order traverse. Go for the left child first.
-	    TreeNode left = treeBuilder(head, start, (start + end) / 2 - 1);
+	    int mid = (start + end) / 2;
+	    TreeNode left = treeBuilder(head, start, mid - 1);
 
 	    ListNode headNode = head.get(0);
 	    TreeNode root = new TreeNode(headNode.val);
-	    root.left = left;
+
 	    // headNode=headNode.next; // this does not work!
 	    head.set(0, headNode.next);
+	    TreeNode right = treeBuilder(head, mid + 1, end);
 
-	    TreeNode right = treeBuilder(head, (start + end) / 2 + 1, end);
+	    root.left = left;
 	    root.right = right;
 
 	    return root;
@@ -89,47 +98,6 @@ public class ConvertSortedListToBinarySearchTree {
 	    TreeNode root = new TreeNode(list.get(mid));
 	    root.left = sortedListToBSTB(list, start, mid - 1);
 	    root.right = sortedListToBSTB(list, mid + 1, end);
-
-	    return root;
-	}
-    }
-
-    /*
-     * 
-     * So , have to use an alternative way
-     */
-    class method_2 {
-	public TreeNode sortedListToBST(ListNode head) {
-	    if (head == null)
-		return null;
-
-	    ListNode curNode = head;
-	    int length = 0; // start from 0
-	    while (curNode != null) {
-		length++;
-	    }
-
-	    TreeNode result = sortedListToBST(head, length);
-
-	    return result;
-	}
-
-	private TreeNode sortedListToBST(ListNode head, int length) {
-	    if (length <= 0)
-		return null;
-
-	    int mid = (length - 1) / 2;
-
-	    ListNode midNode = head;
-	    int counter = 0;
-	    while (counter < mid) {
-		midNode = midNode.next;
-		counter++;
-	    }
-
-	    TreeNode root = new TreeNode(midNode.val);
-	    root.left = sortedListToBST(head, counter);
-	    root.right = sortedListToBST(midNode.next, length - 1 - counter);
 
 	    return root;
 	}

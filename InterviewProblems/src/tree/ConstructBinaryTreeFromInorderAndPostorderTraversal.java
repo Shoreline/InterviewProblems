@@ -17,6 +17,7 @@ import java.util.Map;
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
     public class Solution {
 	public TreeNode buildTree(int[] inorder, int[] postorder) {
+	    // no need to check if their length is 0
 	    if (inorder == null || postorder == null) {
 		return null;
 	    }
