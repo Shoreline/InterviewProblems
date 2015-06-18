@@ -1,30 +1,33 @@
 package array;
 
+/**
+ * Spiral Matrix II
+ * 
+ * Given an integer n, generate a square matrix filled with elements from 1 to
+ * n2 in spiral order.
+ * 
+ * For example, Given n = 3,
+ * 
+ * You should return the following matrix:
+ * 
+ * [
+ * 
+ * [ 1, 2, 3 ],
+ * 
+ * [ 8, 9, 4 ],
+ * 
+ * [ 7, 6, 5 ]
+ * 
+ * ]
+ */
+
+/*
+ * similar to Spiral Matrix I, the key is how to traverse a 2D array by spiral
+ * order
+ */
 public class SpiralMatrix2 {
-    /**
-     * Given an integer n, generate a square matrix filled with elements from 1
-     * to n2 in spiral order.
-     * 
-     * For example, Given n = 3,
-     * 
-     * You should return the following matrix:
-     * 
-     * [
-     * 
-     * [ 1, 2, 3 ],
-     * 
-     * [ 8, 9, 4 ],
-     * 
-     * [ 7, 6, 5 ]
-     * 
-     * ]
-     */
-    
-    /*
-     * similar to Spiral Matrix I, the key is how to traverse a 2D array by
-     * spiral order
-     */
-    public class Solution_2 {
+
+    public class Solution {
 	public int[][] generateMatrix(int n) {
 
 	    if (n < 0) {
@@ -41,7 +44,7 @@ public class SpiralMatrix2 {
 	    int c = 1;
 	    while (top <= bottom && left <= right) {
 		for (int i = left; i <= right; i++) {
-		    res[top][i] = c++;
+		    res[top][i] = c++; // concise
 		}
 
 		for (int i = top + 1; i <= bottom - 1; i++) {
@@ -67,11 +70,10 @@ public class SpiralMatrix2 {
 	    }
 
 	    return res;
-
 	}
     }
 
-    class Solution_1 {
+    class Solution_2 {
 	public int[][] generateMatrix(int n) {
 	    if (n < 0) {
 		return null;
