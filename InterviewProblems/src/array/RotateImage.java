@@ -1,17 +1,50 @@
 package array;
 
+/**
+ * Rotate Image
+ * 
+ * You are given an n x n 2D matrix representing an image.
+ * 
+ * Rotate the image by 90 degrees (clockwise).
+ * 
+ * Follow up: Could you do this in-place?
+ */
+/*
+ * Similar to spiral matrix series
+ */
 public class RotateImage {
-    /**
-     * Rotate Image
-     * 
-     * You are given an n x n 2D matrix representing an image.
-     * 
-     * Rotate the image by 90 degrees (clockwise).
-     * 
-     * Follow up: Could you do this in-place?
-     */
+    // replace array elements anti-clockwise
+    public class Solution {
+	public void rotate(int[][] matrix) {
+	    if (matrix == null || matrix[0] == null) {
+		return;
+	    }
 
-    class Solution_inPlace {
+	    int left = 0;
+	    int right = matrix[0].length - 1;
+	    int top = 0;
+	    int bottom = matrix.length - 1;
+
+	    while (left < right && top < bottom) {
+		for (int i = 0; left + i < right; i++) {
+		    int tmp = matrix[top][left + i];
+
+		    matrix[top][left + i] = matrix[bottom - i][left];
+		    matrix[bottom - i][left] = matrix[bottom][right - i];
+		    matrix[bottom][right - i] = matrix[top + i][right];
+		    matrix[top + i][right] = tmp;
+		}
+
+		left++;
+		right--;
+		top++;
+		bottom--;
+	    }
+
+	}
+    }
+
+    class Solution_inPlace2 {
 	public void rotate(int[][] matrix) {
 	    if (matrix == null || matrix[0] == null) {
 		return;

@@ -2,40 +2,42 @@ package array;
 
 import java.util.HashSet;
 
+/**
+ * Valid Sudoku
+ * 
+ * Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+ * 
+ * The Sudoku board could be partially filled, where empty cells are filled with
+ * the character '.'.
+ */
 public class ValidSudoku {
-    /**
-     * Valid Sudoku
-     * 
-     * Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
-     * 
-     * The Sudoku board could be partially filled, where empty cells are filled
-     * with the character '.'.
-     */
-    
     /*
-     * [2015]
-     * Simpler to implement, but costs much more space
+     * [2015] Simpler to implement, but costs much more space
      * 
-     * *NOTE: element board[i][j] belongs to the (i/3*3 + j/3)-th sub-board 
+     * *NOTE: element board[i][j] belongs to the (i/3*3 + j/3)-th sub-board
      */
-    public class Solution2 {
+    public class Solution {
 	public boolean isValidSudoku(char[][] board) {
 	    boolean[][] rows = new boolean[9][9];
-	    boolean[][] cols = new boolean[9][9];
+	    boolean[][] columns = new boolean[9][9];
 	    boolean[][] blocks = new boolean[9][9];
 
-	    for (int i = 0; i < 9; ++i) {
-		for (int j = 0; j < 9; ++j) {
-		    int c = board[i][j] - '0' + 1; // let c belongs to 0 ~ 8
-
-		    if (board[i][j] == '.')
+	    for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+		    if (board[i][j] == '.') {
 			continue;
-		    if (rows[i][c] || cols[j][c]
-			    || blocks[i / 3 * 3 + j / 3][c])
+		    }
+		    int num = board[i][j] - '1';// let c belongs to 0 ~ 8
+		    if (rows[i][num] || columns[j][num]
+			    || blocks[i / 3 * 3 + j / 3][num]) {
 			return false;
-		    rows[i][c] = cols[j][c] = blocks[i - i % 3 + j / 3][c] = true;
+		    }
+		    rows[i][num] = true;
+		    columns[j][num] = true;
+		    blocks[i / 3 * 3 + j / 3][num] = true;
 		}
 	    }
+
 	    return true;
 	}
     }
@@ -43,7 +45,7 @@ public class ValidSudoku {
     /*
      * Simple checks of constraints
      */
-    public class Solution {
+    public class Solution_bruteForce {
 	public boolean isValidSudoku(char[][] board) {
 	    if (board == null || board.length != 9 || board[0].length != 9)
 		return false;

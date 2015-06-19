@@ -13,7 +13,7 @@ package array;
 
 public class SetMatrixZeroes {
     /*
-     * constant space:
+     * constant space: 6 scans
      * 
      * use the first row and first column of input matrix as cache to save
      * whether we shall clean a col/row.
