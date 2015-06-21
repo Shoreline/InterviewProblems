@@ -12,13 +12,38 @@ package string;
  * string of binary may exceeds the limit of Integer data type.
  */
 public class AddBinary {
-
     /*
-     * Two tricks to simplify the process:
-     * 1) Differentiate long and short Strings
-     * 2) Reverse input Strings for easier implementation
+     * Similar to add two number, let out of boundary adder to be 0.
      */
     public class Solution {
+	public String addBinary(String a, String b) {
+	    if (a == null || b == null) {
+		return a == null ? b : a;
+	    }
+
+	    StringBuilder res = new StringBuilder();
+	    int i = 1;
+	    int carry = 0;
+	    int lenA = a.length();
+	    int lenB = b.length();
+	    while (lenA - i >= 0 || lenB - i >= 0 || carry > 0) {
+		int numA = lenA - i >= 0 ? a.charAt(lenA - i) - '0' : 0;
+		int numB = lenB - i >= 0 ? b.charAt(lenB - i) - '0' : 0;
+		int sum = numA + numB + carry;
+		res.append(sum % 2);
+		carry = sum / 2;
+		i++;
+	    }
+
+	    return res.reverse().toString();
+	}
+    }
+
+    /*
+     * Two tricks to simplify the process: 1) Differentiate long and short
+     * Strings 2) Reverse input Strings for easier implementation
+     */
+    public class Solution2 {
 	public String addBinary(String a, String b) {
 	    if (a == null || b == null) {
 		return a == null ? b : a;
