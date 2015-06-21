@@ -15,33 +15,33 @@ package array;
 
 /*
  * idea: In each iteration, identify the sorted half of the remaining part of
- * the array. Then with two simple comparisons we can know whether the target is
- * in this half
+ * the array. Then with two simple comparisons (involves target and nums[low],
+ * nums[high]) we can know whether the target is in this half
  * 
  * time complexity: O(lgN)
  */
 
 public class SearchInRotatedSortedArray {
     public class Solution {
-	public int search(int[] A, int target) {
-	    if (A == null) {
+	public int search(int[] nums, int target) {
+	    if (nums == null) {
 		return -1;
 	    }
 
 	    int low = 0;
-	    int high = A.length - 1;
+	    int high = nums.length - 1;
 
 	    while (low <= high) {
 		int mid = (low + high) / 2;
 
-		if (A[mid] == target)
+		if (nums[mid] == target)
 		    return mid;
 
-		if (A[mid] >= A[low]) {
+		if (nums[mid] >= nums[low]) {
 		    // {lowEnd ~ mid} is the sorted half
 
 		    // see if target is in this half
-		    if (A[low] <= target && target < A[mid]) {
+		    if (nums[low] <= target && target < nums[mid]) {
 			// target is in this half
 			high = mid - 1;
 		    } else {
@@ -50,7 +50,7 @@ public class SearchInRotatedSortedArray {
 		} else {
 		    // {mid ~ highEnd} is the sorted half
 
-		    if (A[mid] < target && target <= A[high]) {
+		    if (nums[mid] < target && target <= nums[high]) {
 			low = mid + 1;
 		    } else {
 			high = mid - 1;

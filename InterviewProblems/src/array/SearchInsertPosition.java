@@ -11,24 +11,43 @@ package array;
  * 
  * Here are few examples.
  * 
- * [1,3,5,6], 5 �� 2
+ * [1,3,5,6], 5 -> 2
  * 
- * [1,3,5,6], 2 �� 1
+ * [1,3,5,6], 2 -> 1
  * 
- * [1,3,5,6], 7 �� 4
+ * [1,3,5,6], 7 -> 4
  * 
- * [1,3,5,6], 0 �� 0
+ * [1,3,5,6], 0 -> 0
  */
 
 /*
  * related: search a 2d matrix
  */
 public class SearchInsertPosition {
-
     /*
-     * [2015] Simple
+     * If the target is not in nums, just return low (or high+1).
      */
     public class Solution {
+	public int searchInsert(int[] nums, int target) {
+	    int low = 0;
+	    int high = nums.length - 1;
+
+	    while (low <= high) {
+		int mid = (low + high) / 2;
+		if (nums[mid] == target) {
+		    return mid;
+		} else if (nums[mid] < target) {
+		    low = mid + 1;
+		} else {
+		    high = mid - 1;
+		}
+	    }
+
+	    return low; // or return high+1
+	}
+    }
+
+    public class Solution2 {
 	public int searchInsert(int[] A, int target) {
 	    if (A == null) {
 		return 0;
@@ -52,51 +71,5 @@ public class SearchInsertPosition {
 
 	    return toInsert;
 	}
-    }
-
-    /*
-     * first answer very close to pass
-     * 
-     * Similar to my solution to search a sorted 2D array
-     */
-
-    public int searchInsert(int[] A, int target) {
-	if (A == null || A.length == 0) {
-	    return 0;
-	}
-
-	/*
-	 * This part is not necessary!
-	 */
-	// corner cases: must be "<" and ">", cannot use "<=" and ">="
-	// if (target < A[0])
-	// return 0;
-	// if (target > A[A.length - 1])
-	// return A.length;
-
-	int i = 0;
-	int j = A.length - 1;
-	int mid = 0;
-
-	while (i <= j) {
-	    mid = (i + j) / 2;
-
-	    if (A[mid] == target) {
-		return mid;
-	    } else if (A[mid] < target) {
-		i = mid + 1;
-	    } else {
-		j = mid - 1;
-	    }
-	}
-
-	/*
-	 * The final mid can be at the right/left neighbor of the target
-	 */
-	if (A[mid] < target) {
-	    mid++;
-	}
-
-	return mid;
-    }
+    }    
 }

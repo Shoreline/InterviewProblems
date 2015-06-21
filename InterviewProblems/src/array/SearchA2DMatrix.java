@@ -26,18 +26,42 @@ package array;
 /*
  * The matrix in this question is different from Yang's matrix
  * 
- * My thought: two steps of binary search. The way of handling (matrix[mid][0] <
- * target) makes that if the target is not found in the first loop, it may be in
- * row mid or row mid-1
- * 
- * There is a smarter way: treat the whole matrix as a 1D array:
- * mid=(start+end)/2, midX=mid/matrix[0].length, midY=mid%matrix[0].length;
+ * Two solutions: 1. treat matrix as a 1D array and use classical BS; 2. Two
+ * rounds of BS
  * 
  * related: search insert position?
  */
 
 public class SearchA2DMatrix {
+    public class Solution {
+	public boolean searchMatrix(int[][] matrix, int target) {
+	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+		return false;
+	    }
+	    int low = 0;
+	    int high = matrix.length * matrix[0].length - 1;
+	    while (low <= high) {
+		int mid = (low + high) / 2;
+		int i = mid / matrix[0].length;
+		int j = mid % matrix[0].length;
+		if (matrix[i][j] == target) {
+		    return true;
+		} else if (matrix[i][j] < target) {
+		    low = mid + 1;
+		} else {
+		    high = mid - 1;
+		}
+	    }
+
+	    return false;
+	}
+    }
+
     /*
+     * Two rounds of binary search. The way of handling (matrix[mid][0] <
+     * target) makes that if the target is not found in the first loop, it may
+     * be in row mid or row mid-1
+     * 
      * While looking for the targetRow, if target> matrix[mid][0], then target
      * may be in row mid.
      * 
@@ -46,7 +70,7 @@ public class SearchA2DMatrix {
      * never be increased, and eventually the while loop exits when high=low-1,
      * in which case high becomes the target row.
      */
-    public class Solution {
+    public class Solution_2searches {
 	public boolean searchMatrix(int[][] matrix, int target) {
 	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0
 		    || target < matrix[0][0]) {

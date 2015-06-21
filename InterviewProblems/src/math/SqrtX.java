@@ -8,8 +8,10 @@ package math;
  * Compute and return the square root of x.
  */
 
+/*
+ * Two solutions: Newton's method and binary search
+ */
 public class SqrtX {
-
     /*
      * Newton's method, works when x is int
      */
@@ -36,7 +38,7 @@ public class SqrtX {
      * 
      * low and high are the inclusive boundaries of the result.
      */
-    public class SolutionBinarySearch {
+    public class Solution_BinarySearch {
 	public int mySqrt(int x) {
 	    if (x == 0) {
 		return 0;
@@ -57,7 +59,36 @@ public class SqrtX {
 		}
 	    }
 
-	    return Math.min(low, high); // since sqrt(2)=1.
+	    return high; // now high<low
+	}
+    }
+
+    /*
+     * used mid*mid, need to convert product to long
+     */
+    public class Solution_BS_2 {
+	public int mySqrt(int x) {
+	    if (x == 0) {
+		return 0;
+	    }
+
+	    int low = 1;
+	    int high = Integer.MAX_VALUE / 2;
+
+	    while (low <= high) {
+		int mid = (low + high) / 2;
+		long p = (long) mid * mid; // must convert mid, otherwise result
+					   // may be wrong
+		if (p == x) {
+		    return mid;
+		} else if (p < x) {
+		    low = mid + 1;
+		} else {
+		    high = mid - 1;
+		}
+	    }
+
+	    return high; // now high = low-1
 	}
     }
 

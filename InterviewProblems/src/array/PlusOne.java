@@ -6,6 +6,11 @@ package array;
  * Given a number represented as an array of digits, plus one to the number.
  */
 
+/*
+ * Simply set the initial carry to 1;
+ * Return int[] digits once the carry is 0.
+ * No need to copy arrays around. 
+ */
 public class PlusOne {
 
     public class Solution {
