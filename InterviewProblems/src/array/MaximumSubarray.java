@@ -1,30 +1,29 @@
 package array;
 
+/**
+ * Maximum Subarray
+ * 
+ * Find the contiguous subarray within an array (containing at least one number)
+ * which has the largest sum.
+ * 
+ * For example, given the array [−2,1,−3,4,−1,2,1,−5,4], the contiguous subarray
+ * [4,−1,2,1] has the largest sum = 6.
+ * 
+ * More practice: If you have figured out the O(n) solution, try coding another
+ * solution using the divide and conquer approach, which is more subtle.
+ */
 public class MaximumSubarray {
-    /**
-     * Maximum Subarray
-     * 
-     * Find the contiguous subarray within an array (containing at least one
-     * number) which has the largest sum.
-     * 
-     * For example, given the array [−2,1,−3,4,−1,2,1,−5,4], the contiguous
-     * subarray [4,−1,2,1] has the largest sum = 6.
-     * 
-     * More practice: If you have figured out the O(n) solution, try coding
-     * another solution using the divide and conquer approach, which is more
-     * subtle.
-     */
-
     /*
      * 1D DP (reduced to just one variable to save space)
      * 
-     * The maximum-subarray must ends with some A[i]
-     * So, let localMax[i] is the sub-maximum value of any sub array ends with A[i].
+     * local/global dp variables
      * 
+     * The maximum-subarray must ends with some A[i] So, let localMax[i] is the
+     * sub-maximum value of any sub array ends with A[i].
      * 
-     * Then for localMax[i+1], its corresponding sub array has only two possibilities:
-     * 1) it contains A[i]: localMax[i+1] = localMax[i] + A[i]
-     * 2) it does not contain A[i]: localMax[i+1] = A[i]
+     * Then for localMax[i+1], its corresponding sub array has only two
+     * possibilities: 1) it contains A[i]: localMax[i+1] = localMax[i] + A[i] 2)
+     * it does not contain A[i]: localMax[i+1] = A[i]
      */
     public class Solution_DP {
 	public int maxSubArray(int[] A) {

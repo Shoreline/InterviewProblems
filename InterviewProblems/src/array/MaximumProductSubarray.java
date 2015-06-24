@@ -12,10 +12,33 @@ package array;
  */
 
 /*
- * Remember to handle [ -2, 3, -4]
+ * local/global DP.
+ * 
+ * This time since two negative's product become positive again (like [ -2, 3,
+ * -4]), so need two DP variables to save both local max and local min
  */
 public class MaximumProductSubarray {
     public class Solution {
+	public int maxProduct(int[] nums) {
+
+	    int localMax = nums[0];
+	    int localMin = nums[0];
+	    int max = nums[0];
+
+	    for (int i = 1; i < nums.length; i++) {
+		int tmp = Math.max(nums[i],
+			Math.max(localMin * nums[i], localMax * nums[i]));
+		localMin = Math.min(nums[i],
+			Math.min(localMin * nums[i], localMax * nums[i]));
+		localMax = tmp;
+		max = Math.max(max, localMax);
+	    }
+
+	    return max;
+	}
+    }
+
+    public class Solution_more_space {
 	public int maxProduct(int[] nums) {
 	    if (nums == null || nums.length == 0) {
 		return Integer.MIN_VALUE;

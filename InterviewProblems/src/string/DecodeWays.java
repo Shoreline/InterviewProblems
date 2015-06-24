@@ -14,11 +14,44 @@ package string;
  */
 
 /*
+ * Similar to climbing stairs
+ * 
  * Be careful the conditions of legal code, for single digit and double digits.
  * 
  * Easy to forget deal with '0's
  */
 public class DecodeWays {
+    /*
+     * Be careful about how to handle initial status
+     */
+    public class Solution {
+	public int numDecodings(String s) {
+	    if (s == null || s.length() == 0 || s.charAt(0) == '0') {
+		return 0;
+	    }
+
+	    // dp[i]: how many decode ways for i characters.
+	    int dp1 = 1; // 0 character
+	    int dp2 = 1; // 1 character
+	    int res = dp2;
+
+	    // dp[i]= dp[i-1] + dp[i-2];
+	    for (int i = 1; i < s.length(); i++) {		
+		res = 0;
+		if (s.charAt(i) != '0') {
+		    res = dp1;
+		}
+		if (s.charAt(i - 1) != '0'
+			&& Integer.parseInt(s.substring(i - 1, i + 1)) <= 26) {
+		    res += dp2;
+		}
+		dp2 = dp1;
+		dp1 = res;
+	    }
+
+	    return res;
+	}
+    }
 
     /*
      * High hand's solution.
@@ -61,7 +94,7 @@ public class DecodeWays {
      * 
      * So the actual returned value is dp1 + dp2
      */
-    public class Solution {
+    public class Solution_DP_old {
 	public int numDecodings(String s) {
 	    if (s == null || s.length() == 0) {
 		return 0;
