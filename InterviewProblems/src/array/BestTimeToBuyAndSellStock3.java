@@ -13,6 +13,10 @@ package array;
  * you must sell the stock before you buy again).
  */
 
+/*
+ * Stock can be bought and sold on the same day.
+ * Cases for computing Local[i][j] have overlap. 
+ */
 public class BestTimeToBuyAndSellStock3 {
 
     /*
@@ -20,13 +24,13 @@ public class BestTimeToBuyAndSellStock3 {
      * 
      * Can reduce space to O(2N) 
      * 
-     * global[i][j]: the maximum profit after day i and j transactions
+     * global[i][j]: the maximum profit after day i and j transactions (i from 0 to prices.length-1; j from 0 to k. Both inclusively)
      * local[i][j]:  the maximum profit after day i and j transactions. Particularly, the j-th sell must happen on day i.
      * 
      * A transaction can be to buy and sell on the same day -> profit is 0
      * 
      * Initialization:
-     * global[0][j] = 0: after the 0-th day, profit always 0 (all buys and sells happen on the same day)
+     * global[0][j] = 0: after the first day, profit always 0 (all buys and sells happen on the same day)
      * global[i][0] = 0: obviously, with 0 transaction the profit will always be 0
      * Same for local[][].
      * 

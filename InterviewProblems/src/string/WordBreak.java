@@ -14,8 +14,16 @@ import java.util.Set;
  *
  */
 
+
+/*
+ * I think the two solutions, DP or not, cost same resource.
+ * 
+ * The normal solution is more straightforward.
+ */
 public class WordBreak {
     /*
+     * DP. Time O(N^2); space O(N)
+     * 
      * dp[i] defines whether there is a perfect word break ends for the first i
      * characters.
      * 
@@ -49,4 +57,33 @@ public class WordBreak {
 	    return dp[dp.length - 1];
 	}
     }
+    
+    /*
+     * Also passed LeetCode judge. 
+     */
+    public class Solution_normal {
+	    public boolean wordBreak(String s, Set<String> wordDict) {
+	        if(s==null || s.length()==0){
+	            return true;
+	        }
+	        
+	        boolean[] breakable = new boolean[s.length()+1];
+	        breakable[0]=true;
+	        
+	        for(int i = 0; i<s.length(); i++){
+	            if(!breakable[i]){
+	               continue;
+	            }
+	            
+	            for(int j =i+1; j<=s.length();j++){
+	                String word = s.substring(i,j);
+	                if(wordDict.contains(word)){
+	                    breakable[j] = true;
+	                }
+	            }
+	        }
+	        
+	        return breakable[breakable.length-1];
+	    }
+	}
 }

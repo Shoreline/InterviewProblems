@@ -4,59 +4,80 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Binary Tree Inorder Traversal
+ * 
+ * Given a binary tree, return the inorder traversal of its nodes' values.
+ * 
+ * For example: Given binary tree {1,#,2,3}, return [1,3,2].
+ * 
+ * Note: Recursive solution is trivial, could you do it iteratively?
+ * 
+ */
+/*
+ * 3 Solutions: Morris; recursion, iteration (use a stack).
+ */
 public class BinanryTreeInorderTraversal {
-
-    /**
-     * Binary Tree Inorder Traversal
-     * 
-     * Given a binary tree, return the inorder traversal of its nodes' values.
-     * 
-     * For example: Given binary tree {1,#,2,3}, return [1,3,2].
-     * 
-     * Note: Recursive solution is trivial, could you do it iteratively?
-     * 
-     */
-
     /*
      * Morris Traversal (high hand method) O(N) time (actually is O(2N)); O(1)
      * space http://blog.csdn.net/linhuanmars/article/details/20187257
      */
 
     /*
-     * Iterative method O(N) time, O(logN) space
+     * Iterative method: use a stack.
+     * 
+     * O(N) time, O(logN) space
      * 
      * Besides the Stack, also need to keep track a pointer (root). Each
      * iteration, operates on the pointer node.
      */
-    public class Solution2 {
+    public class Solution_Iteration {
 	public List<Integer> inorderTraversal(TreeNode root) {
-	    List<Integer> res = new ArrayList<Integer>();
-	    if (root == null) {
-		return res;
-	    }
-
-	    Stack<TreeNode> stack = new Stack<TreeNode>();
-
-	    while (!stack.isEmpty() || root != null) {
-
+	    List<Integer> res = new ArrayList<>();
+	    Stack<TreeNode> stack = new Stack<>();
+	    
+	    while (root != null || !stack.isEmpty()) {
 		if (root != null) {
 		    stack.push(root);
 		    root = root.left;
 		} else {
-		    root = stack.pop();
-		    res.add(root.val);
-		    root = root.right;
+		    TreeNode node = stack.pop();
+		    res.add(node.val);
+		    root = node.right;
 		}
 	    }
-
+	    
 	    return res;
 	}
-
     }
 
     /*
      * Recursion solution O(N) time, O(logN) space
+     * 
+     * O(N) time: total N nodes, visit each one once.
+     * 
+     * O(logN) space: tree height is logN, so maximum logN layers of recursion. 
      */
+    public class Solution_recursion {
+	public List<Integer> inorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<>();
+	    if (root == null) {
+		return res;
+	    }
+	    helper(root, res);
+	    return res;
+	}
+
+	private void helper(TreeNode root, List<Integer> res) {
+	    if (root.left != null) {
+		helper(root.left, res);
+	    }
+	    res.add(root.val);
+	    if (root.right != null) {
+		helper(root.right, res);
+	    }
+	}
+    }
 
     // this time less new.
     public class Solution_Recursion2 {
@@ -77,7 +98,7 @@ public class BinanryTreeInorderTraversal {
 
     }
 
-    public class Solution_Recursion {
+    public class Solution_Recursion3 {
 	public ArrayList<Integer> inorderTraversal(TreeNode root) {
 	    ArrayList<Integer> result = new ArrayList<Integer>();
 
