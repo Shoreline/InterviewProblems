@@ -17,11 +17,45 @@ import java.util.Stack;
 /*
  * 3 Solutions: Morris; recursion, iteration (use a stack).
  */
-public class BinanryTreeInorderTraversal {
+public class BinaryTreeInorderTraversal {
     /*
-     * Morris Traversal (high hand method) O(N) time (actually is O(2N)); O(1)
-     * space http://blog.csdn.net/linhuanmars/article/details/20187257
+     * Morris Traversal: O(N) time (actually is O(2N)); O(1) space
+     * 
+     * http://blog.csdn.net/linhuanmars/article/details/20187257
+     * 
+     * Only use two additional variables.
      */
+    public class Solution {
+	public List<Integer> inorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<>();
+	    TreeNode cur = root;
+	    TreeNode pre = null;
+
+	    while (cur != null) {
+		if (cur.left == null) {
+		    res.add(cur.val);
+		    cur = cur.right;
+		} else {
+		    pre = cur.left;
+		    while (pre.right != null && pre.right != cur) {
+			pre = pre.right;
+		    }
+
+		    if (pre.right == null) {
+			pre.right = cur;
+			cur = cur.left;
+		    } else {
+			pre.right = null;
+			res.add(cur.val);
+			cur = cur.right;
+		    }
+		}
+
+	    }
+
+	    return res;
+	}
+    }
 
     /*
      * Iterative method: use a stack.
@@ -35,7 +69,7 @@ public class BinanryTreeInorderTraversal {
 	public List<Integer> inorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<>();
 	    Stack<TreeNode> stack = new Stack<>();
-	    
+
 	    while (root != null || !stack.isEmpty()) {
 		if (root != null) {
 		    stack.push(root);
@@ -46,7 +80,7 @@ public class BinanryTreeInorderTraversal {
 		    root = node.right;
 		}
 	    }
-	    
+
 	    return res;
 	}
     }
@@ -56,7 +90,7 @@ public class BinanryTreeInorderTraversal {
      * 
      * O(N) time: total N nodes, visit each one once.
      * 
-     * O(logN) space: tree height is logN, so maximum logN layers of recursion. 
+     * O(logN) space: tree height is logN, so maximum logN layers of recursion.
      */
     public class Solution_recursion {
 	public List<Integer> inorderTraversal(TreeNode root) {

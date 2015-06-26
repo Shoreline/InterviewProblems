@@ -17,15 +17,46 @@ import java.util.List;
  */
 
 /*
- * Just return the top-down level order traversal, as previous problem. Then
- * reverse the order of the returned ArrayList.
+ * 1. add vals to the head of res: res.add(0,vals)
  * 
- * Note: use Collections.reverse(anArrayList) to do reversing
+ * 2. Reverse res in the end. Note: use Collections.reverse(anArrayList) to do
+ * reversing
  */
 
 public class BinaryTreeLevelOrderTraversalII {
-
     public class Solution {
+	public List<List<Integer>> levelOrderBottom(TreeNode root) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (root == null) {
+		return res;
+	    }
+	    List<TreeNode> cur = new ArrayList<>();
+	    cur.add(root);
+	    while (cur.size() > 0) {
+		List<TreeNode> next = new ArrayList<>();
+		List<Integer> vals = new ArrayList<>();
+		for (TreeNode node : cur) {
+		    vals.add(node.val);
+		    if (node.left != null) {
+			next.add(node.left);
+		    }
+		    if (node.right != null) {
+			next.add(node.right);
+		    }
+		}
+		res.add(0, vals);
+		cur = next;
+	    }
+
+	    return res;
+	}
+    }
+
+    /*
+     * Just return the top-down level order traversal, as previous problem. Then
+     * reverse the order of the returned ArrayList.
+     */
+    public class Solution2 {
 	public List<List<Integer>> levelOrderBottom(TreeNode root) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 	    if (root == null) {
@@ -44,7 +75,7 @@ public class BinaryTreeLevelOrderTraversalII {
 		    values.add(node.val);
 
 		    if (node.left != null) {
-			//nextLvl.push(node.left); Wrong! Push to the head!
+			// nextLvl.push(node.left); Wrong! Push to the head!
 			nextLvl.add(node.left);
 		    }
 		    if (node.right != null) {

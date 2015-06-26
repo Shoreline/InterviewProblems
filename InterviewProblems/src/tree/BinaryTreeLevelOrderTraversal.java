@@ -22,12 +22,12 @@ public class BinaryTreeLevelOrderTraversal {
 		return res;
 	    }
 
-	    List<TreeNode> curLvl = new ArrayList<TreeNode>();
+	    List<TreeNode> curLvl = new ArrayList<>();
 	    curLvl.add(root);
 
 	    while (curLvl.size() > 0) {
-		List<TreeNode> nextLvl = new ArrayList<TreeNode>();
-		List<Integer> curLvlValues = new ArrayList<Integer>();
+		List<TreeNode> nextLvl = new ArrayList<>();
+		List<Integer> curLvlValues = new ArrayList<>();
 		for (TreeNode node : curLvl) {
 		    curLvlValues.add(node.val);
 		    if (node.left != null) {

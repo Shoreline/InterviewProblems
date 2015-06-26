@@ -11,11 +11,56 @@ import java.util.Stack;
  * 
  *
  */
+
+/*
+ * 3 solutions, similar to in order traversal.
+ */
 public class BinaryTreePreOrderTraversal {
     /*
-     * Iterative solution. 'root' is the current node being processed
+     * Morris method.
+     * 
+     * There is only one line different from in-order traversal
      */
-    public class Solution_Iterative {
+    public class Solution {
+	public List<Integer> preorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<Integer>();
+
+	    TreeNode cur = root;
+	    TreeNode pre = null;
+	    while (cur != null) {
+		if (cur.left == null) {
+		    res.add(cur.val);
+		    cur = cur.right;
+		} else {
+		    pre = cur.left;
+		    while (pre.right != null && pre.right != cur) {
+			pre = pre.right;
+		    }
+
+		    if (pre.right == null) {
+			res.add(cur.val); // the only difference from in-order
+			pre.right = cur;
+			cur = cur.left;
+		    } else {
+			// res.add(cur.val); If in-order then add cur.val here
+			pre.right = null;
+			cur = cur.right;
+		    }
+
+		}
+	    }
+
+	    return res;
+	}
+
+    }
+
+    /*
+     * Iterative solution. 'root' is the current node being processed
+     * 
+     * No need to push root right after initialize stack
+     */
+    public class Solution_Iteration {
 	public List<Integer> preorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<Integer>();
 	    Stack<TreeNode> stack = new Stack<TreeNode>();
@@ -38,22 +83,23 @@ public class BinaryTreePreOrderTraversal {
 	}
     }
 
-    public class Solution_recursive {
+    public class Solution_recursion {
 	public List<Integer> preorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<Integer>();
-	    ptHelper(res, root);
+
+	    helper(res, root);
 
 	    return res;
 	}
 
-	private void ptHelper(List<Integer> res, TreeNode root) {
+	private void helper(List<Integer> res, TreeNode root) {
 	    if (root == null) {
 		return;
 	    }
 
 	    res.add(root.val);
-	    ptHelper(res, root.left);
-	    ptHelper(res, root.right);
+	    helper(res, root.left);
+	    helper(res, root.right);
 	}
     }
 }

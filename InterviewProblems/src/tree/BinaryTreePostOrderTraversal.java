@@ -16,7 +16,7 @@ import java.util.Stack;
 	return [3,2,1].
  */
 
-public class BinaryPostOrderTraversal {
+public class BinaryTreePostOrderTraversal {
     /*
      * Keep tracking previous added node
      * ------------------------------------------------------
