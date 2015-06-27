@@ -22,12 +22,18 @@ package string;
  * Throw an exception? Good, but what if throwing an exception is not an option?
  * You would then have to re-design the function (ie, add an extra parameter).
  */
-
+/*
+ * The tricky part is how to deal with overflow.
+ */
 public class ReverseInteger {
     /*
      * considered overflow.
+     * 
+     * After the while loop if x>0 then res must >= Integer>MAX_VALUE. In this
+     * situation, the only case we can keep reversing without causing overflow
+     * is that res == Integer.MAX_VALUE && x%10<=Integer.MAX_VALUE%10
      */
-    class solution2 {
+    class Solution {
 	public int reverse(int x) {
 	    int res = 0;
 	    int sign = x >= 0 ? 1 : -1;

@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
+import array.MaxPointsOnALine;
+
 
 public class _Test {
 

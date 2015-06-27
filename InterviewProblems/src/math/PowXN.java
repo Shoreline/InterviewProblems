@@ -6,11 +6,12 @@ package math;
  * Implement pow(x, n).
  */
 
+/*
+ * Dichotomy. ([daɪ'kɑtəmi] 二分法) Time: O(logN)
+ * 
+ * Pow(x, -n) = Pow( 1/x, n)
+ */
 public class PowXN {
-    /*
-     * Dichotomy. ([daɪ'kɑtəmi] 二分法)
-     * Time: O(logN)
-     */
     public class Solution {
 	public double myPow(double x, int n) {
 	    if (n == 0) {
