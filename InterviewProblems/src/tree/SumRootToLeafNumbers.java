@@ -15,9 +15,7 @@ import java.util.List;
  * 
  * For example,
  * 
- *   1 
- *  / \ 
- * 2   3
+ * 1 / \ 2 3
  * 
  * The root-to-leaf path 1->2 represents the number 12. The root-to-leaf path
  * 1->3 represents the number 13.
@@ -25,44 +23,46 @@ import java.util.List;
  * Return the sum = 12 + 13 = 25.
  *
  */
+
+/*
+ * Corner case: root.val == 0. Ex: root to leaf is 01234, then result is 1234.
+ * 
+ * To handle it, adding digits in List<Intger> num from back
+ */
 public class SumRootToLeafNumbers {
     /*
      * DFS
      */
     public class Solution {
-	int sum = 0;
+	int res = 0;
 
 	public int sumNumbers(TreeNode root) {
 	    if (root == null) {
 		return 0;
 	    }
 
-	    List<Integer> path = new ArrayList<Integer>();
-	    path.add(root.val);
-	    dfs(root, path);
-	    return sum;
+	    dfs(root, new ArrayList<Integer>());
+
+	    return res;
 	}
 
-	private void dfs(TreeNode root, List<Integer> path) {
+	private void dfs(TreeNode root, List<Integer> num) {
+	    num.add(root.val);
+
 	    if (root.left == null && root.right == null) {
-		int count = 1;
-		for (int i = path.size() - 1; i >= 0; i--) {
-		    sum += path.get(i) * count;
-		    count *= 10;
+		for (int i = num.size() - 1; i >= 0; i--) {
+		    res += num.get(i) * Math.pow(10, (num.size() - i - 1));
 		}
 		return;
 	    }
 
 	    if (root.left != null) {
-		path.add(root.left.val);
-		dfs(root.left, path);
-		path.remove(path.size() - 1);
+		dfs(root.left, num);
+		num.remove(num.size() - 1);
 	    }
-
 	    if (root.right != null) {
-		path.add(root.right.val);
-		dfs(root.right, path);
-		path.remove(path.size() - 1);
+		dfs(root.right, num);
+		num.remove(num.size() - 1);
 	    }
 	}
     }

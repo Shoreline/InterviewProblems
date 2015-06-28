@@ -16,8 +16,10 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	
-
+	TreeNode root = new TreeNode(0);
+	root.left = new TreeNode(1);
+	root.right = new TreeNode(1);
+	new PathSumII().new Solution().pathSum(root, 1);
     }
 
  

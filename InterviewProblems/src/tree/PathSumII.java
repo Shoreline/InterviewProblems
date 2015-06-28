@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 public class PathSumII {
-
     /*
      * DFS + backtracking
      */
@@ -25,33 +24,28 @@ public class PathSumII {
 	    if (root == null) {
 		return res;
 	    }
-
-	    List<Integer> tmpPath = new ArrayList<Integer>();
-	    tmpPath.add(root.val);
-	    dfsHelper(root, sum, root.val, tmpPath, res);
-
+	    dfs(root, sum, new ArrayList<Integer>(), res);
 	    return res;
 	}
 
-	private void dfsHelper(TreeNode root, int sum, int subSum,
-		List<Integer> path, List<List<Integer>> res) {
+	private void dfs(TreeNode root, int sum, List<Integer> tmp,
+		List<List<Integer>> res) {
 
-	    if (subSum == sum && root.left == null && root.right == null) {
-		res.add(new ArrayList<Integer>(path));
+	    tmp.add(root.val);
+	    if (root.left == null && root.right == null && root.val == sum) {
+		res.add(new ArrayList<Integer>(tmp));
 		return;
 	    }
 
 	    if (root.left != null) {
-		path.add(root.left.val);
-		dfsHelper(root.left, sum, subSum + root.left.val, path, res);
-		path.remove(path.size() - 1);
-	    }
-	    if (root.right != null) {
-		path.add(root.right.val);
-		dfsHelper(root.right, sum, subSum + root.right.val, path, res);
-		path.remove(path.size() - 1);
+		dfs(root.left, sum - root.val, tmp, res);
+		tmp.remove(tmp.size() - 1);
 	    }
 
+	    if (root.right != null) {
+		dfs(root.right, sum - root.val, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
 	}
     }
 

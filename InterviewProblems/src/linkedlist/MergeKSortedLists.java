@@ -4,62 +4,64 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class MergeKSortedLists {
-    /**
-     * Merge k Sorted Lists
-     * 
-     * Merge k sorted linked lists and return it as one sorted list. Analyze and
-     * describe its complexity.
-     */
+/**
+ * Merge k Sorted Lists
+ * 
+ * Merge k sorted linked lists and return it as one sorted list. Analyze and
+ * describe its complexity.
+ */
 
+public class MergeKSortedLists {
     /*
-     * Maintain a heap whose size is no bigger than the number of lists. 
-     * (only save the head nodes of each list)
+     * Maintain a heap whose size is no bigger than the number of lists. (only
+     * save the head nodes of each list)
      * 
      * Since all elements in each lists are already sorted, not need to add all
      * elements to the heap at a time -> use much less memory
      */
-    public static ListNode mergeKLists3(ArrayList<ListNode> lists) {
-	if (lists == null || lists.isEmpty())
-	    return null;
+    class Solution {
+	public ListNode mergeKLists(ListNode[] lists) {
+	    if (lists == null || lists.length == 0)
+		return null;
 
-	PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>(lists.size(),
-		new Comparator<ListNode>() {
-		    @Override
-		    public int compare(ListNode l1, ListNode l2) {
-			return l1.val - l2.val;
-		    }
-		});
+	    PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>(
+		    lists.length, new Comparator<ListNode>() {
+			@Override
+			public int compare(ListNode l1, ListNode l2) {
+			    return l1.val - l2.val;
+			}
+		    });
 
-	/*
-	 * do not have to add all elements to the priority queue
-	 */
-	for (ListNode cur : lists) {
-	    // *Notice* Be careful of empty list!
-	    if (cur != null)
-		pq.add(cur);
-	}
-
-	ListNode preHead = new ListNode(-1);
-	ListNode cur = preHead;
-
-	/*
-	 * once element is popped out, add its next node (if there is one) to
-	 * the queue
-	 */
-	while (!pq.isEmpty()) {
-	    ListNode temp = pq.poll();
-	    
-	    if (temp.next != null) {
-		pq.add(temp.next);
+	    /*
+	     * do not have to add all elements to the priority queue
+	     */
+	    for (ListNode node : lists) {
+		// *Notice* Be careful of empty list!
+		if (node != null)
+		    pq.add(node);
 	    }
-	    
-	    cur.next = temp;
-	    cur = cur.next;
 
+	    ListNode preHead = new ListNode(-1);
+	    ListNode tail = preHead;
+
+	    /*
+	     * once element is popped out, add its next node (if there is one)
+	     * to the queue
+	     */
+	    while (!pq.isEmpty()) {
+		ListNode temp = pq.poll();
+
+		if (temp.next != null) {
+		    pq.add(temp.next);
+		}
+
+		tail.next = temp;
+		tail = tail.next;
+
+	    }
+
+	    return preHead.next;
 	}
-
-	return preHead.next;
     }
 
     /*

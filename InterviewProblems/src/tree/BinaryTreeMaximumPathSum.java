@@ -1,31 +1,27 @@
 package tree;
 
+/**
+ * Binary Tree Maximum Path Sum
+ * 
+ * Given a binary tree, find the maximum path sum.
+ * 
+ * The path may start and end at any node in the tree.
+ * 
+ * For example: Given the below binary tree, {1,2,3} Return 6.
+ */
+
 public class BinaryTreeMaximumPathSum {
-    /**
-     * Given a binary tree, find the maximum path sum.
-     * 
-     * The path may start and end at any node in the tree.
-     * 
-     * For example: Given the below binary tree, {1,2,3} Return 6.
+    /*
+     * Similar to the local/global max thought in DP
      */
     public class Solution {
-
 	int max = Integer.MIN_VALUE;
 
 	public int maxPathSum(TreeNode root) {
-
-	    if (root == null) {
-		return max;
-	    }
-
 	    helper(root);
-
 	    return max;
 	}
 
-	// The helper itself returns the max sum of a path that always include
-	// root. But the 'max' argument keeps tracking all-time max (path may
-	// not include root)
 	public int helper(TreeNode root) {
 	    if (root == null) {
 		return 0;
@@ -34,17 +30,17 @@ public class BinaryTreeMaximumPathSum {
 	    int leftMax = helper(root.left);
 	    int rightMax = helper(root.right);
 
-	    int subMax = root.val;
+	    int localMax = root.val;
 
 	    if (leftMax > 0) {
-		subMax += leftMax;
+		localMax += leftMax;
 	    }
 
 	    if (rightMax > 0) {
-		subMax += rightMax;
+		localMax += rightMax;
 	    }
 
-	    max = Math.max(max, subMax);
+	    max = Math.max(max, localMax);
 
 	    if (Math.max(leftMax, rightMax) > 0) {
 		return root.val + Math.max(leftMax, rightMax);
