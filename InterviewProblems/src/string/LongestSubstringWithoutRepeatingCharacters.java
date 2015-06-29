@@ -12,18 +12,40 @@ import java.util.Map;
  * "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring
  * is "b", with the length of 1.
  */
-
+/*
+ * Two solutions: traditional sliding window; or charLastPos map.
+ * 
+ * sliding window: http://blog.csdn.net/linhuanmars/article/details/19949159
+ */
 public class LongestSubstringWithoutRepeatingCharacters {
-    
-    public static void main(String[] args) {
-	String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
+    public class Solution {
+	public int lengthOfLongestSubstring(String s) {
+	    if (s == null) {
+		return 0;
+	    }
 
-	System.out.println(lengthOfLongestSubstring3(s));
+	    Map<Character, Integer> lastPos = new HashMap<>();
+	    int len = 0;
+	    int maxLen = 0;
+
+	    int i = 0;
+	    while (i < s.length()) {
+		Character c = s.charAt(i);
+		if (lastPos.containsKey(c) && (i - lastPos.get(c)) <= len) {
+		    len = i - lastPos.get(c) - 1;
+		}
+		lastPos.put(c, i);
+		len++;
+		maxLen = Math.max(maxLen, len);
+		i++;
+	    }
+
+	    return maxLen;
+	}
     }
 
     /*
-     * Jan 2015
-     * O(n), sliding window
+     * Jan 2015 O(n), sliding window
      */
     public static int lengthOfLongestSubstring3(String s) {
 	if (s == null || s.length() == 0)

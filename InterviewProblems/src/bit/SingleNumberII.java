@@ -1,6 +1,8 @@
 package bit;
 
 /**
+ * Single Number II
+ * 
  * Given an array of integers, every element appears three times except for one.
  * Find that single one.
  * 
@@ -8,10 +10,14 @@ package bit;
  * implement it without using extra memory?
  *
  */
+
+/*
+ * Bit counting.
+ * 
+ * O(32N) time, used fixed extra memory -> O(1) memory
+ */
 public class SingleNumberII {
-    /*
-     * O(32N) time, used fixed extra memory -> O(1) memory
-     */
+
     public class Solution {
 	public int singleNumber(int[] A) {
 	    int[] bit = new int[32];

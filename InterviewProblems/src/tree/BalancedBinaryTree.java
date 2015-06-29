@@ -10,29 +10,27 @@ package tree;
  */
 
 public class BalancedBinaryTree {
-
     public class Solution {
 	public boolean isBalanced(TreeNode root) {
-	    return helper(root) != -1;
+	    return getHeight(root) != -1;
 	}
 
-	public int helper(TreeNode root) {
+	private int getHeight(TreeNode root) {
 	    if (root == null) {
 		return 0;
 	    }
 
-	    int left = helper(root.left);
+	    int left = getHeight(root.left);
 	    if (left == -1) {
 		return -1;
 	    }
 
-	    int right = helper(root.right);
-
+	    int right = getHeight(root.right);
 	    if (right == -1 || Math.abs(left - right) > 1) {
 		return -1;
-	    } else {
-		return 1 + Math.max(left, right);
 	    }
+
+	    return 1 + Math.max(left, right);
 	}
     }
 }

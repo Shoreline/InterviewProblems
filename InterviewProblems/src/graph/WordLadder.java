@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -34,6 +35,50 @@ import java.util.Set;
  */
 
 public class WordLadder {
+    public class Solution {
+	public int ladderLength(String startWord, String endWord,
+		Set<String> wordDict) {
+	    if (wordDict == null || wordDict.size() == 0) {
+		return 0;
+	    }
+
+	    Queue<String> queue = new LinkedList<String>();
+	    queue.offer(startWord);
+	    wordDict.remove(startWord);
+	    int length = 1;
+
+	    while (!queue.isEmpty()) {
+		int count = queue.size();
+		for (int i = 0; i < count; i++) {
+		    String current = queue.poll();
+		    for (char c = 'a'; c <= 'z'; c++) {
+			for (int j = 0; j < current.length(); j++) {
+			    if (c == current.charAt(j)) {
+				continue;
+			    }
+			    String tmp = replace(current, j, c);
+			    if (tmp.equals(endWord)) {
+				return length + 1;
+			    }
+			    if (wordDict.contains(tmp)) {
+				queue.offer(tmp);
+				wordDict.remove(tmp);
+			    }
+			}
+		    }
+		}
+		length++;
+	    }
+	    return 0;
+	}
+
+	private String replace(String s, int index, char c) {
+	    char[] chars = s.toCharArray();
+	    chars[index] = c;
+	    return new String(chars);
+	}
+    }
+
     /*
      * BFS
      * 
@@ -42,29 +87,37 @@ public class WordLadder {
      * 
      * Be careful where to label visited nodes
      */
-    public class Solution {
-	public int ladderLength(String start, String end, Set<String> dict) {
-	    if ((start == null && end == null)
-		    || (start.length() == 0 && end.length() == 0)
-		    || dict == null) {
+
+    /*
+     * TLE
+     */
+    public class Method {
+	public int ladderLength(String startWord, String endWord,
+		Set<String> wordDict) {
+	    if ((startWord == null && endWord == null)
+		    || (startWord.length() == 0 && endWord.length() == 0)
+		    || wordDict == null) {
 		return 0;
 	    }
 
 	    Queue<String> queue = new LinkedList<String>();
-	    queue.add(start);
+	    queue.add(startWord);
 	    int curLvlLen = 1;
 	    int nextLvlLen = 0;
 	    int ladderLen = 1;
-	    Set<String> visited = new HashSet<String>(); // maybe use "addedToQueue" is more precise
+	    Set<String> visited = new HashSet<String>(); // maybe use
+							 // "addedToQueue" is
+							 // more precise
 
 	    while (!queue.isEmpty()) {
 		String curStr = queue.poll();
 		curLvlLen--;
-		if (curStr.equals(end)) {
+		if (curStr.equals(endWord)) {
 		    return ladderLen;
 		}
 
-		Set<String> nextStrings = getNextStrings(curStr, dict, visited);
+		Set<String> nextStrings = getNextStrings(curStr, wordDict,
+			visited);
 		for (String str : nextStrings) {
 		    queue.add(str);
 		    nextLvlLen++;

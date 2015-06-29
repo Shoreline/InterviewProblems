@@ -10,13 +10,27 @@ package tree;
  */
 
 /*
- * Be careful of the definition of "leaf node"
+ * Be careful of the definition of minimum depth.
  * 
- * Two stoping conditions: while root is null and while root is a leaf
+ * If one of the children of root is null, then its min depth is 1 + min_depth
+ * of the other node (still true even if the other node is also null)
  */
 public class MinimumDepthOfBinaryTree {
-
     public class Solution {
+	public int minDepth(TreeNode root) {
+	    if (root == null) {
+		return 0;
+	    }
+	    if (root.left == null || root.right == null) {
+		return 1 + (root.left == null ? minDepth(root.right)
+			: minDepth(root.left));
+	    }
+
+	    return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+	}
+    }
+
+    public class Solution_2 {
 	public int minDepth(TreeNode root) {
 	    if (root == null) {
 		return 0;

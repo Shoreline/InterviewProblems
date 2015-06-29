@@ -11,16 +11,19 @@ package bit;
  *
  */
 
+/*
+ * x ^ x = 0; x ^ 0s = x; XOR is associative and commutative
+ */
+
 public class SingleNumber {
-    /*
-     * x ^ x = 0; x ^ 0s = x; XOR is associative and commutative
-     */
     public class Solution {
-	public int singleNumber(int[] A) {
-	    for (int i = 1; i < A.length; i++) {
-		A[0] = A[0] ^ A[i];
+	public int singleNumber(int[] nums) {
+	    int res = nums[0];
+	    for (int i = 1; i < nums.length; i++) {
+		res ^= nums[i];
 	    }
-	    return A[0];
+
+	    return res;
 	}
     }
 }

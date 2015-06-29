@@ -28,34 +28,28 @@ import java.util.Set;
  * Connect node 2 to node 2 (itself), thus forming a self-cycle. Visually, the
  * graph looks like the following:
  * 
- *     1
-      / \
-     /   \
-    0 --- 2
-         / \
-         \_/
+ * 1 / \ / \ 0 --- 2 / \ \_/
  *
  */
 
 /*
- * 1) In Java, use LinkedList as queue
- * 2) LinkedList has addAll() method, handy for BFS
+ * 1) In Java, use LinkedList as queue 2) LinkedList has addAll() method, handy
+ * for BFS
  */
 public class CloneGraph {
-
     /*
      * BFS
      * 
      * Important: Only add first-time-seen nodes to queue
      */
-    public class Solution_1traversal {
+    public class Solution {
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
 	    if (node == null) {
 		return null;
 	    }
 
-	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
-	    Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<>();
+	    Queue<UndirectedGraphNode> queue = new LinkedList<>();
 	    queue.add(node);
 	    nodeMap.put(node, new UndirectedGraphNode(node.label));
 
@@ -84,6 +78,44 @@ public class CloneGraph {
     }
 
     /*
+     * Used an additional Set<> visited
+     */
+    public class Solution_1traversal {
+	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+	    if (node == null) {
+		return null;
+	    }
+
+	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<>();
+	    Set<UndirectedGraphNode> visited = new HashSet<>();
+	    LinkedList<UndirectedGraphNode> queue = new LinkedList<>();
+	    queue.add(node);
+
+	    while (!queue.isEmpty()) {
+		UndirectedGraphNode aNode = queue.poll();
+		if (!visited.contains(aNode)) {
+		    if (!nodeMap.containsKey(aNode)) {
+			nodeMap.put(aNode, new UndirectedGraphNode(aNode.label));
+		    }
+		    UndirectedGraphNode clone = nodeMap.get(aNode);
+
+		    for (UndirectedGraphNode n : aNode.neighbors) {
+			if (!nodeMap.containsKey(n)) {
+			    nodeMap.put(n, new UndirectedGraphNode(n.label));
+			}
+			clone.neighbors.add(nodeMap.get(n));
+		    }
+
+		    visited.add(aNode);
+		    queue.addAll(aNode.neighbors);
+		}
+	    }
+
+	    return nodeMap.get(node);
+	}
+    }
+
+    /*
      * BFS
      * 
      * Traverse graph twice
@@ -94,7 +126,7 @@ public class CloneGraph {
 		return null;
 	    }
 
-	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+	    Map<UndirectedGraphNode, UndirectedGraphNode> nodeMap = new HashMap<>();
 	    // * LinkedList implements Queue
 	    Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
 	    queue.add(node);
