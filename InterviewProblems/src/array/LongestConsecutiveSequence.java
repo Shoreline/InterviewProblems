@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Longest Consecutive Sequence
+ * 
  * Given an unsorted array of integers, find the length of the longest
  * consecutive elements sequence.
  * 
@@ -11,11 +13,8 @@ import java.util.Set;
  * sequence is [1, 2, 3, 4]. Return its length: 4.
  * 
  * Your algorithm should run in O(n) complexity.
- * 
- *
  */
 public class LongestConsecutiveSequence {
-    
     /*
      * To get O(N) time complexity, have to trade with space
      * 
@@ -25,40 +24,35 @@ public class LongestConsecutiveSequence {
      * *Need to remove checked elements in Set, otherwise O(N^2)
      */
     public class Solution {
-	public int longestConsecutive(int[] num) {
-	    if (num == null || num.length == 0) {
+	public int longestConsecutive(int[] nums) {
+	    if (nums == null) {
 		return 0;
 	    }
 
-	    Set<Integer> numSet = new HashSet<Integer>();
-	    for (int n : num) {
-		numSet.add(n);
+	    Set<Integer> set = new HashSet<>();
+	    for (int n : nums) {
+		set.add(n);
 	    }
 
 	    int maxLen = 0;
-	    Set<Integer> conseNums = new HashSet<Integer>();
-	    for (int n : num) {
-		if (!numSet.contains(n)) {
-		    continue;
+
+	    for (int i = 0; i < nums.length; i++) {
+		if (set.contains(nums[i])) {
+		    int len = 1;
+		    int k = nums[i] - 1;
+		    while (set.contains(k)) {
+			len++;
+			set.remove(k);
+			k--;
+		    }
+		    k = nums[i] + 1;
+		    while (set.contains(k)) {
+			len++;
+			set.remove(k);
+			k++;
+		    }
+		    maxLen = Math.max(maxLen, len);
 		}
-
-		conseNums.add(n);
-		int tmp = n + 1;
-		while (numSet.contains(tmp)) {
-		    conseNums.add(tmp);
-		    tmp++;
-		}
-
-		tmp = n - 1;
-		while (numSet.contains(tmp)) {
-		    conseNums.add(tmp);
-		    tmp--;
-		}
-
-		maxLen = Math.max(maxLen, conseNums.size());
-
-		numSet.removeAll(conseNums);
-		conseNums.clear();
 	    }
 
 	    return maxLen;

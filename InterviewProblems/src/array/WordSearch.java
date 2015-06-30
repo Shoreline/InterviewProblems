@@ -32,66 +32,44 @@ package array;
  * DFS
  */
 public class WordSearch {
-
-    public class Solution_2015 {
+    public class Solution {
 	public boolean exist(char[][] board, String word) {
-	    if (board == null || board.length == 0) {
+	    if (board == null || board.length == 0 || board[0].length == 0
+		    || word == null) {
 		return false;
 	    }
 
-	    char c = word.charAt(0);
 	    for (int i = 0; i < board.length; i++) {
 		for (int j = 0; j < board[0].length; j++) {
-		    if (board[i][j] == c) {
-			board[i][j] = '.';
-			if (dfs(board, word, 1, i, j)) {
-			    return true;
-			} else {
-			    board[i][j] = c;
-			}
+		    if (dfs(board, i, j, 0, word)) {
+			return true;
 		    }
 		}
 	    }
 
 	    return false;
+
 	}
 
-	private boolean dfs(char[][] board, String word, int pos, int i, int j) {
-	    if (pos == word.length()) {
+	private boolean dfs(char[][] board, int i, int j, int pos, String word) {
+	    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length
+		    || board[i][j] != word.charAt(pos)) {
+		return false;
+	    }
+	    if (pos == word.length() - 1) {
 		return true;
 	    }
-	    char c = word.charAt(pos);
-	    if (i > 0 && board[i - 1][j] == c) {
-		board[i - 1][j] = '.';
-		if (dfs(board, word, pos + 1, i - 1, j)) {
-		    return true;
-		}
-		board[i - 1][j] = c;
-	    }
 
-	    if (i + 1 < board.length && board[i + 1][j] == c) {
-		board[i + 1][j] = '.';
-		if (dfs(board, word, pos + 1, i + 1, j)) {
-		    return true;
-		}
-		board[i + 1][j] = c;
-	    }
+	    char c = board[i][j];
+	    board[i][j] = '.';
 
-	    if (j > 0 && board[i][j - 1] == c) {
-		board[i][j - 1] = '.';
-		if (dfs(board, word, pos + 1, i, j - 1)) {
-		    return true;
-		}
-		board[i][j - 1] = c;
+	    if (dfs(board, i + 1, j, pos + 1, word)
+		    || dfs(board, i - 1, j, pos + 1, word)
+		    || dfs(board, i, j + 1, pos + 1, word)
+		    || dfs(board, i, j - 1, pos + 1, word)) {
+		return true;
 	    }
-
-	    if (j + 1 < board[0].length && board[i][j + 1] == c) {
-		board[i][j + 1] = '.';
-		if (dfs(board, word, pos + 1, i, j + 1)) {
-		    return true;
-		}
-		board[i][j + 1] = c;
-	    }
+	    board[i][j] = c;
 
 	    return false;
 	}

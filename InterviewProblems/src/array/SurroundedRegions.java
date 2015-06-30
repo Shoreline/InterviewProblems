@@ -1,6 +1,7 @@
 package array;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Surrounded Regions
@@ -11,144 +12,85 @@ import java.util.LinkedList;
  * A region is captured by flipping all 'O's into 'X's in that surrounded
  * region.
  * 
- * For example,
-	X X X X
-	X O O X
-	X X O X
-	X O X X
+ * For example, X X X X X O O X X X O X X O X X
  * 
- * After running your function, the board should be:
- * 	X X X X
-	X X X X
-	X X X X
-	X O X X
+ * After running your function, the board should be: X X X X X X X X X X X X X O
+ * X X
  * 
  */
 
 /*
- * Important:
- * Different between queue.add() and queue.offer() in Java;
- * When to flag node while doing BFS
+ * Idea: do not looking for surrounded regions directly. Mark 'O' regions that
+ * connected to an edge with another color. Except these regions, all other 'O'
+ * regions shall be flipped to 'X'
+ * 
+ * Important: Different between queue.add() and queue.offer() in Java; When to
+ * flag node while doing BFS
  */
 
 public class SurroundedRegions {
-    public class Solution_my {
+    public class Solution {
 	public void solve(char[][] board) {
 	    if (board == null || board.length == 0 || board[0].length == 0) {
 		return;
 	    }
 
 	    for (int i = 0; i < board.length; i++) {
-		for (int j = 0; j < board[0].length; j++) {
-		    bfs(board, i, j);
-		}
+		fill(board, i, 0, 'O', '#');
+		fill(board, i, board[0].length - 1, 'O', '#');
+	    }
+
+	    for (int j = 0; j < board[0].length; j++) {
+		fill(board, 0, j, 'O', '#');
+		fill(board, board.length - 1, j, 'O', '#');
 	    }
 
 	    for (int i = 0; i < board.length; i++) {
 		for (int j = 0; j < board[0].length; j++) {
-		    if (board[i][j] == 'O') {
-			board[i][j] = 'X';
-		    } else if (board[i][j] == '#') {
-			board[i][j] = 'O';
-		    }
+		    board[i][j] = (board[i][j] == '#' ? 'O' : 'X');
 		}
 	    }
 	}
 
-	private void bfs(char[][] board, int i, int j) {
-	    if (board[i][j] == 'O'
-		    && (i == 0 || i == board.length - 1 || j == 0 || j == board[0].length - 1)) {
-
-		LinkedList<Integer> queueX = new LinkedList<Integer>();
-		LinkedList<Integer> queueY = new LinkedList<Integer>();
-		queueX.offer(i);
-		queueY.offer(j);
-		board[i][j] = '#';
-		while (!queueX.isEmpty()) {
-		    int x = queueX.poll();
-		    int y = queueY.poll();
-		    /*
-		     * Do not flag element here, too late.
-		     * 
-		     * must flag board element at the time they are added to
-		     * queue. Otherwise duplicated check!!!
-		     */
-		    // board[x][y]='#';
-
-		    if (x - 1 >= 0 && board[x - 1][y] == 'O') {
-			queueX.offer(x - 1);
-			queueY.offer(y);
-			board[x - 1][y] = '#';
-		    }
-		    if (x + 1 < board.length && board[x + 1][y] == 'O') {
-			queueX.offer(x + 1);
-			queueY.offer(y);
-			board[x + 1][y] = '#';
-		    }
-		    if (y - 1 >= 0 && board[x][y - 1] == 'O') {
-			queueX.offer(x);
-			queueY.offer(y - 1);
-			board[x][y - 1] = '#';
-		    }
-		    if (y + 1 < board[0].length && board[x][y + 1] == 'O') {
-			queueX.offer(x);
-			queueY.offer(y + 1);
-			board[x][y + 1] = '#';
-		    }
-		}
-
-	    }
-	}
-    }
-
-    public class Solution_best {
-	public void solve(char[][] board) {
-	    if (board == null || board.length <= 1 || board[0].length <= 1)
+	private void fill(char[][] board, int i, int j, char oldColor,
+		char newColor) {
+	    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length
+		    || board[i][j] != oldColor) {
 		return;
-	    for (int i = 0; i < board[0].length; i++) {
-		fill(board, 0, i);
-		fill(board, board.length - 1, i);
 	    }
-	    for (int i = 0; i < board.length; i++) {
-		fill(board, i, 0);
-		fill(board, i, board[0].length - 1);
-	    }
-	    for (int i = 0; i < board.length; i++) {
-		for (int j = 0; j < board[0].length; j++) {
-		    if (board[i][j] == 'O')
-			board[i][j] = 'X';
-		    else if (board[i][j] == '#')
-			board[i][j] = 'O';
-		}
-	    }
-	}
 
-	private void fill(char[][] board, int i, int j) {
-	    if (board[i][j] != 'O')
-		return;
-	    board[i][j] = '#';
-	    LinkedList<Integer> queue = new LinkedList<Integer>();
-	    int code = i * board[0].length + j;
-	    queue.offer(code);
+	    Queue<Integer> queue = new LinkedList<Integer>();
+	    queue.add(i * board[0].length + j);
+	    board[i][j] = newColor;
+
 	    while (!queue.isEmpty()) {
-		code = queue.poll();
-		int row = code / board[0].length;
-		int col = code % board[0].length;
-		if (row > 0 && board[row - 1][col] == 'O') {
-		    queue.offer((row - 1) * board[0].length + col);
-		    board[row - 1][col] = '#';
+		int pos = queue.poll();
+		int m = pos / board[0].length;
+		int n = pos % board[0].length;
+		/*
+		 * Do not flag element here, too late. May add duplicated nodes
+		 * to queue
+		 * 
+		 * must flag board element at the time they are added to queue.
+		 * Otherwise duplicated check!!!
+		 */
+		// board[x][y]='#';
+
+		if (m + 1 < board.length && board[m + 1][n] == oldColor) {
+		    queue.add((m + 1) * board[0].length + n);
+		    board[m + 1][n] = newColor;
 		}
-		if (row < board.length - 1 && board[row + 1][col] == 'O') {
-		    queue.offer((row + 1) * board[0].length + col);
-		    board[row + 1][col] = '#';
+		if (m - 1 >= 0 && board[m - 1][n] == oldColor) {
+		    queue.add((m - 1) * board[0].length + n);
+		    board[m - 1][n] = newColor;
 		}
-		if (col > 0 && board[row][col - 1] == 'O') {
-		    queue.offer(row * board[0].length + col - 1);
-		    board[row][col - 1] = '#';
+		if (n + 1 < board[0].length && board[m][n + 1] == oldColor) {
+		    queue.add(m * board[0].length + n + 1);
+		    board[m][n + 1] = newColor;
 		}
-		if (col < board[0].length - 1 && board[row][col + 1] == 'O') {
-		    queue.offer(row * board[0].length + col + 1);
-		    board[row][col + 1] = '#';
+		if (n - 1 >= 0 && board[m][n - 1] == oldColor) {
+		    queue.add(m * board[0].length + n - 1);
+		    board[m][n - 1] = newColor;
 		}
 	    }
 	}

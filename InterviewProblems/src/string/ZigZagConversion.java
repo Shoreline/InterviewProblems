@@ -2,28 +2,53 @@ package string;
 
 import java.util.ArrayList;
 
+/**
+ * ZigZag Conversion
+ * 
+ * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number
+ * of rows like this: (you may want to display this pattern in a fixed font for
+ * better legibility)
+ * 
+ * And then read line by line: "PAHNAPLSIIGYIR"
+ * 
+ * Write the code that will take a string and make this conversion given a
+ * number of rows:
+ * 
+ * string convert(string text, int nRows);
+ * 
+ * convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
+ * 
+ */
+
 public class ZigZagConversion {
-    /**
-     * ZigZag Conversion
-     * 
-     * The string "PAYPALISHIRING" is written in a zigzag pattern on a given
-     * number of rows like this: (you may want to display this pattern in a
-     * fixed font for better legibility)
-     * 
-     * And then read line by line: "PAHNAPLSIIGYIR"
-     * 
-     * Write the code that will take a string and make this conversion given a
-     * number of rows:
-     * 
-     * string convert(string text, int nRows);
-     * 
-     * convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
-     * 
-     */
-    
     /*
-     * Same idea as solution2. But more concise.
-     * The inner for loop can be further simplified, but will reduce readability 
+     * must return s directly if numRows = 1, otherwise step = 0.
+     */
+    public class Solution {
+	public String convert(String s, int numRows) {
+	    if (s == null || numRows <= 1) {
+		return s;
+	    }
+
+	    int step = 2 * numRows - 2;
+	    StringBuilder res = new StringBuilder();
+	    for (int i = 0; i < numRows; i++) {
+		for (int j = i; j < s.length(); j += step) {
+		    res.append(s.charAt(j));
+		    if (i != 0 && i != numRows - 1
+			    && j + step - 2 * i < s.length()) {
+			res.append(s.charAt(j + step - 2 * i));
+		    }
+		}
+	    }
+
+	    return res.toString();
+	}
+    }
+
+    /*
+     * Same idea as solution2. But more concise. The inner for loop can be
+     * further simplified, but will reduce readability
      */
     public String convert3(String s, int nRows) {
 	if (s == null || s.length() < 2 || nRows == 1) {
@@ -49,7 +74,7 @@ public class ZigZagConversion {
 
 	return sb.toString();
     }
-    
+
     /*
      * second round. one time pass!
      * 
