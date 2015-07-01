@@ -20,46 +20,31 @@ import java.util.Arrays;
  */
 public class ThreeSumClosest {
     public class Solution {
-	public int threeSumClosest(int[] num, int target) {
-	    if (num == null || num.length < 3) {
-		return target;
+	public int threeSumClosest(int[] nums, int target) {
+	    if (nums == null || nums.length < 3) {
+		return Integer.MIN_VALUE;
 	    }
-
-	    int minDiff = num[0] + num[1] + num[2];
-	    Arrays.sort(num);
-	    for (int k = 0; k < num.length - 2; k++) {
-		if (k > 0 && num[k] == num[k - 1]) {
-		    continue;
-		}
-
-		int i = k + 1;
-		int j = num.length - 1;
-
-		while (i < j) {
-		    if (i > k + 1 && num[i] == num[i - 1]) {
-			i++;
-			continue;
-		    } else if (j < num.length - 1 && num[j] == num[j + 1]) {
-			j--;
-			continue;
-		    }
-
-		    int sum = num[k] + num[i] + num[j];
-		    if (Math.abs(target - sum) < Math.abs(target - minDiff)) {
-			minDiff = sum;
-		    }
-
+	    int res = nums[0] + nums[1] + nums[2];
+	    Arrays.sort(nums);
+	    for (int i = 0; i < nums.length - 2; i++) {
+		int j = i + 1;
+		int k = nums.length - 1;
+		while (j < k) {
+		    int sum = nums[i] + nums[j] + nums[k];
 		    if (sum == target) {
 			return target;
 		    } else if (sum < target) {
-			i++;
+			j++;
 		    } else {
-			j--;
+			k--;
+		    }
+		    if (Math.abs(target - sum) < Math.abs(target - res)) {
+			res = sum;
 		    }
 		}
 	    }
 
-	    return minDiff;
+	    return res;
 	}
     }
 }

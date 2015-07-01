@@ -5,20 +5,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Letter Combinations of a Phone Number
+ * 
+ * Given a digit string, return all possible letter combinations that the number
+ * could represent.
+ * 
+ * A mapping of digit to letters (just like on the telephone buttons) is given
+ * below.
+ * 
+ * Input:Digit string "23" Output: ["ad", "ae", "af", "bd", "be", "bf", "cd",
+ * "ce", "cf"]. Note: Although the above answer is in lexicographical order,
+ * your answer could be in any order you want.
+ */
+
 public class LetterCombinationsofAPhoneNumber {
-    /**
-     * Letter Combinations of a Phone Number
-     * 
-     * Given a digit string, return all possible letter combinations that the
-     * number could represent.
-     * 
-     * A mapping of digit to letters (just like on the telephone buttons) is
-     * given below.
-     * 
-     * Input:Digit string "23" Output: ["ad", "ae", "af", "bd", "be", "bf",
-     * "cd", "ce", "cf"]. Note: Although the above answer is in lexicographical
-     * order, your answer could be in any order you want.
+    /*
+     * DFS
      */
+    public class Solution {
+	public List<String> letterCombinations(String digits) {
+	    List<String> res = new ArrayList<>();
+	    if (digits == null || digits.length() == 0) {
+		return res;
+	    }
+
+	    String[] map = new String[] { "", "", "a", "b", "ghi", "jkl",
+		    "mno", "pqrs", "tuv", "wxyz" };
+
+	    dfs(digits, 0, map, "", res);
+
+	    return res;
+	}
+
+	private void dfs(String digits, int pos, String[] map, String tmp,
+		List<String> res) {
+	    if (pos == digits.length()) {
+		res.add(tmp);
+		return;
+	    }
+
+	    // for(int i = pos; i<digits.length(); i++){ // adding this for loop is wrong
+	    String letters = map[digits.charAt(pos) - '0'];
+	    for (int j = 0; j < letters.length(); j++) {
+		dfs(digits, pos + 1, map, tmp + letters.charAt(j), res);
+	    }
+	    // }
+	}
+    }
 
     /*
      * similar to solution 1
@@ -44,8 +78,8 @@ public class LetterCombinationsofAPhoneNumber {
 	    keyboard.put('8', "tuv".toCharArray());
 	    keyboard.put('9', "wxyz".toCharArray());
 
-	    List<StringBuilder> sbList = letterCombinationshelp(digits.toCharArray(),
-		    digits.length() - 1, keyboard);
+	    List<StringBuilder> sbList = letterCombinationshelp(
+		    digits.toCharArray(), digits.length() - 1, keyboard);
 	    for (StringBuilder sb : sbList) {
 		res.add(sb.toString());
 	    }
@@ -53,10 +87,10 @@ public class LetterCombinationsofAPhoneNumber {
 	    return res;
 	}
 
-	private List<StringBuilder> letterCombinationshelp(char[] digits, int ptr,
-		Map<Character, char[]> keyboard) {
+	private List<StringBuilder> letterCombinationshelp(char[] digits,
+		int ptr, Map<Character, char[]> keyboard) {
 	    List<StringBuilder> res = new ArrayList<StringBuilder>();
-	    
+
 	    if (ptr == 0) {
 		for (char c : keyboard.get(digits[ptr])) {
 		    StringBuilder sb = new StringBuilder();
@@ -67,7 +101,8 @@ public class LetterCombinationsofAPhoneNumber {
 	    }
 
 	    for (char c : keyboard.get(digits[ptr])) {
-		List<StringBuilder> tmp = letterCombinationshelp(digits, ptr - 1, keyboard);
+		List<StringBuilder> tmp = letterCombinationshelp(digits,
+			ptr - 1, keyboard);
 		for (StringBuilder sb : tmp) {
 		    StringBuilder newSB = new StringBuilder(sb);
 		    newSB.append(c);
