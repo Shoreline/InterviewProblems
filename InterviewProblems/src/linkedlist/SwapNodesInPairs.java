@@ -1,20 +1,47 @@
 package linkedlist;
 
+/**
+ * Swap Nodes in Pairs
+ * 
+ * Given a linked list, swap every two adjacent nodes and return its head.
+ * 
+ * For example, Given 1->2->3->4, you should return the list as 2->1->4->3.
+ * 
+ * Your algorithm should use only constant space. You may not modify the values
+ * in the list, only nodes itself can be changed.
+ */
+
 public class SwapNodesInPairs {
-    /**
-     * Swap Nodes in Pairs
-     * 
-     * Given a linked list, swap every two adjacent nodes and return its head.
-     * 
-     * For example, Given 1->2->3->4, you should return the list as 2->1->4->3.
-     * 
-     * Your algorithm should use only constant space. You may not modify the
-     * values in the list, only nodes itself can be changed.
-     */
+    public class Solution {
+	public ListNode swapPairs(ListNode head) {
+	    if (head == null || head.next == null) {
+		return head;
+	    }
+
+	    ListNode preHead = new ListNode(-1);
+	    preHead.next = head;
+	    ListNode pre = preHead;
+	    ListNode cur = head;
+
+	    while (cur != null && cur.next != null) {
+		ListNode next = cur.next.next;
+
+		pre.next = cur.next;
+
+		cur.next.next = cur;
+		cur.next = next;
+		pre = cur;
+		cur = next;
+
+	    }
+
+	    return preHead.next;
+	}
+    }
 
     /*
-     *  recursion solution, simple, but not does not qualify problem restriction.
-     *  It takes O(n) space to store node addresses
+     * recursion solution, simple, but not does not qualify problem restriction.
+     * It takes O(n) space to store node addresses
      */
     public class Solution3 {
 
@@ -55,7 +82,7 @@ public class SwapNodesInPairs {
 		    cur.next = next.next;
 		    next.next = cur;
 
-		    cur = pre.next;	// keep pre-cur-next consistent
+		    cur = pre.next; // keep pre-cur-next consistent
 		    next = cur.next;
 		}
 
