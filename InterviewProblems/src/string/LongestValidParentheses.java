@@ -2,20 +2,20 @@ package string;
 
 import java.util.Stack;
 
-public class LongestValidParentheses {
-    /**
-     * Longest Valid Parentheses
-     * 
-     * Given a string containing just the characters '(' and ')', find the
-     * length of the longest valid (well-formed) parentheses substring.
-     * 
-     * For "(()", the longest valid parentheses substring is "()", which has
-     * length = 2.
-     * 
-     * Another example is ")()())", where the longest valid parentheses
-     * substring is "()()", which has length = 4.
-     */
+/**
+ * Longest Valid Parentheses
+ * 
+ * Given a string containing just the characters '(' and ')', find the length of
+ * the longest valid (well-formed) parentheses substring.
+ * 
+ * For "(()", the longest valid parentheses substring is "()", which has length
+ * = 2.
+ * 
+ * Another example is ")()())", where the longest valid parentheses substring is
+ * "()()", which has length = 4.
+ */
 
+public class LongestValidParentheses {
     /*
      * use stack. high hand's solution
      * 
@@ -25,47 +25,40 @@ public class LongestValidParentheses {
      * 
      * tricky examples: "()()"; "()(()"
      */
-    
+
     /*
      * Even the stack has left only one left paren and sees a right paren, it
-     * may not be the start of substring.
-     * For example: "()()"
+     * may not be the start of substring. For example: "()()"
      */
     public class Solution {
 	public int longestValidParentheses(String s) {
-	    if (s == null || s.isEmpty()) {
+	    if (s == null || s.length() == 0) {
 		return 0;
 	    }
 
-	    Stack<Integer> lPs = new Stack<Integer>(); // left parentheses
-	    int start = 0;
-	    int maxLength = 0;
-	    
+	    Stack<Integer> stack = new Stack<>();
+	    int validStart = 0;
+	    int max = 0;
+
 	    for (int i = 0; i < s.length(); i++) {
-
 		if (s.charAt(i) == '(') {
-		    lPs.push(i);
-		    continue;
-		}
-
-		if (lPs.isEmpty()) {
-		    start = i + 1;
+		    stack.push(i);
+		} else if (stack.isEmpty()) {
+		    validStart = i + 1; // i is an extra ")", cannot be the
+					// valid start
 		} else {
-		    lPs.pop();
+		    stack.pop();
+		    int len = stack.isEmpty() ? (i - validStart + 1)
+			    : (i - stack.peek());
 
-		    if (lPs.isEmpty()) {
-			maxLength = Math.max(i - start + 1, maxLength);
-		    } else {
-			maxLength = Math.max(i - lPs.peek(), maxLength);
-		    }
+		    max = Math.max(max, len);
 		}
-
 	    }
 
-	    return maxLength;
+	    return max;
 	}
     }
-    
+
     /*
      * O(n) solution. One-pass.
      */

@@ -1,10 +1,12 @@
 package linkedlist;
 
-public class ReverseLinkedList {
-    /**
-     * One pass reverse all nodes in a linked list
-     */
+/**
+ * Reverse Linked List
+ * 
+ * One pass reverse all nodes in a linked list
+ */
 
+public class ReverseLinkedList {
     /*
      * Just need one more additional pointer. (not a dummy node?)
      * 
@@ -16,10 +18,10 @@ public class ReverseLinkedList {
 	public ListNode reverse(ListNode head) {
 	    ListNode pre = null;
 	    while (head != null) {
-		ListNode tmp = head.next;
+		ListNode next = head.next;
 		head.next = pre;
 		pre = head;
-		head = tmp;
+		head = next;
 	    }
 
 	    return pre;

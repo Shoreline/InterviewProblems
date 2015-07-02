@@ -20,7 +20,59 @@ package linkedlist;
  * For k = 3, you should return: 3->2->1->4->5
  */
 
+/*
+ * my solution is not the most concise but easy to understand
+ */
 public class ReverseNodesInKGroup {
+    public class Solution_mine {
+	public ListNode reverseKGroup(ListNode head, int k) {
+	    if (head == null || k < 2) {
+		return head;
+	    }
+
+	    ListNode preHead = new ListNode(-1);
+	    preHead.next = head;
+	    ListNode cur = head;
+	    ListNode segPre = preHead;
+	    ListNode segHead = head;
+	    int c = 1;
+	    while (cur != null) {
+		ListNode next = cur.next;
+		if (c % k == 1) {
+		    segHead = cur;
+		} 
+		else if (c % k == 0) {
+		    cur.next = null;
+		    segPre.next = reverse(segHead);
+		    segPre = segHead;
+		    segPre.next = next;
+		}
+
+		cur = next;
+		c++;
+	    }
+
+	    return preHead.next;
+	}
+
+	private ListNode reverse(ListNode segHead) {
+	    if (segHead == null) {
+		return segHead;
+	    }
+
+	    ListNode pre = null;
+	    ListNode cur = segHead;
+	    while (cur != null) {
+		ListNode next = cur.next;
+		cur.next = pre;
+		pre = cur;
+		cur = next;
+	    }
+
+	    return pre;
+	}
+    }
+
     public class Solution {
 	public ListNode reverseKGroup(ListNode head, int k) {
 	    if (head == null) {
@@ -57,56 +109,6 @@ public class ReverseNodesInKGroup {
 	    head.next = end;
 	    return head;
 	}
-//	public ListNode reverseKGroup(ListNode head, int k) {
-//	    if (head == null) {
-//		return null;
-//	    }
-//
-//	    int count = 1;
-//	    ListNode preHead = new ListNode(-1);
-//	    preHead.next = head;
-//	    ListNode pre = preHead;
-//	    ListNode cur = head;
-//
-//	    while (cur != null) {
-//		if (count < k) {
-//		    count++;
-//		} else {
-//		    ListNode newPre = pre.next;
-//		    reverse(pre, cur.next);
-//		    pre = newPre;
-//		    cur = newPre;
-//		    count = 1;
-//		}
-//
-//		cur = cur.next;
-//	    }
-//
-//	    return preHead.next;
-//	}
-//
-//	// 1) take segPre and segNext as arguments, not head and end; 2) return
-//	// ListNode, not void
-//	private ListNode reverse(ListNode segPre, ListNode segNext) {
-//	    if (segPre == null || segPre.next == null) {
-//		return segPre; // notice!
-//	    }
-//
-//	    ListNode head = segPre.next;
-//	    ListNode pre = head;
-//	    ListNode cur = head.next;
-//
-//	    while (cur != segNext) {
-//		ListNode next = cur.next;
-//		cur.next = pre;
-//
-//		pre = cur;
-//		cur = next;
-//	    }
-//	    head.next = segNext;
-//	    segPre.next = pre;
-//	    return pre;
-//	}
     }
 
     class solutions_2013 {
