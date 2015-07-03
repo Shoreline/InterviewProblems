@@ -5,75 +5,60 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class CombinationSum2 {
+/**
+ * Combination Sum II
+ * 
+ * Given a collection of candidate numbers (C) and a target number (T), find all
+ * unique combinations in C where the candidate numbers sums to T.
+ * 
+ * Each number in C may only be used once in the combination.
+ * 
+ * Note: All numbers (including target) will be positive integers. Elements in a
+ * combination must be in non-descending order. The solution set must not
+ * contain duplicate combinations.
+ * 
+ * For example, given candidate set 10,1,2,7,6,1,5 and target 8: A solution set
+ * is: [1, 7] [1, 2, 5] [2, 6] [1, 1, 6]
+ */
 
-    /**
-     * Combination Sum II
-     * 
-     * Given a collection of candidate numbers (C) and a target number (T), find
-     * all unique combinations in C where the candidate numbers sums to T.
-     * 
-     * Each number in C may only be used once in the combination.
-     * 
-     * Note: All numbers (including target) will be positive integers. Elements
-     * in a combination (a1, a2, �� , ak) must be in non-descending order. (ie,
-     * a1 �� a2 �� �� �� ak). The solution set must not contain duplicate
-     * combinations. 
-     * 
-     * For example,
-     * given candidate set 10,1,2,7,6,1,5 and target 8: 
-     * A solution set is: 
-     * [1, 7] 
-     * [1, 2, 5] 
-     * [2, 6] 
-     * [1, 1, 6]
-     */
-
+public class CombinationSumII {
     /*
-     * [2015]
      * recursion + backtracking
+     * 
+     * if (i > pos && candidates[i] == candidates[i - 1]) continue;
      */
     public class Solution {
-	public List<List<Integer>> combinationSum2(int[] num, int target) {
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
-
-	    if (num == null || num.length == 0) {
+	    if (candidates == null || candidates.length == 0) {
 		return res;
 	    }
 
-	    Arrays.sort(num);
+	    Arrays.sort(candidates);
 
-	    List<Integer> tmp = new ArrayList<Integer>();
-	    Set<List<Integer>> resSet = new HashSet<List<Integer>>();
-	    combinationSumHelper(num, target, 0, tmp, resSet);
+	    dfs(candidates, target, 0, new ArrayList<Integer>(), res);
 
-	    res.addAll(resSet);
 	    return res;
 	}
 
-	private void combinationSumHelper(int[] candidates, int target,
-		int pos, List<Integer> tmp, Set<List<Integer>> res) {
+	private void dfs(int[] candidates, int target, int pos,
+		List<Integer> tmp, List<List<Integer>> res) {
 	    if (target == 0) {
-		List<Integer> solution = new ArrayList<Integer>(tmp);
-		Collections.sort(solution);
-		res.add(solution);
+		res.add(new ArrayList<Integer>(tmp));
 		return;
 	    }
-
+	    
 	    for (int i = pos; i < candidates.length; i++) {
 		if (candidates[i] > target) {
 		    break;
-		} else {
-		    tmp.add(candidates[i]);
-		    combinationSumHelper(candidates, target - candidates[i],
-			    i + 1, tmp, res);
-		    tmp.remove(tmp.size() - 1);
+		} else if (i > pos && candidates[i] == candidates[i - 1]) {
+		    continue;
 		}
+		tmp.add(candidates[i]);
+		dfs(candidates, target - candidates[i], i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
 	    }
-
-	    return;
 	}
     }
 

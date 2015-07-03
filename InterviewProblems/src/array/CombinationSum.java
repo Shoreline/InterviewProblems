@@ -7,27 +7,62 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Combination Sum
+ * 
+ * Given a set of candidate numbers (C) and a target number (T), find all unique
+ * combinations in C where the candidate numbers sums to T.
+ * 
+ * The same repeated number may be chosen from C unlimited number of times.
+ * 
+ * Note: All numbers (including target) will be positive integers. Elements in a
+ * combination must be in non-descending order.
+ * 
+ * The solution set must not contain duplicate combinations. For example, given
+ * candidate set 2,3,6,7 and target 7, A solution set is: [7] [2, 2, 3]
+ */
 public class CombinationSum {
-    /**
-     * Combination Sum
-     * 
-     * Given a set of candidate numbers (C) and a target number (T), find all
-     * unique combinations in C where the candidate numbers sums to T.
-     * 
-     * The same repeated number may be chosen from C unlimited number of times.
-     * 
-     * Note: All numbers (including target) will be positive integers. Elements
-     * in a combination (a1, a2, �� , ak) must be in non-descending order. (ie,
-     * a1 �� a2 �� �� �� ak). The solution set must not contain duplicate
-     * combinations. For example, given candidate set 2,3,6,7 and target 7, A
-     * solution set is: [7] [2, 2, 3]
-     */
-
     /*
-     * [2015]
-     * recursion + backtracking
+     * DFS + backtracking
+     * 
+     * * Without the else if block the code can still pass leetcode OJ, which
+     * shall not happen!
      */
     public class Solution {
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (candidates == null || candidates.length == 0) {
+		return res;
+	    }
+
+	    Arrays.sort(candidates);
+
+	    dfs(candidates, target, 0, new ArrayList<Integer>(), res);
+
+	    return res;
+	}
+
+	private void dfs(int[] candidates, int target, int pos,
+		List<Integer> tmp, List<List<Integer>> res) {
+	    if (target == 0) {
+		res.add(new ArrayList<Integer>(tmp));
+		return;
+	    }
+
+	    for (int i = pos; i < candidates.length; i++) {
+		if (candidates[i] > target) {
+		    break;
+		} else if (i > 0 && candidates[i] == candidates[i - 1]) {
+		    continue;
+		}
+		tmp.add(candidates[i]);
+		dfs(candidates, target - candidates[i], i, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
+	}
+    }
+
+    public class Solution_old {
 	public List<List<Integer>> combinationSum(int[] candidates, int target) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 

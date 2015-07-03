@@ -1,16 +1,16 @@
 package array;
 
-public class FirstMissingPositive {
-    /**
-     * First Missing Positive
-     * 
-     * Given an unsorted integer array, find the first missing positive integer.
-     * 
-     * For example, Given [1,2,0] return 3, and [3,4,-1,1] return 2.
-     * 
-     * Your algorithm should run in O(n) time and uses constant space.
-     */
+/**
+ * First Missing Positive
+ * 
+ * Given an unsorted integer array, find the first missing positive integer.
+ * 
+ * For example, Given [1,2,0] return 3, and [3,4,-1,1] return 2.
+ * 
+ * Your algorithm should run in O(n) time and uses constant space.
+ */
 
+public class FirstMissingPositive {
     /*
      * The result must be in this interval: [1, A.length].
      * 
@@ -31,41 +31,35 @@ public class FirstMissingPositive {
      * if all elements in A is bigger than 0, return A.length+1;
      */
     public class Solution {
-	public int firstMissingPositive(int[] A) {
-	    if (A == null) {
+	public int firstMissingPositive(int[] nums) {
+	    if (nums == null || nums.length == 0) {
 		return 1;
 	    }
 
-	    for (int i = 0; i < A.length; i++) {
-		if (A[i] < 1 || A[i] > A.length) {
-		    A[i] = 0;
+	    for (int i = 0; i < nums.length; i++) {
+		if (nums[i] < 1 || nums[i] > nums.length) {
+		    nums[i] = 0;
 		}
 	    }
 
-	    for (int i = 0; i < A.length; i++) {
-		if (A[i] == 0) {
-		    continue;
-		}
-
-		/*
-		 * Note: here A[i] may not be changed and stay positive.
-		 * so in next for loop the if condition is >=0, not ==0
-		 */
-		int index = Math.abs(A[i]) - 1;
-		if (A[index] == 0) {
-		    A[index] = -Math.abs(A[i]);
-		} else {
-		    A[index] = -Math.abs(A[index]);
+	    for (int i = 0; i < nums.length; i++) {
+		if (nums[i] != 0) {
+		    int k = Math.abs(nums[i]) - 1;
+		    if (nums[k] == 0) {
+			nums[k] = -Math.abs(nums[i]);
+		    } else {
+			nums[k] = -Math.abs(nums[k]);
+		    }
 		}
 	    }
 
-	    for (int i = 0; i < A.length; i++) {
-		if (A[i] >= 0) {
+	    for (int i = 0; i < nums.length; i++) {
+		if (nums[i] >= 0) {
 		    return i + 1;
 		}
 	    }
 
-	    return A.length + 1;
+	    return nums.length + 1;
 	}
     }
 
