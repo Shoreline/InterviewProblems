@@ -26,7 +26,38 @@ public class InsertInterval {
     /*
      * Same algorithm as the 2013 solution
      */
+
     public class Solution {
+	public List<Interval> insert(List<Interval> intervals,
+		Interval newInterval) {
+	    if (intervals == null || newInterval == null) {
+		return intervals;
+	    }
+	    List<Interval> res = new ArrayList<>();
+	    boolean inserted = false;
+
+	    for (Interval cur : intervals) {
+		if (inserted || cur.end < newInterval.start) {
+		    res.add(cur);
+		} else if (newInterval.end < cur.start) {
+		    res.add(newInterval);
+		    res.add(cur);
+		    inserted = true;
+		} else {
+		    newInterval.start = Math.min(cur.start, newInterval.start);
+		    newInterval.end = Math.max(cur.end, newInterval.end);
+		}
+	    }
+
+	    if (!inserted) {
+		res.add(newInterval);
+	    }
+
+	    return res;
+	}
+    }
+
+    public class Solution2 {
 	public List<Interval> insert(List<Interval> intervals,
 		Interval newInterval) {
 	    List<Interval> res = new ArrayList<Interval>();

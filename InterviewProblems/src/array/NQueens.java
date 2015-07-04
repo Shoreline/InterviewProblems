@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,53 +23,49 @@ import java.util.List;
  * ["..Q.", // Solution 2 "Q...", "...Q", ".Q.."] ]
  */
 
+/*
+ * Do not need a n*n array, just need a 1D array of size n to save the vertical
+ * index of the i-th queen at int queens[i] . After all, we only need to place 8
+ * pieces on board
+ */
 public class NQueens {
-
     public class Solution {
-	public List<String[]> solveNQueens(int n) {
+	public List<List<String>> solveNQueens(int n) {
+	    List<List<String>> res = new ArrayList<List<String>>();
+	    dfs(n, 0, new int[n], res);
 
-	    List<String[]> res = new ArrayList<String[]>();
-	    dfsHelper(n, 0, new int[n], res);
 	    return res;
 	}
 
-	// pos[i]=j: i-th row, j-th column
-	private void dfsHelper(int n, int count, int[] pos, List<String[]> res) {
-
+	private void dfs(int n, int count, int[] queens, List<List<String>> res) {
 	    if (count == n) {
-		StringBuilder sb = new StringBuilder();
-		String[] solution = new String[n];
+		List<String> ans = new ArrayList<String>();
 		for (int i = 0; i < n; i++) {
-		    for (int j = 0; j < n; j++) {
-			if (j == pos[i]) {
-			    sb.append('Q');
-			} else {
-			    sb.append('.');
-			}
-		    }
-		    solution[i] = sb.toString();
-		    sb.setLength(0);
+		    char[] row = new char[n];
+		    Arrays.fill(row, '.');
+		    row[queens[i]] = 'Q';
+		    ans.add(new String(row));
 		}
-		res.add(solution);
+		res.add(ans);
 		return;
 	    }
 
 	    for (int i = 0; i < n; i++) {
-		// try putting a queen at row count, column i
-		pos[count] = i;
-		if (isValid(count, pos)) {
-		    dfsHelper(n, count + 1, pos, res);
+		queens[count] = i;
+		if (isValid(count, queens)) {
+		    dfs(n, count + 1, queens, res);
 		}
 	    }
+
 	}
 
 	// dont need to check if the whole sub-board is vaild, just check if the
 	// newly added queen has conflict with existing queens
-	private boolean isValid(int count, int[] pos) {
-
-	    for (int i = 0; i < count; i++) {
-		if (pos[i] == pos[count]
-			|| Math.abs(pos[i] - pos[count]) == Math.abs(i - count)) {
+	private boolean isValid(int count, int[] queens) {
+	    for (int i = 0; i < count - 1; i++) {
+		if (queens[i] == queens[count]
+			|| Math.abs(queens[i] - queens[count]) == Math.abs(i
+				- count)) {
 		    return false;
 		}
 	    }

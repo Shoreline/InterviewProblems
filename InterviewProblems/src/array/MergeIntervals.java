@@ -21,11 +21,46 @@ import java.util.List;
  * Customize a comparator for Interval class, then sort intervals by their start
  */
 public class MergeIntervals {
+    /*
+     * Using pre is helpful
+     */
+    public class Solution {
+	public List<Interval> merge(List<Interval> intervals) {
+	    List<Interval> res = new ArrayList<>();
+	    if (intervals == null || intervals.size() == 0) {
+		return res;
+	    }
 
+	    Collections.sort(intervals, new Comparator<Interval>() {
+		@Override
+		public int compare(Interval i1, Interval i2) {
+		    if (i1.start != i2.start) {
+			return i1.start - i2.start;
+		    } else {
+			return i1.end - i2.end;
+		    }
+		}
+	    });
+
+	    Interval pre = intervals.get(0);
+	    for (int i = 1; i < intervals.size(); i++) {
+		Interval cur = intervals.get(i);
+		if (cur.start <= pre.end) {
+		    pre.end = Math.max(pre.end, cur.end);
+		} else {
+		    res.add(pre);
+		    pre = cur;
+		}
+	    }
+	    res.add(pre);
+
+	    return res;
+	}
+    }
     /*
      * Notice the different ways of implementing the Interval comparator
      */
-    public class Solution {
+    public class Solution2 {
 	public List<Interval> merge(List<Interval> intervals) {
 	    List<Interval> res = new ArrayList<Interval>();
 
@@ -78,44 +113,5 @@ public class MergeIntervals {
 
 	    return res;
 	}
-    }
-
-    public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
-	ArrayList<Interval> result = new ArrayList<Interval>();
-	if (intervals == null || intervals.isEmpty())
-	    return result;
-
-	/*
-	 * *Important* how to write a correct comparator!
-	 * 
-	 * The new comparator is directly implemented within the argument
-	 * parenthesis of Collections.sort()
-	 */
-	Collections.sort(intervals, new Comparator<Interval>() {
-	    @Override
-	    public int compare(Interval o1, Interval o2) {
-		return (o1.start - o2.start);
-	    }
-	});
-
-	Interval pre = intervals.get(0);
-	for (int i = 1; i < intervals.size(); i++) {
-	    Interval cur = intervals.get(i);
-
-	    /*
-	     * the if block can be replaced by a while loop
-	     */
-	    if (pre.end >= cur.start) {
-		pre.end = Math.max(pre.end, cur.end);
-		continue;
-	    }
-
-	    result.add(pre);
-	    pre = cur;
-	}
-	result.add(pre);
-
-	return result;
-
-    }
+    }  
 }
