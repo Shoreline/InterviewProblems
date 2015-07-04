@@ -1,5 +1,8 @@
 package string;
 
+import java.util.Arrays;
+import java.util.Stack;
+
 
 public class StringTest {
 
@@ -7,10 +10,9 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new ZigZagConversion().new Solution().convert("A", 1));
+
 	
     }
-    
     
 
 }

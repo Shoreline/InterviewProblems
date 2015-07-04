@@ -18,32 +18,28 @@ import java.util.Stack;
  */
 
 /*
- * Convert a stack to array: Have to include its type info:
- * stack.toArray(new String[stack.size()])
+ * Convert a stack to array: Have to include its type info: stack.toArray(new
+ * String[stack.size()])
+ * 
+ * The input path may not totally in correct format, so be aware of corner cases: ignore ".." if the stack is empty 
  */
 public class SimplifyPath {
-
     public class Solution {
 	public String simplifyPath(String path) {
-	    if (path == null || path.length() == 0) {
+	    if (path == null) {
 		return "";
 	    }
 
-	    StringBuilder res = new StringBuilder();
-	    Stack<String> stack = new Stack<String>();
-	    for (String subPath : path.split("/")) {
-		if (subPath.length() == 0 || subPath.equals(".")) {
+	    Stack<String> stack = new Stack<>();
+	    for (String p : path.split("/")) {
+		if (p.isEmpty() || p.equals(".")) {
 		    continue;
-		} else if (subPath.equals("..")) {
+		} else if (p.equals("..")) {
 		    if (!stack.isEmpty()) {
 			stack.pop();
 		    }
-		}
-		// else if(subPath.equals("..") && !stack.isEmpty()){
-		// stack.pop();
-		// }
-		else {
-		    stack.push(subPath);
+		} else {
+		    stack.push(p);
 		}
 	    }
 
@@ -51,11 +47,11 @@ public class SimplifyPath {
 		return "/";
 	    }
 
-	    for (String subPath : stack.toArray(new String[stack.size()])) {
+	    StringBuilder res = new StringBuilder();
+	    for (String p : stack.toArray(new String[stack.size()])) {
 		res.append('/');
-		res.append(subPath);
+		res.append(p);
 	    }
-
 	    return res.toString();
 	}
     }

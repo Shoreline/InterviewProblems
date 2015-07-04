@@ -40,30 +40,27 @@ public class SortColors {
      * k: boundary of 1 and unknown
      */
     public class Solution {
-	public void sortColors(int[] A) {
-	    if (A == null || A.length == 0)
+	public void sortColors(int[] nums) {
+	    if (nums == null) {
 		return;
+	    }
 
 	    int i = 0;
-	    int j = A.length - 1;
+	    int j = nums.length - 1;
 	    int k = 0;
-
 	    while (k <= j) {
-		if (A[k] == 0) {
-		    // effect: increase '0' portion, and let '1' portion move 1 element right 
-		    A[k] = A[i];
-		    A[i] = 0;
+		if (nums[k] == 0) {
+		    nums[k] = nums[i];
+		    nums[i] = 0;
 		    i++;
 		    k++;
-		} else if (A[k] == 2) {
-		    A[k] = A[j];
-		    A[j] = 2;
-		    j--;
-		} else {
-		    // *Important*
+		} else if (nums[k] == 1) {
 		    k++;
+		} else {
+		    nums[k] = nums[j];
+		    nums[j] = 2;
+		    j--;
 		}
-
 	    }
 	}
     }
