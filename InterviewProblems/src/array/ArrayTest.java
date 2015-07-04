@@ -10,7 +10,7 @@ public class ArrayTest {
      */
     public static void main(String[] args) {
 	
-	
+	System.out.println(new JumpGame2().new Solution().jump(new int[]{1,2}));
     }
 
     

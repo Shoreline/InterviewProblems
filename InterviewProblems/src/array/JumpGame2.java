@@ -1,28 +1,53 @@
 package array;
 
+/**
+ * Jump Game II
+ * 
+ * Given an array of non-negative integers, you are initially positioned at the
+ * first index of the array.
+ * 
+ * Each element in the array represents your maximum jump length at that
+ * position.
+ * 
+ * Your goal is to reach the last index in the minimum number of jumps.
+ * 
+ * For example: Given array A = [2,3,1,1,4]
+ * 
+ * The minimum number of jumps to reach the last index is 2. (Jump 1 step from
+ * index 0 to 1, then 3 steps to the last index.)
+ */
+
+/*
+ * DP can find minimum needed jumps for every element. Here the greedy method is
+ * actually to find "the maximum reachable range after N jumps". Once the
+ * maximum reachable range >= A.length-1 then the current jump times will be the
+ * result
+ */
 public class JumpGame2 {
-    /**
-     * Jump Game II
-     * 
-     * Given an array of non-negative integers, you are initially positioned at
-     * the first index of the array.
-     * 
-     * Each element in the array represents your maximum jump length at that
-     * position.
-     * 
-     * Your goal is to reach the last index in the minimum number of jumps.
-     * 
-     * For example: Given array A = [2,3,1,1,4]
-     * 
-     * The minimum number of jumps to reach the last index is 2. (Jump 1 step
-     * from index 0 to 1, then 3 steps to the last index.)
-     */
-    /*
-     * DP can find minimum needed jumps for every element. Here the greedy
-     * method is actually to find "the maximum reachable range after N jumps".
-     * Once the maximum reachable range >= A.length-1 then the current jump
-     * times will be the result
-     */
+    public class Solution {
+	public int jump(int[] nums) {
+	    if (nums == null || nums.length == 0) {
+		return -1;
+	    }
+
+	    int i = 0;
+	    int curReach = 0;
+	    int nextReach = 0;
+	    int jumps = 0;
+	    while (i < nums.length && curReach < nums.length - 1
+		    && i <= curReach) {
+		for (int j = i; j <= curReach; j++) {
+		    nextReach = Math.max(nextReach, j + nums[j]);
+		}
+		i = curReach + 1;
+		curReach = nextReach;
+		jumps++;
+	    }
+
+	    return jumps;
+	}
+    }
+
     public class Solution_Greedy3 {
 	public int jump(int[] A) {
 	    if (A == null || A.length < 1) {
@@ -37,7 +62,7 @@ public class JumpGame2 {
 	    int curRange = A[0];
 	    int nextRange = 0;
 
-	    // i start from 1. 
+	    // i start from 1.
 	    for (int i = 1; i < A.length; i++) {
 		for (int j = i; j <= curRange; j++) {
 		    nextRange = Math.max(j + A[j], nextRange);
@@ -100,62 +125,4 @@ public class JumpGame2 {
 	}
     }
 
-    /*
-     * first round
-     * 
-     * very very similar to the Jump Game I.
-     * 
-     * Just need to return the iterations of the while loop
-     */
-    class Solution_Greedy1 {
-	public int jump1(int[] A) {
-	    if (A.length == 0)
-		return 0;
-
-	    int i = 0;
-	    int jumpNum = 0;
-	    int curFarthest = 0;
-	    int newFarthest = 0;
-
-	    while (curFarthest < A.length - 1) {
-		for (int j = i; j <= curFarthest; j++) {
-		    newFarthest = Math.max(newFarthest, A[j] + j);
-		}
-		if (newFarthest == curFarthest) {
-		    return -1; // fail to jump over
-		}
-
-		i = curFarthest + 1;
-		curFarthest = newFarthest;
-		jumpNum++;
-	    }
-	    return jumpNum;
-	}
-    }
-
-    /*
-     * Time limit exceeded. Cannot pass corner cases
-     */
-    public class Method_DP {
-	public int jump(int[] A) {
-	    if (A == null || A.length < 1) {
-		return -1;
-	    }
-
-	    int[] minJumps = new int[A.length];
-
-	    for (int i = 0; i < A.length; i++) {
-		minJumps[i] = Integer.MAX_VALUE;
-	    }
-
-	    minJumps[0] = 0;
-	    for (int i = 0; i < A.length; i++) {
-		for (int j = i + 1; j < A.length && j <= i + A[i]; j++) {
-		    minJumps[j] = Math.min(minJumps[j], minJumps[i] + 1);
-		}
-	    }
-
-	    return minJumps[A.length - 1];
-	}
-    }
 }
