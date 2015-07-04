@@ -1,27 +1,57 @@
 package array;
 
-public class TrappingRainWater {
-    /**
-     * Trapping Rain Water
-     * 
-     * Given n non -negative integers representing an elevation map where the
-     * width of each bar is 1, compute how much water it is able to trap after
-     * raining.
-     * 
-     * For example, Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
-     */
+/**
+ * Trapping Rain Water
+ * 
+ * Given n non -negative integers representing an elevation map where the width
+ * of each bar is 1, compute how much water it is able to trap after raining.
+ * 
+ * For example, Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+ */
 
+public class TrappingRainWater {
     /*
-     * Best solution costs only O(N) time
-     * http://blog.csdn.net/linhuanmars/article/details/20888505 
+     * Two pointers solution, O(N) time.
+     * 
+     * the inner while loop condition must be height[left/right] < curMin! If
+     * using <= there will be error
      */
-    
-    
+    public class Solution {
+	public int trap(int[] height) {
+	    if (height == null) {
+		return 0;
+	    }
+
+	    int left = 0;
+	    int right = height.length - 1;
+	    int res = 0;
+	    while (left < right) {
+
+		int curMin = Math.min(height[left], height[right]);
+		if (height[left] == curMin) {
+		    left++;
+		    while (left < height.length && height[left] < curMin) {
+			res += curMin - height[left];
+			left++;
+		    }
+		} else {
+		    right--;
+		    while (right >= 0 && height[right] < curMin) {
+			res += curMin - height[right];
+			right--;
+		    }
+		}
+	    }
+
+	    return res;
+	}
+    }
+
     /*
      * If the highest bar on the left hand side of A[i] is maxLeft, and the
      * highest bar on its right hand side is maxRight, then A[i] can hole at
-     * most v = (min(maxLeft, maxRight) - A[i]) units of water. 
-     * (of course, if v < 0 then A[i] won't hold any water) 
+     * most v = (min(maxLeft, maxRight) - A[i]) units of water. (of course, if v
+     * < 0 then A[i] won't hold any water)
      * 
      * time: O(3N); space: O(2N)
      * 
@@ -29,7 +59,7 @@ public class TrappingRainWater {
      * 
      * similar to: Candy
      */
-    public class Solution {
+    public class Solution2 {
 	public int trap(int[] A) {
 	    if (A == null || A.length < 3) {
 		return 0;

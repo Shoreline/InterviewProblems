@@ -22,11 +22,12 @@ import java.util.List;
  */
 
 public class InsertInterval {
-
     /*
-     * Same algorithm as the 2013 solution
+     * a much simpler O(N) solution
+     * 
+     * If there is any overlap between newInterval and curInterval, let the
+     * newInterval absorb curInterval, until it is safe to insert
      */
-
     public class Solution {
 	public List<Interval> insert(List<Interval> intervals,
 		Interval newInterval) {
@@ -57,6 +58,9 @@ public class InsertInterval {
 	}
     }
 
+    /*
+     * Same algorithm as the 2013 solution
+     */
     public class Solution2 {
 	public List<Interval> insert(List<Interval> intervals,
 		Interval newInterval) {

@@ -19,6 +19,13 @@ import java.util.ArrayList;
 public class PermutationSequence {
     /*
      * Time: O(N^2). The remove() of an arrayList costs O(N)
+     * 
+     * For N unused digits, there are N! permutations in total. Chose
+     * the r-largest digit in them as the next digit of result, then all
+     * (r-1)*(N-1)! possibilities will be surely smaller than the final number
+     * 
+     * k-th permutation, means there are (k-1) permutations smaller than it. So
+     * rank = (k-1)/f
      */
     public class Solution {
 	public String getPermutation(int n, int k) {
@@ -26,28 +33,27 @@ public class PermutationSequence {
 		return "";
 
 	    StringBuilder result = new StringBuilder();
-	    ArrayList<Integer> numList = new ArrayList<Integer>();
+	    ArrayList<Integer> unUsed = new ArrayList<Integer>();
 	    int f = 1;
 	    for (int i = 1; i <= n; i++) {
-		numList.add(i);
+		unUsed.add(i);
 		f *= i;
 	    }
 	    if (k > f) {
 		return "";
 	    }
 
-	    while (!numList.isEmpty()) {
-		int len = numList.size();
-		
-		// let f = (len-1)!, which is the combination possiblity for len-1 number
-		f = f / len; 		
-		// index is a guranteed between [0, len-1]
-		int index = (k - 1) / f;
-		
-		result.append(numList.get(index));
+	    while (!unUsed.isEmpty()) {
+		int len = unUsed.size();
 
-		k -= index * f;
-		numList.remove(index);
+		// let f = (len-1)!, which is the # of combos for len-1 digits
+		f = f / len;
+		// index is guaranteed between [0, len-1]
+
+		int rank = (k - 1) / f;
+		result.append(unUsed.get(rank));
+		k -= rank * f;
+		unUsed.remove(rank);
 	    }
 
 	    return result.toString();

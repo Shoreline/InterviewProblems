@@ -10,7 +10,7 @@ public class ArrayTest {
      */
     public static void main(String[] args) {
 	
-	System.out.println(new JumpGame2().new Solution().jump(new int[]{1,2}));
+	System.out.println(new MinimumPathSum().new Solution().minPathSum(new int [][]{{1,3,1},{1,5,1},{4,2,1}}));
     }
 
     
