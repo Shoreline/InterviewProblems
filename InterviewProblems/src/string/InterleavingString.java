@@ -12,59 +12,14 @@ package string;
  * When s3 = "aadbbbaccc", return false.
  */
 
+/*
+ * dp[i][j]: whether the first i characters in s1 and first j characters in
+ * s2 can form the first i+j characters of s3
+ * 
+ * Check the rolling array version, no need additional initialization
+ * process
+ */
 public class InterleavingString {
-
-    /*
-     * dp[i][j]: whether the first i characters in s1 and first j characters in
-     * s2 can form the first i+j characters of s3
-     * 
-     * Check the rolling array version, no need additional initialization
-     * process
-     */
-    public class Solution_DP {
-	public boolean isInterleave(String s1, String s2, String s3) {
-	    // missing deal with s1,s2,s3 is null cases...
-	    if (s1.length() + s2.length() != s3.length()) {
-		return false;
-	    }
-
-	    boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
-
-	    dp[0][0] = true;
-	    for (int i = 1; i <= s1.length(); i++) {
-		// dp[i][0] = s1.substring(0, i).equals(s3.substring(0, i));
-		dp[i][0] = dp[i - 1][0]
-			&& (s1.charAt(i - 1) == s3.charAt(i - 1));
-	    }
-
-	    for (int j = 1; j <= s2.length(); j++) {
-		// dp[0][j] = s2.substring(0, j).equals(s3.substring(0, j));
-		dp[0][j] = dp[0][j - 1]
-			&& (s2.charAt(j - 1) == s3.charAt(j - 1));
-	    }
-
-	    /*
-	     * easy to make mistake: in if check s3.charAt(i+j-1), not
-	     * s3.charAt(i+j-2)!
-	     */
-	    for (int i = 1; i <= s1.length(); i++) {
-		for (int j = 1; j <= s2.length(); j++) {
-		    if (s1.charAt(i - 1) == s3.charAt(i + j - 1)
-			    && dp[i - 1][j]
-			    || s2.charAt(j - 1) == s3.charAt(i + j - 1)
-			    && dp[i][j - 1]) {
-			dp[i][j] = true;
-		    } else {
-			dp[i][j] = false;
-		    }
-
-		}
-	    }
-
-	    return dp[s1.length()][s2.length()];
-	}
-    }
-
     /*
      * Saves space.
      */
@@ -91,6 +46,38 @@ public class InterleavingString {
 	    return res[minWord.length()];
 	}
     }
+    
+    /*
+     * Straightforward DP using 2D array.
+     */
+    public class Solution_DP {
+	public boolean isInterleave(String s1, String s2, String s3) {
+	    if (s1.length() + s2.length() != s3.length()) {
+		return false;
+	    }
+
+	    boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+
+	    for (int i = 0; i <= s1.length(); i++) {
+		for (int j = 0; j <= s2.length(); j++) {
+		    if (i == 0 && j == 0) {
+			dp[i][j] = true;
+		    } else if (i == 0) {
+			dp[i][j] = dp[i][j - 1]
+				&& s2.charAt(j - 1) == s3.charAt(j - 1);
+		    } else if (j == 0) {
+			dp[i][j] = dp[i - 1][j]
+				&& s1.charAt(i - 1) == s3.charAt(i - 1);
+		    } else {
+			dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1))
+				|| (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
+		    }
+		}
+	    }
+
+	    return dp[s1.length()][s2.length()];
+	}
+    }    
 
     /*
      * Interesting way of initialization

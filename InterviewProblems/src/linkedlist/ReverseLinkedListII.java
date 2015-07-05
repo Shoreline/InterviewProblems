@@ -25,7 +25,6 @@ package linkedlist;
  * direction between two adjacent nodes)
  */
 public class ReverseLinkedListII {
-
     /*
      * The reversing part is similar to ReverseLinkedList I; simpler than the
      * 2013 solution
@@ -38,17 +37,17 @@ public class ReverseLinkedListII {
 
 	    ListNode preSubHead = new ListNode(-1);
 	    preSubHead.next = head;
-	    for (int i = 0; i < m - 1; i++) {	// easy to make mistake
+	    for (int i = 0; i < m - 1; i++) { // easy to make mistake
 		preSubHead = preSubHead.next;
 	    }
 
 	    ListNode pre = preSubHead;
 	    ListNode cur = pre.next;
-	    for (int i = 0; i <= n - m && cur != null; i++) {
-		ListNode tmp = cur.next;
+	    for (int i = 0; i < n - m + 1; i++) {
+		ListNode next = cur.next;
 		cur.next = pre;
 		pre = cur;
-		cur = tmp;
+		cur = next;
 	    }
 
 	    preSubHead.next.next = cur; // if reach here than m<n
@@ -56,6 +55,51 @@ public class ReverseLinkedListII {
 
 	    return (m == 1 ? pre : head);
 	}
+    }
+
+    public class Solution2 {
+	public ListNode reverseBetween(ListNode head, int m, int n) {
+	    if (head == null || m == n) {
+		return head;
+	    }
+
+	    ListNode preHead = new ListNode(-1);
+	    preHead.next = head;
+	    ListNode fast = head;
+	    ListNode slow = head;
+	    ListNode pre = preHead;
+
+	    for (int i = 0; i < n - m; i++) {
+		fast = fast.next;
+	    }
+
+	    for (int i = 0; i < m - 1; i++) {
+		pre = pre.next;
+		slow = slow.next;
+		fast = fast.next;
+	    }
+
+	    ListNode next = fast.next;
+	    fast.next = null;
+	    reverse(slow);
+	    pre.next = fast;
+	    slow.next = next;
+
+	    return preHead.next;
+	}
+
+	private ListNode reverse(ListNode head) {
+	    ListNode pre = null;
+	    ListNode cur = head;
+	    while (cur != null) {
+		ListNode next = cur.next;
+		cur.next = pre;
+		pre = cur;
+		cur = next;
+	    }
+	    return pre;
+	}
+
     }
 
     class Solution_2013 {

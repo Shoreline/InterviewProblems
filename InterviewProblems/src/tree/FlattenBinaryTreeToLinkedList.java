@@ -31,16 +31,13 @@ public class FlattenBinaryTreeToLinkedList {
 		return;
 	    }
 
-	    if (preNode == null) {
-		preNode = root;
-	    } else {
+	    if (preNode != null) {
 		preNode.right = root;
 	    }
 	    preNode = root;
 	    TreeNode left = root.left;
 	    TreeNode right = root.right;
 	    root.left = null;
-	    // root.right = null; Not necessary
 
 	    flatten(left);
 	    flatten(right);

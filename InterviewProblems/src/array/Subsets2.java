@@ -29,42 +29,38 @@ public class Subsets2 {
      * be added to tmp list
      * 
      * The rest is the same with subset I
+     * 
+     * if (i > pos && nums[i] == nums[i - 1]) continue;
+     * 
+     * -> if i==pos, then no matter nums[i] is a repeated element it will be
+     * added to tmp
      */
-
     public class Solution {
-	public List<List<Integer>> subsetsWithDup(int[] num) {
-
+	public List<List<Integer>> subsetsWithDup(int[] nums) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
-	    if (num == null || num.length == 0) {
+	    if (nums == null || nums.length == 0) {
 		return res;
 	    }
 
-	    Arrays.sort(num);
-	    dfs(num, 0, new ArrayList<Integer>(), res);
+	    Arrays.sort(nums);
+	    dfs(nums, 0, new ArrayList<Integer>(), res);
 	    return res;
 	}
 
-	private void dfs(int[] S, int pos, List<Integer> tmp,
+	private void dfs(int[] nums, int pos, List<Integer> tmp,
 		List<List<Integer>> res) {
-
-	    // add N elements in tmp
 	    res.add(new ArrayList<Integer>(tmp));
 
-	    for (int i = pos; i < S.length; i++) {
-		
-		// this if block is the only difference with subset I
-		if (i > pos && S[i] == S[i - 1]) {
+	    for (int i = pos; i < nums.length; i++) {
+		if (i > pos && nums[i] == nums[i - 1]) {
 		    continue;
 		}
 
-		tmp.add(S[i]);
-		// call next round dfs to add N+1 elements
-		dfs(S, i + 1, tmp, res);
+		tmp.add(nums[i]);
+		dfs(nums, i + 1, tmp, res);
 		tmp.remove(tmp.size() - 1);
 	    }
-
 	}
-
     }
 
     /*

@@ -19,10 +19,10 @@ package linkedlist;
 /*
  * create two new lists based on the original one, then link them together
  * 
- * Or to use double pointers: http://blog.csdn.net/linhuanmars/article/details/24446871
+ * Or to use double pointers:
+ * http://blog.csdn.net/linhuanmars/article/details/24446871
  */
 public class PartitionList {
-
     public class Solution {
 	public ListNode partition(ListNode head, int x) {
 	    if (head == null) {
@@ -48,6 +48,15 @@ public class PartitionList {
 		    tail2.next = null;
 		}
 	    }
+
+	    // Wrong. Must update variables of tail1 and tail2
+//	    while (cur != null) {
+//		ListNode tail = cur.val < x ? tail1 : tail2;
+//		tail.next = cur;
+//		cur = cur.next;
+//		tail = tail.next;
+//		tail.next = null;
+//	    }
 
 	    tail1.next = preHead2.next;
 

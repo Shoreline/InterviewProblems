@@ -86,6 +86,7 @@ public class GrayCode {
 		for (int j = res.size() - 1; j >= 0; j--) {
 		    // 2^(i-1) is wrong, it does not compute pow(2, i-1).
 		    res.add(res.get(j) + (1 << (i - 1)));
+		    // wrong: res.add(res.get(j) + 1 << (i - 1)); 
 		}
 	    }
 	    return res;
