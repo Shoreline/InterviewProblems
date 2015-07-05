@@ -49,6 +49,44 @@ import java.util.Stack;
  * 12. Since 12 is larger than the previous largest, 10, we output 12.
  */
 public class LargestRectangleInHistogram {
+    /*
+     * not the most concise one, but more straightforward
+     * 
+     * The stack saves the index of previous rectangle's right side. So its left
+     * side index is stack.pop().peek() +1. Also, this is not the rectangle we want to use! The one we want to use has its right side of index i-1
+     * 
+     * Use the extended height array reduced code complexity
+     */
+    public class Solution {
+	public int largestRectangleArea(int[] height) {
+	    if (height == null || height.length == 0) {
+		return 0;
+	    }
+	    Stack<Integer> stack = new Stack<>();
+
+	    int[] tmp = new int[height.length + 1];
+	    tmp = Arrays.copyOf(height, height.length + 1);
+	    height = tmp;
+
+	    int max = 0;
+	    int area = 0;
+	    for (int i = 0; i < height.length; i++) {
+		if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
+		    stack.push(i);
+		} else {
+		    while (!stack.isEmpty() && height[i] < height[stack.peek()]) {
+			int j = stack.pop();
+			area = height[j]
+				* (stack.isEmpty() ? i : i - stack.peek() - 1);
+			max = Math.max(max, area);
+		    }
+		    stack.push(i);
+		}
+	    }
+
+	    return max;
+	}
+    }
 
     /*
      * best, most concise solution so far
@@ -82,7 +120,7 @@ public class LargestRectangleInHistogram {
     /*
      * Let the stack store height[] index, instead of height[] element values
      */
-    public class Solution {
+    public class Solution2 {
 	public int largestRectangleArea(int[] height) {
 	    if (height == null || height.length == 0) {
 		return 0;
@@ -120,7 +158,7 @@ public class LargestRectangleInHistogram {
     /*
      * second round. Do not need additional class
      */
-    class Solution_2 {
+    class Solution3 {
 	public int largestRectangleArea(int[] height) {
 	    if (height == null || height.length == 0)
 		return 0;

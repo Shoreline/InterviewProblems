@@ -1,20 +1,21 @@
 package linkedlist;
 
+/**
+ * Remove Duplicates from Sorted List
+ * 
+ * Given a sorted linked list, delete all duplicates such that each element
+ * appear only once.
+ * 
+ * For example,
+ * 
+ * Given 1->1->2, return 1->2.
+ * 
+ * Given 1->1->2->3->3, return 1->2->3.
+ */
+
 public class RemoveDuplicatesFromSortedList {
-    /**
-     * Remove Duplicates from Sorted List
-     * 
-     * Given a sorted linked list, delete all duplicates such that each element
-     * appear only once.
-     * 
-     * For example,
-     * 
-     * Given 1->1->2, return 1->2.
-     * 
-     * Given 1->1->2->3->3, return 1->2->3.
-     */
     /*
-     * simple 
+     * simple
      */
     public class Solution {
 	public ListNode deleteDuplicates(ListNode head) {
@@ -22,17 +23,20 @@ public class RemoveDuplicatesFromSortedList {
 		return null;
 	    }
 
-	    ListNode headPtr = head;
-	    while (head.next != null) {
-		if (head.val == head.next.val) {
-		    head.next = head.next.next;
-		    continue;
+	    ListNode pre = head;
+	    ListNode cur = head.next;
+	    while (cur != null) {
+		if (pre.val == cur.val) {
+		    pre.next = cur.next;
+		    cur = cur.next;
 		} else {
-		    head = head.next;
+		    pre = pre.next;
+		    cur = cur.next;
 		}
+
 	    }
 
-	    return headPtr;
+	    return head;
 	}
     }
 

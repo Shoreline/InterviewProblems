@@ -1,29 +1,61 @@
 package linkedlist;
 
+/**
+ * Remove Duplicates from Sorted List II
+ * 
+ * Given a sorted linked list, delete all nodes that have duplicate numbers,
+ * leaving only distinct numbers from the original list.
+ * 
+ * For example,
+ * 
+ * Given 1->2->3->3->4->4->5, return 1->2->5.
+ * 
+ * Given 1->1->1->2->3, return 2->3.
+ */
+
 public class RemoveDuplicatesFromSortedList2 {
-    /**
-     * Remove Duplicates from Sorted List II
-     * 
-     * Given a sorted linked list, delete all nodes that have duplicate numbers,
-     * leaving only distinct numbers from the original list.
-     * 
-     * For example,
-     * 
-     * Given 1->2->3->3->4->4->5, return 1->2->5.
-     * 
-     * Given 1->1->1->2->3, return 2->3.
+    /*
+     * Straightforward thought.
      */
+    public class Solution {
+	public ListNode deleteDuplicates(ListNode head) {
+	    if (head == null) {
+		return null;
+	    }
+
+	    ListNode preHead = new ListNode(-1);
+	    preHead.next = head;
+	    ListNode cur = head;
+	    ListNode pre = preHead;
+
+	    while (cur != null && cur.next != null) {
+		if (cur.val == cur.next.val) {
+		    while (cur != null && cur.next != null
+			    && cur.val == cur.next.val) {
+			cur = cur.next;
+		    }
+		    pre.next = cur.next;
+		    cur = cur.next;
+		} else {
+		    pre = pre.next;
+		    cur = cur.next;
+		}
+	    }
+	    return preHead.next;
+	}
+    }
 
     /*
-     * I do not like using node.next.next. Below solution is more straightforward
+     * I do not like using node.next.next. Below solution is more
+     * straightforward
      * 
      * Use cur instead of head as pointer variable to scan the list; 'head' will
      * be the true head of new list. It will point to the first non-duplicated
      * node -> this is for easy understanding.
      * 
-     * Dummy node tail is used to create a new list for return. 
+     * Dummy node tail is used to create a new list for return.
      */
-    public class Solution {
+    public class Solution2 {
 	public ListNode deleteDuplicates(ListNode head) {
 	    ListNode tail = new ListNode(-1);
 	    tail.next = head;
@@ -40,8 +72,8 @@ public class RemoveDuplicatesFromSortedList2 {
 
 		if (!isDuplicated) {
 		    /*
-		     * Only add non-duplicated node to new list
-		     * head will be assigned to the first non-duplicated node
+		     * Only add non-duplicated node to new list head will be
+		     * assigned to the first non-duplicated node
 		     */
 		    head = (head == null ? cur : head);
 
@@ -51,8 +83,8 @@ public class RemoveDuplicatesFromSortedList2 {
 
 		    /*
 		     * need to clear tail.next. Otherwise if the rest of list
-		     * are all duplicated nodes then tail will still be connected
-		     * with them
+		     * are all duplicated nodes then tail will still be
+		     * connected with them
 		     */
 		    tail.next = null;
 		} else {

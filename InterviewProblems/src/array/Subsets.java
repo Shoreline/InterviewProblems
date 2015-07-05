@@ -3,12 +3,13 @@ package array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 /**
  * Given a set of distinct integers, S, return all possible subsets.
  * 
- * Note: Elements in a subset must be in non-descending order. The solution
- * set must not contain duplicate subsets. For example, If S = [1,2,3], a
- * solution is:
+ * Note: Elements in a subset must be in non-descending order. The solution set
+ * must not contain duplicate subsets. For example, If S = [1,2,3], a solution
+ * is:
  * 
  * [ [3], [1], [2], [1,2,3], [1,3], [2,3], [1,2], [] ]
  */
@@ -17,13 +18,11 @@ import java.util.List;
  * non-deterministic polynomial (NP) time complexity
  */
 public class Subsets {
-    
+
     /*
-     * DFS
-     * -same as ninechapter solution
-     * Each round, there is N elements in tmp. Two things needs to be done: 
-     * 1). add these N elements to res; 
-     * 2). call next round of dfs to add N+1 elements
+     * DFS -same as ninechapter solution Each round, there is N elements in tmp.
+     * Two things needs to be done: 1). add these N elements to res; 2). call
+     * next round of dfs to add N+1 elements
      */
     public class Solution {
 	public List<List<Integer>> subsets(int[] S) {
@@ -37,24 +36,54 @@ public class Subsets {
 	    return res;
 	}
 
-	private void dfs(int[] S, int pos, List<Integer> tmp,
+	private void dfs(int[] nums, int pos, List<Integer> tmp,
 		List<List<Integer>> res) {
 
 	    // add N elements in tmp
 	    res.add(new ArrayList<Integer>(tmp));
-
-	    // this if block is useless
-	    if (pos == S.length) {
-		return;
-	    }
-
-	    for (int i = pos; i < S.length; i++) {
-		tmp.add(S[i]);
+	   
+	    for (int i = pos; i < nums.length; i++) {
+		tmp.add(nums[i]);
 		// call next round dfs to add N+1 elements
-		dfs(S, i + 1, tmp, res); 
+		dfs(nums, i + 1, tmp, res);
 		tmp.remove(tmp.size() - 1);
 	    }
 
+	}
+    }
+
+    /*
+     * Each dfs actually has one more branch: do-not-add.
+     * 
+     * Cannot distinguish [dna,2] and [2] and [2,dna,dna,...]!
+     */
+    public class Wrong_attempt {
+	public List<List<Integer>> subsets(int[] nums) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (nums == null) {
+		return res;
+	    }
+	    Arrays.sort(nums);
+	    dfs(nums, 0, new ArrayList<Integer>(), res);
+	    return res;
+	}
+
+	private void dfs(int[] nums, int pos, List<Integer> tmp,
+		List<List<Integer>> res) {
+	    if (pos == nums.length) {
+		res.add(new ArrayList<Integer>(tmp));
+		return;
+	    }
+
+	    //tmp.add(999);
+	    dfs(nums, pos + 1, tmp, res);
+	    //tmp.remove(tmp.size()-1);
+	    
+	    for (int i = pos; i < nums.length; i++) {
+		tmp.add(nums[i]);
+		dfs(nums, i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
 	}
     }
 

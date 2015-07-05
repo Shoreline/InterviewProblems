@@ -21,9 +21,12 @@ import java.util.Map;
 
 /*
  * allow resilient characters in the window substring.
+ * 
+ * First keep extending right side of the window to include every needed
+ * character, when done (count == t.length()), start to try shrinking the left
+ * side of window
  */
 public class MinimumWindowSubstring {
-
     public class Solution {
 	public String minWindow(String s, String t) {
 	    if (s == null || t == null || s.length() < t.length()) {
@@ -74,11 +77,8 @@ public class MinimumWindowSubstring {
 
 	    }
 
-	    if (minLen > s.length()) {
-		return "";
-	    }
-
-	    return s.substring(minStart, minStart + minLen);
+	    return minLen > s.length() ? "" : s.substring(minStart, minStart
+		    + minLen);
 	}
     }
 

@@ -10,7 +10,7 @@ public class ArrayTest {
      */
     public static void main(String[] args) {
 	
-	System.out.println(new MinimumPathSum().new Solution().minPathSum(new int [][]{{1,3,1},{1,5,1},{4,2,1}}));
+	System.out.println(new MaximalRectangle().new Solution().maximalRectangle(new char[][]{{'1','1'}}));
     }
 
     

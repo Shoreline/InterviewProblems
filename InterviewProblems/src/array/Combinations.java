@@ -5,31 +5,64 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * Combinations
+ * 
+ * Given two integers n and k, return all possible combinations of k numbers out
+ * of 1 ... n.
+ * 
+ * For example, If n = 4 and k = 2, a solution is:
+ * 
+ * [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
+ */
+
 public class Combinations {
-    /**
-     * Combinations
+    /*
+     * DFS + backtracking
      * 
-     * Given two integers n and k, return all possible combinations of k numbers
-     * out of 1 ... n.
-     * 
-     * For example, If n = 4 and k = 2, a solution is:
-     * 
-     * [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
+     * pos starts from 1!
      */
+    public class Solution {
+	public List<List<Integer>> combine(int n, int k) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (n < 1 || k < 1) {
+		return res;
+	    }
+
+	    dfs(n, k, 1, new ArrayList<Integer>(), res);
+
+	    return res;
+	}
+
+	private void dfs(int n, int k, int pos, List<Integer> tmp,
+		List<List<Integer>> res) {
+	    if (tmp.size() == k) {
+		res.add(new ArrayList<Integer>(tmp));
+		return;
+	    }
+
+	    for (int i = pos; i <= n; i++) {
+		tmp.add(i);
+		dfs(n, k, i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
+	}
+    }
 
     /*
      * DFS traverse
      * 
      * prune impossible brances to save time
      */
-    public class Solution {
+    public class Solution2 {
 	public List<List<Integer>> combine(int n, int k) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 	    if (n < 1 || k < 1 || n < k) {
 		return res;
 	    }
 
-	    dfsHelper(n, k, 1, new ArrayList<Integer>(), res); // start from 1, not 0
+	    dfsHelper(n, k, 1, new ArrayList<Integer>(), res); // start from 1,
+							       // not 0
 
 	    return res;
 	}
@@ -43,7 +76,7 @@ public class Combinations {
 
 	    for (int i = pos; i <= n; i++) {
 		if (n - i + 1 < k - tmp.size()) {
-		    break;	// prune invalid branches
+		    break; // prune invalid branches
 		}
 
 		tmp.add(i);
