@@ -25,6 +25,7 @@ package string;
  * AB -> 28
  *
  */
+
 public class ExcelSheetColumnNumber {
     public class Solution {
 	public int titleToNumber(String s) {

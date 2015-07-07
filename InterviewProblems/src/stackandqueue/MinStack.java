@@ -3,10 +3,20 @@ package stackandqueue;
 import java.util.Stack;
 
 /**
+ * Min Stack
  * 
- * @author Yuan
+ * Design a stack that supports push, pop, top, and retrieving the minimum
+ * element in constant time.
  * 
- *         150-question book, 3.2
+ * push(x) -- Push element x onto stack.
+ * 
+ * pop() -- Removes the element on top of the stack.
+ * 
+ * top() -- Get the top element.
+ * 
+ * getMin() -- Retrieve the minimum element in the stack.
+ * 
+ * 150-question book, 3.2
  * 
  */
 /*
@@ -14,67 +24,30 @@ import java.util.Stack;
  * 
  * use '<=' in push() and pop(). '<' won't work.
  */
-class MinStack2 {
+class MinStack {
     Stack<Integer> stack = new Stack<Integer>();
     Stack<Integer> minStack = new Stack<Integer>();
-    
+
     public void push(int x) {
-        if(minStack.isEmpty() || x<=minStack.peek()){
-            minStack.push(x);
-        }
-        stack.push(x);
+	if (minStack.isEmpty() || x <= minStack.peek()) {
+	    minStack.push(x);
+	}
+	stack.push(x);
     }
 
     public void pop() {
-        if(stack.peek()<=minStack.peek()){
-            minStack.pop();
-        }
-        stack.pop();
+	// "==" won't work!
+	if (stack.peek() <= minStack.peek()) {
+	    minStack.pop();
+	}
+	stack.pop();
     }
 
     public int top() {
-        return stack.peek();
+	return stack.peek();
     }
 
     public int getMin() {
-        return minStack.peek();
+	return minStack.peek();
     }
-}
-
-/*
- * Extends Stack, just need to add the one additional minStack
- */
-public class MinStack extends Stack<Integer> {
-    Stack<Integer> minStack;
-
-    public MinStack() {
-	minStack = new Stack<Integer>();
-
-    }
-
-    public void push(int item) {
-	super.push(item);
-	if (item < getMin()) {
-	    minStack.push(item);
-	}
-
-    }
-
-    public int pop(int item) {
-	int value = super.pop();
-	if (value == getMin()) {
-	    minStack.pop();
-	}
-	return value;
-    }
-
-    public int getMin() {
-	if (minStack.isEmpty()) {
-	    System.err.println("stack is empty");
-	    return Integer.MIN_VALUE;
-	} else {
-	    return minStack.peek();
-	}
-    }
-
 }

@@ -25,14 +25,15 @@ public class MaximumGap {
      * To evenly cut [A,B] into N-1 buckets, each bucket has size of
      * ceiling[(B-A)/(N-1)].
      */
-    public class Solution {
-	class Range {
+
+    public class Solution2 {
+	class Bucket {
 	    int low;
 	    int high;
 
-	    public Range(int _low, int _high) {
-		low = _low;
-		high = _high;
+	    public Bucket(int _low, int _high) {
+		this.low = _low;
+		this.high = _high;
 	    }
 	}
 
@@ -41,43 +42,41 @@ public class MaximumGap {
 		return 0;
 	    }
 
-	    int max = nums[0];
-	    int min = nums[0];
-	    for (int i = 1; i < nums.length; i++) {
-		max = nums[i] > max ? nums[i] : max;
-		min = nums[i] < min ? nums[i] : min;
+	    int min = Integer.MAX_VALUE;
+	    int max = Integer.MIN_VALUE;
+	    for (int num : nums) {
+		min = Math.min(min, num);
+		max = Math.max(max, num);
 	    }
 
 	    int size = (int) Math
 		    .ceil((double) (max - min) / (nums.length - 1));
+	    Bucket[] buckets = new Bucket[nums.length]; // not nums.length-1!
+	    // or buckets = new Range[(max - min) / size + 1];
 
-	    // new Range(nums.length) also works
-	    Range[] buckets = new Range[(max - min) / size + 1];	    
-	    for (int i = 0; i < nums.length; i++) {
-		int k = (nums[i] - min) / size;
-		Range r = buckets[k];
-		if (r == null) {
-		    buckets[k] = new Range(nums[i], nums[i]);
+	    for (int num : nums) {
+		int k = num / size;
+		Bucket bucket = buckets[k];
+		if (bucket == null) {
+		    bucket = new Bucket(num, num);
+		    buckets[k] = bucket;
 		} else {
-		    r.low = nums[i] < r.low ? nums[i] : r.low;
-		    r.high = nums[i] > r.high ? nums[i] : r.high;
+		    bucket.low = Math.min(num, bucket.low);
+		    bucket.high = Math.max(num, bucket.high);
 		}
 	    }
 
-	    int maxGap = 0;
-	    Range pre = null;
-	    for (int i = 0; i < buckets.length; i++) {
-		if (buckets[i] == null) {
-		    continue;
-		} else if (pre == null) {
-		    maxGap = buckets[i].high - buckets[i].low;
-		    pre = buckets[i];
-		} else {
-		    int gap = buckets[i].low - pre.high;
-		    maxGap = maxGap > gap ? maxGap : gap;
-		    pre = buckets[i];
+	    // TODO: not sure if preHigh and maxGap have right initial values
+	    int preHigh = min;
+	    int maxGap = size;
+	    for (Bucket bucket : buckets) {
+		if (bucket != null) {
+		    int gap = bucket.low - preHigh;
+		    maxGap = Math.max(gap, maxGap);
+		    preHigh = bucket.high;
 		}
 	    }
+
 	    return maxGap;
 	}
     }

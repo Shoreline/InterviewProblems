@@ -25,21 +25,17 @@ public class CompareVersionNumbers {
      */
     public class Solution {
 	public int compareVersion(String version1, String version2) {
-	    // if(version1==null&& version2==null){
-	    // return 0;
-	    // }
-	    // else if(version1==null||version2==null){
-	    // return version1==null? -1:1;
-	    // }
+	    // version strings are non-empty
+	    String[] v1 = version1.split("\\.");
+	    String[] v2 = version2.split("\\.");
 
-	    String[] ver1 = version1.split("\\.");
-	    String[] ver2 = version2.split("\\.");
-	    int len = Math.max(ver1.length, ver2.length); // graceful handling
-	    for (int i = 0; i < len; i++) {
-		int v1 = i < ver1.length ? Integer.parseInt(ver1[i]) : 0;
-		int v2 = i < ver2.length ? Integer.parseInt(ver2[i]) : 0;
-		if (v1 != v2) {
-		    return v1 > v2 ? 1 : -1;
+	    for (int i = 0; i < Math.max(v1.length, v2.length); i++) {
+		String val1 = i < v1.length ? v1[i] : "0";
+		String val2 = i < v2.length ? v2[i] : "0";
+
+		int diff = Integer.valueOf(val1) - Integer.valueOf(val2);
+		if (diff != 0) {
+		    return diff > 0 ? 1 : -1;
 		}
 	    }
 

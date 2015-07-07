@@ -59,7 +59,6 @@ public class FractionToRecurringDecimal {
 		num *= 10; // important
 
 		sb.append(String.valueOf((num / denom)));
-
 		num %= denom;
 		i++;
 	    }

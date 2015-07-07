@@ -25,7 +25,9 @@ package string;
  */
 
 /*
- * why use n-1 instead of n?
+ * why n-- in each while loop?
+ * 
+ * Because the smallest digit in this special 26-进制 mechanism is 1 instead of 0.
  */
 public class ExcelSheetColumnTitle {
     public class Solution {
@@ -33,8 +35,9 @@ public class ExcelSheetColumnTitle {
 	    StringBuilder sb = new StringBuilder();
 
 	    while (n > 0) {
-		sb.append((char) ('A' + (n - 1) % 26));
-		n = (n - 1) / 26;
+		n--;
+		sb.append((char) ('A' + n % 26));
+		n /= 26;
 	    }
 
 	    return sb.reverse().toString();
