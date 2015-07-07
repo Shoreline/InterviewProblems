@@ -1,9 +1,10 @@
 package linkedlist;
 
 /**
- * Copy List with Random Pointer A linked list is given such that each node
- * contains an additional random pointer which could point to any node in the
- * list or null.
+ * Copy List with Random Pointer
+ * 
+ * A linked list is given such that each node contains an additional random
+ * pointer which could point to any node in the list or null.
  * 
  * Return a deep copy of the list.
  *
@@ -36,33 +37,27 @@ public class CopyListWithRandomPointer {
 	    RandomListNode cur = head;
 	    while (cur != null) {
 		RandomListNode next = cur.next;
-		RandomListNode newNode = new RandomListNode(cur.label);
-		// insert the new node after cur
-		cur.next = newNode;
-		newNode.next = next;
+		RandomListNode dup = new RandomListNode(cur.label);
+		// insert new node after cur
+		cur.next = dup;
+		dup.next = next;
 		cur = next;
 	    }
 
 	    cur = head;
 	    while (cur != null) {
-		RandomListNode next = cur.next.next;
-		if (cur.random != null) {
-		    cur.next.random = cur.random.next;
-		}
-		cur = next;
+		cur.next.random = cur.random == null ? null : cur.random.next;
+		cur = cur.next.next;
 	    }
 
 	    cur = head;
 	    RandomListNode newPreHead = new RandomListNode(-1);
-	    RandomListNode newCur = newPreHead;
+	    RandomListNode newTail = newPreHead;
 	    while (cur != null) {
-		RandomListNode next = cur.next.next;
-		newCur.next = cur.next;
-		cur.next = next;
-
+		newTail.next = cur.next;
+		cur.next = cur.next.next;
 		cur = cur.next;
-		newCur = newCur.next;
-		newCur.next = null;
+		newTail = newTail.next;
 	    }
 
 	    return newPreHead.next;

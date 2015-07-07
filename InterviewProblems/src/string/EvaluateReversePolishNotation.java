@@ -22,17 +22,12 @@ import java.util.Stack;
  * 
  * Need to improve "isNumeric(String)"
  */
-public class EvaluateReversePolishNotation {
+public class EvaluateReversePolishNotation {   
     public class Solution {
 	public int evalRPN(String[] tokens) {
-	    if (tokens == null) {
-		return -1;
-	    }
-
 	    Stack<Integer> stack = new Stack<Integer>();
 
 	    for (int i = 0; i < tokens.length; i++) {
-
 		if (isNumeric(tokens[i])) {
 		    stack.push(Integer.valueOf(tokens[i]));
 		} else {
@@ -52,7 +47,6 @@ public class EvaluateReversePolishNotation {
 			stack.push(left / right);
 			break;
 		    }
-
 		}
 	    }
 

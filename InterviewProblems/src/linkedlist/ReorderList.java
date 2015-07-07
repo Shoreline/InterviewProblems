@@ -13,9 +13,8 @@ package linkedlist;
  */
 
 /*
- * 1) cut given list into 2 lists from the middle 
- * 2) reverse the second list 
- * 3) merge the two lists.
+ * 1) cut given list into 2 lists from the middle 2) reverse the second list 3)
+ * merge the two lists.
  */
 public class ReorderList {
     public class Solution {
@@ -27,7 +26,8 @@ public class ReorderList {
 	    /*
 	     * for a list of even amount node, divide evenly;
 	     * 
-	     * for a list of odd amount node, the middle node goes with the first half
+	     * for a list of odd amount node, the middle node go with the first
+	     * half
 	     */
 	    ListNode middle = findMiddleNode(head);
 	    ListNode head2 = middle.next;
@@ -97,6 +97,62 @@ public class ReorderList {
 
 	    return pre;
 	}
+    }
 
+    public class Solution2 {
+	public void reorderList(ListNode head) {
+	    if (head == null || head.next == null) {
+		return;
+	    }
+
+	    int len = 0;
+	    ListNode cur = head;
+	    while (cur != null) {
+		cur = cur.next;
+		len++;
+	    }
+
+	    cur = head;
+	    for (int i = 0; i < (len - 1) / 2; i++) {
+		cur = cur.next;
+	    }
+
+	    ListNode head2 = reverse(cur.next);
+	    cur.next = null;
+
+	    ListNode preHead = new ListNode(-1);
+	    cur = preHead;
+
+	    int i = 0;
+	    while (head != null && head2 != null) {
+		if (i % 2 == 0) {
+		    cur.next = head;
+		    head = head.next;
+		} else {
+		    cur.next = head2;
+		    head2 = head2.next;
+		}
+		cur = cur.next;
+		cur.next = null;
+		i++;
+	    }
+
+	    if (head != null) {
+		cur.next = head;
+	    }
+
+	}
+
+	private ListNode reverse(ListNode head) {
+	    ListNode pre = null;
+	    ListNode cur = head;
+	    while (cur != null) {
+		ListNode next = cur.next;
+		cur.next = pre;
+		pre = cur;
+		cur = next;
+	    }
+	    return pre;
+	}
     }
 }

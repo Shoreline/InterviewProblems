@@ -16,11 +16,16 @@ package string;
 public class ValidPalindrome {
     /*
      * Know Character.isLetter(char c) and Character.isDigit(char c)
+     * 
+     * Actually, Character.isLetterOrDigit() is the best to use.
      */
     public class Solution {
 	public boolean isPalindrome(String s) {
 	    if (s == null) {
 		return false;
+	    }
+	    if (s.length() == 0) {
+		return true;
 	    }
 
 	    s = s.toLowerCase();
@@ -28,25 +33,17 @@ public class ValidPalindrome {
 	    int i = 0;
 	    int j = s.length() - 1;
 	    while (i < j) {
-		char front = s.charAt(i);
-		char back = s.charAt(j);
-		if (!Character.isLetter(front) && !Character.isDigit(front)) {
+		if (!Character.isLetterOrDigit(s.charAt(i))) {
 		    i++;
-		    continue;
-		} else if (!Character.isLetter(back)
-			&& !Character.isDigit(back)) {
+		} else if (!Character.isLetterOrDigit(s.charAt(j))) {
 		    j--;
-		    continue;
-		}
-
-		if (front != back) {
+		} else if (s.charAt(i) != s.charAt(j)) {
 		    return false;
+		} else {
+		    i++;
+		    j--;
 		}
-
-		i++;
-		j--;
 	    }
-
 	    return true;
 	}
     }

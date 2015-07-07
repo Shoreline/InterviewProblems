@@ -14,27 +14,28 @@ import java.util.List;
  */
 
 public class PascalsTriangleII {
-
     /*
      * Keep appending elements to an arraylist
      */
     public class Solution {
 	public List<Integer> getRow(int rowIndex) {
-	    List<Integer> res = new ArrayList<Integer>();
+	    List<Integer> res = new ArrayList<>();
 	    if (rowIndex < 0) {
 		return res;
 	    }
 
 	    res.add(1);
-	    for (int i = 1; i <= rowIndex; i++) {
+	    int k = 0;
 
-		int preValue = 1;
-		for (int j = 1; j < res.size(); j++) {
-		    int tmp = res.get(j);
-		    res.set(j, preValue + res.get(j));
-		    preValue = tmp;
+	    while (k < rowIndex) {
+		int pre = res.get(0);
+		for (int i = 1; i < res.size(); i++) {
+		    int tmp = res.get(i);
+		    res.set(i, pre + res.get(i));
+		    pre = tmp;
 		}
 		res.add(1);
+		k++;
 	    }
 
 	    return res;

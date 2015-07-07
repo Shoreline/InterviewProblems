@@ -1,14 +1,66 @@
 package string;
 
-public class PalindromePartitioningII {
+import java.util.Arrays;
 
+/**
+ * Palindrome Partitioning II
+ * 
+ * Given a string s, partition s such that every substring of the partition is a
+ * palindrome.
+ * 
+ * Return the minimum cuts needed for a palindrome partitioning of s.
+ * 
+ * For example, given s = "aab", Return 1 since the palindrome partitioning
+ * ["aa","b"] could be produced using 1 cut.
+ *
+ */
+public class PalindromePartitioningII {
     /*
      * Two DPs
      * 
      * http://www.cnblogs.com/yuzhangcmu/p/4148892.html
      * 
+     * minCuts[i]: the minimum cut # for the first i characters of s
      * 
+     * Set minCuts[0]=-1, or return minCuts[s.length()] -1 ! 
      */
+    public class Solution_me {
+	public int minCut(String s) {
+	    if (s == null || s.length() == 0) {
+		return 0;
+	    }
+
+	    boolean[][] palindromes = getPalindromes(s);
+	    int[] minCuts = new int[s.length() + 1]; 
+	    Arrays.fill(minCuts, Integer.MAX_VALUE);
+	    minCuts[0] = -1; // important!
+
+	    for (int i = 1; i <= s.length(); i++) {
+		for (int k = 0; k < i; k++) {
+		    if (palindromes[k][i - 1]) {
+			minCuts[i] = Math.min(minCuts[k] + 1, minCuts[i]);
+		    }
+		}
+	    }
+
+	    return minCuts[s.length()];
+	}
+
+	private boolean[][] getPalindromes(String s) {
+	    boolean[][] dp = new boolean[s.length()][s.length()];
+	    for (int i = s.length() - 1; i >= 0; i--) {
+		for (int j = i; j < s.length(); j++) {
+		    if (s.charAt(i) == s.charAt(j)
+			    && (j - i <= 2 || dp[i + 1][j - 1])) {
+			dp[i][j] = true;
+		    }
+		}
+	    }
+
+	    return dp;
+	}
+    }
+
     public class Solution {
 	public int minCut(String s) {
 	    if (s == null) {
@@ -17,8 +69,8 @@ public class PalindromePartitioningII {
 
 	    /*
 	     * whether s.substring() is a palindrome. this dp array does not
-	     * need initialization
-	     * isPalindrome[i][j]: s.substring(i,j) is palindrome or not
+	     * need initialization isPalindrome[i][j]: s.substring(i,j) is
+	     * palindrome or not
 	     */
 	    boolean[][] isPalindrome = new boolean[s.length()][s.length()];
 

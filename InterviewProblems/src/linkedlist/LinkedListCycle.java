@@ -12,7 +12,7 @@ public class LinkedListCycle {
     /*
      * A more concise version
      */
-    public class Solution_concise {
+    public class Solution {
 	public boolean hasCycle(ListNode head) {
 	    if (head == null) {
 		return false;
@@ -24,32 +24,6 @@ public class LinkedListCycle {
 	    while (runner != null && runner.next != null) {
 		walker = walker.next;
 		runner = runner.next.next;
-
-		if (walker == runner) {
-		    return true;
-		}
-	    }
-
-	    return false;
-	}
-    }
-
-    public class Solution {
-	public boolean hasCycle(ListNode head) {
-	    if (head == null) {
-		return false;
-	    }
-
-	    ListNode walker = head;
-	    ListNode runner = head;
-
-	    while (walker != null && runner != null) {
-		walker = walker.next;
-		runner = runner.next;
-		if (runner == null) {
-		    return false;
-		}
-		runner = runner.next;
 
 		if (walker == runner) {
 		    return true;

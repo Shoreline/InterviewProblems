@@ -23,6 +23,8 @@ package array;
  * Since there is only one possible result, it must be the beginning of a
  * positive segment. (if not, any positive stations before it and also in this
  * positive segment are also possible)
+ * 
+ * It is safe to reset start = i+1 if segNet<0. If the last stop is the one causing segnet<0, then the totalNet must < 0 and will return -1
  */
 public class GasStation {
     public class Solution {

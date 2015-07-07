@@ -3,29 +3,43 @@ package array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Triangle {
-    /**
-     * Triangle
-     * 
-     * Given a triangle, find the minimum path sum from top to bottom. Each step
-     * you may move to adjacent numbers on the row below.
-     * 
-     * For example, given the following triangle
-     * 
-     * [
-             [2],
-            [3,4],
-           [6,5,7],
-          [4,1,8,3]
-        ]
-     * 
-     * The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
-     * 
-     * Note: Bonus point if you are able to do this using only O(n) extra space,
-     * where n is the total number of rows in the triangle.
-     */
+/**
+ * Triangle
+ * 
+ * Given a triangle, find the minimum path sum from top to bottom. Each step you
+ * may move to adjacent numbers on the row below.
+ * 
+ * For example, given the following triangle
+ * 
+ * [ [2], [3,4], [6,5,7], [4,1,8,3] ]
+ * 
+ * The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+ * 
+ * Note: Bonus point if you are able to do this using only O(n) extra space,
+ * where n is the total number of rows in the triangle.
+ */
 
+public class Triangle {
     // concise bottom-up DP
+    public class Solution {
+	public int minimumTotal(List<List<Integer>> triangle) {
+	    if (triangle == null || triangle.isEmpty()) {
+		return 0;
+	    }
+
+	    List<Integer> dp = new ArrayList<Integer>(triangle.get(triangle
+		    .size() - 1));
+
+	    for (int i = triangle.size() - 2; i >= 0; i--) {
+		List<Integer> cur = triangle.get(i);
+		for (int k = 0; k < cur.size(); k++) {
+		    dp.set(k, cur.get(k) + Math.min(dp.get(k), dp.get(k + 1)));
+		}
+	    }
+	    return dp.get(0);
+	}
+    }
+
     public class Solution_BottomUp {
 	public int minimumTotal(List<List<Integer>> triangle) {
 	    if (triangle == null || triangle.isEmpty()) {
