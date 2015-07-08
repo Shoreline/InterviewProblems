@@ -19,40 +19,35 @@ public class RotateArray {
     /*
      * In-place and O(1) space
      * 
-     * Similar to reverse words in String:
-     * 1,2,3,4,5,6,7
-     * -> 7,6,5 | 4,3,2,1
-     * -> 5,6,7,1,2,3,4
+     * Similar to reverse words in String: 1,2,3,4,5,6,7 -> 7,6,5 | 4,3,2,1 ->
+     * 5,6,7,1,2,3,4
      */
     public class Solution {
-	    public void rotate(int[] nums, int k) {
-	        if(nums==null||nums.length==0 ||k%nums.length==0){
-	            return;
-	        }
-	        k= k%nums.length;
-	        
-	        reverseArray(nums,0,nums.length-1);
-	        reverseArray(nums,0,k-1);
-	        reverseArray(nums,k,nums.length-1);
-	        
+	public void rotate(int[] nums, int k) {
+	    if (nums == null || nums.length == 0 || k % nums.length == 0) {
+		return;
 	    }
-	    
-	    private void reverseArray(int[] nums, int start, int end){
-	        int tmp = 0;
-	        for(int i = 0; i<=(end-start)/2; i++){
-	            tmp = nums[start+i];
-	            nums[start+i]=nums[end-i];
-	            nums[end-i]=tmp;
-	        }
+	    k %= nums.length;
+
+	    reverseArray(nums, 0, nums.length - 1);
+	    reverseArray(nums, 0, k - 1);
+	    reverseArray(nums, k, nums.length - 1);
+
+	}
+
+	private void reverseArray(int[] nums, int start, int end) {
+	    for (int i = 0; i < (end - start + 1) / 2; i++) {
+		int tmp = nums[start + i];
+		nums[start + i] = nums[end - i];
+		nums[end - i] = tmp;
 	    }
 	}
-    
+    }
+
     /*
      * Not in-place
      * 
-     * 1,2,3,4,5,6,7
-     * -> x,x,x,1,2,3,4
-     * -> 5,6,7,1,2,3,4
+     * 1,2,3,4,5,6,7 -> x,x,x,1,2,3,4 -> 5,6,7,1,2,3,4
      */
     public class Solution_normal {
 	public void rotate(int[] nums, int k) {

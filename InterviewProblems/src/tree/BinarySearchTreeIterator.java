@@ -3,7 +3,7 @@ package tree;
 import java.util.Stack;
 
 /**
- * Binary Tree Iterator
+ * Binary Search Tree Iterator
  * 
  * Implement an iterator over a binary search tree (BST). Your iterator will be
  * initialized with the root node of a BST.
@@ -17,10 +17,15 @@ import java.util.Stack;
  * BSTIterator(root); while (i.hasNext()) v[f()] = i.next();
  */
 
-public class BinaryTreeIterator {
+/*
+ * Do not need to implement stuff like "add()". When needed, a new BSTIterator
+ * is generated for existing BST.
+ */
+public class BinarySearchTreeIterator {
     public class BSTIterator {
 	Stack<TreeNode> stack;
 
+	// generate a BSTIterator for an existing BST
 	public BSTIterator(TreeNode root) {
 	    stack = new Stack<TreeNode>();
 
@@ -31,12 +36,16 @@ public class BinaryTreeIterator {
 	    }
 	}
 
-	/** @return whether we have a next smallest number */
+	/**
+	 * @return whether we have a next smallest number
+	 */
 	public boolean hasNext() {
 	    return !stack.isEmpty();
 	}
 
-	/** @return the next smallest number */
+	/**
+	 * @return the next smallest number
+	 */
 	// hasNext() is assumed to be checked outside before next()
 	public int next() {
 	    TreeNode min = stack.pop();

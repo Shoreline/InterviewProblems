@@ -1,6 +1,8 @@
 package bit;
 
 /**
+ * Reverse Bits
+ * 
  * Reverse bits of a given 32 bits unsigned integer.
  * 
  * For example, given input 43261596 (represented in binary as
@@ -10,12 +12,12 @@ package bit;
  * Follow up: If this function is called many times, how would you optimize it?
  */
 
-public class ReverseIntegerByBit {
+public class ReverseBits {
 
     /*
      * use OR to change res
      */
-    public class Solution_best {
+    public class Solution {
 	// you need treat n as an unsigned value
 	public int reverseBits(int n) {
 	    int res = 0;

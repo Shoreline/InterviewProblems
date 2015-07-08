@@ -17,7 +17,7 @@ package math;
  */
 public class FractorialTrailingZeroes {
     /*
-     * every 5 number, there is a number= 5k that can offer at least one 5. Plus
+     * every 5 numbers, there is a number= 5*K that can offer at least one 5. Plus
      * k may equal to 5k', ...
      * 
      * So we have below simple algorithm

@@ -1,6 +1,8 @@
 package array;
 
 /**
+ * House Robber
+ * 
  * You are a professional robber planning to rob houses along a street. Each
  * house has a certain amount of money stashed, the only constraint stopping you
  * from robbing each of them is that adjacent houses have security system
@@ -14,26 +16,26 @@ package array;
 
 public class HouseRobber {
     /*
-     * DP
-     * 
+     * DP. Reduced 1D DP array to two variables
      */
     public class Solution {
-	public int rob(int[] num) {
-	    if (num == null || num.length == 0) {
+	public int rob(int[] nums) {
+	    if (nums == null || nums.length == 0) {
 		return 0;
-	    } else if (num.length < 2) {
-		return num[0];
 	    }
 
-	    int[] dp = new int[num.length];
-	    dp[0] = num[0];
-	    dp[1] = Math.max(dp[0], num[1]);
+	    int max = nums[0];
+	    int pre = 0;
+	    int prepre = 0;
 
-	    for (int i = 2; i < num.length; i++) {
-		dp[i] = Math.max(dp[i - 1], dp[i - 2] + num[i]);
+	    for (int i = 0; i < nums.length; i++) {
+		int cur = Math.max(nums[i] + prepre, pre);
+		max = Math.max(max, cur);
+		prepre = pre;
+		pre = cur;
 	    }
 
-	    return dp[dp.length - 1];
+	    return max;
 	}
     }
 }

@@ -26,9 +26,7 @@ package array;
  * For example, given the dungeon below, the initial health of the knight must
  * be at least 7 if he follows the optimal path RIGHT-> RIGHT -> DOWN -> DOWN.
  * 
- * 	-2 (K)	-3	3
-	-5	-10	1
-	10	30	-5 (P)
+ * -2 (K) -3 3 -5 -10 1 10 30 -5 (P)
  * 
  * Notes:
  * 
@@ -41,9 +39,10 @@ package array;
 /*
  * DP from bottom right corner.
  * 
- * dp[i][j]: the lowest HP needed to reach (m-1,n-1) from (i,j).
+ * dp[i][j]: the lowest HP needed to reach bottom right corner (m-1,n-1) from
+ * (i,j).
  * 
- * dp[i][j] = Math.max( Math.min(dp[i+1][j],dp[i][j+1]) - dungeon[i][j], 0 );
+ * dp[i][j] = Math.max( 0, Math.min(dp[i+1][j],dp[i][j+1]) - dungeon[i][j] );
  * 
  * For point (i,j), pick the route needs smaller HP from (i+1,j) and (i,j+1). If
  * at point (i,j) there is a orb to heal, the hero needs even less HP (minus
@@ -52,8 +51,32 @@ package array;
 public class DungeonGame {
     public class Solution {
 	public int calculateMinimumHP(int[][] dungeon) {
-	    if (dungeon == null || dungeon.length == 0
-		    || dungeon[0].length == 0) {
+
+	    int m = dungeon.length;
+	    int n = dungeon[0].length;
+	    int[] dp = new int[n];
+
+	    for (int i = m - 1; i >= 0; i--) {
+		for (int j = n - 1; j >= 0; j--) {
+		    if (i == m - 1 && j == n - 1) {
+			dp[j] = Math.max(-dungeon[i][j], 0);
+		    } else if (i == m - 1) {
+			dp[j] = Math.max(dp[j + 1] - dungeon[i][j], 0);
+		    } else if (j == n - 1) {
+			dp[j] = Math.max(dp[j] - dungeon[i][j], 0);
+		    } else {
+			dp[j] = Math.max(0, Math.min(dp[j] - dungeon[i][j], dp[j + 1] - dungeon[i][j]));
+		    }
+		}
+	    }
+
+	    return dp[0] + 1;
+	}
+    }
+
+    public class Solution2 {
+	public int calculateMinimumHP(int[][] dungeon) {
+	    if (dungeon == null || dungeon.length == 0 || dungeon[0].length == 0) {
 		return -1;
 	    }
 
@@ -64,18 +87,15 @@ public class DungeonGame {
 	    dp[m - 1][n - 1] = Math.max(-dungeon[m - 1][n - 1], 0);
 
 	    for (int i = m - 2; i >= 0; i--) {
-		dp[i][n - 1] = Math
-			.max(dp[i + 1][n - 1] - dungeon[i][n - 1], 0);
+		dp[i][n - 1] = Math.max(dp[i + 1][n - 1] - dungeon[i][n - 1], 0);
 	    }
 	    for (int j = n - 2; j >= 0; j--) {
-		dp[m - 1][j] = Math
-			.max(dp[m - 1][j + 1] - dungeon[m - 1][j], 0);
+		dp[m - 1][j] = Math.max(dp[m - 1][j + 1] - dungeon[m - 1][j], 0);
 	    }
 
 	    for (int i = m - 2; i >= 0; i--) {
 		for (int j = n - 2; j >= 0; j--) {
-		    dp[i][j] = Math.max(Math.min(dp[i + 1][j], dp[i][j + 1])
-			    - dungeon[i][j], 0);
+		    dp[i][j] = Math.max(Math.min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j], 0);
 		}
 	    }
 
@@ -89,8 +109,7 @@ public class DungeonGame {
     public class Wrong_Attempt {
 
 	public int calculateMinimumHP(int[][] dungeon) {
-	    if (dungeon == null || dungeon.length == 0
-		    || dungeon[0].length == 0) {
+	    if (dungeon == null || dungeon.length == 0 || dungeon[0].length == 0) {
 		return -1;
 	    }
 
@@ -106,8 +125,7 @@ public class DungeonGame {
 		    } else if (j == 0) {
 			dp[i][j] = dp[i - 1][j] + dungeon[i][j];
 		    } else {
-			dp[i][j] = dungeon[i][j]
-				+ Math.max(dp[i - 1][j], dp[i][j - 1]);
+			dp[i][j] = dungeon[i][j] + Math.max(dp[i - 1][j], dp[i][j - 1]);
 		    }
 
 		    lowest = Math.min(lowest, dp[i][j]);
@@ -125,8 +143,7 @@ public class DungeonGame {
 	int bestRoute = Integer.MIN_VALUE;
 
 	public int calculateMinimumHP(int[][] dungeon) {
-	    if (dungeon == null || dungeon.length == 0
-		    || dungeon[0].length == 0) {
+	    if (dungeon == null || dungeon.length == 0 || dungeon[0].length == 0) {
 		return -1;
 	    }
 

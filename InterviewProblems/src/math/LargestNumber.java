@@ -18,6 +18,8 @@ import java.util.Comparator;
 
 /*
  * The idea is to use a custom comparator to sort integers in given array.
+ * 
+ * return -(s1 + s2).compareTo(s2 + s1);
  */
 public class LargestNumber {
     public class Solution {
@@ -26,41 +28,31 @@ public class LargestNumber {
 		return "";
 	    }
 
-	    // not graceful
-	    Integer[] tmp = new Integer[nums.length];
+	    Integer[] nums2 = new Integer[nums.length];
 	    for (int i = 0; i < nums.length; i++) {
-		tmp[i] = nums[i];
+		nums2[i] = nums[i];
 	    }
 
-	    Comparator<Integer> comp = new Comparator<Integer>() {
+	    Arrays.sort(nums2, new Comparator<Integer>() {
+		@Override
 		public int compare(Integer i1, Integer i2) {
 		    String s1 = String.valueOf(i1);
 		    String s2 = String.valueOf(i2);
 		    return -(s1 + s2).compareTo(s2 + s1);
-		    
-		    // below method works, but not as simple
-		    // Long comp = Long.parseLong(s1 + s2)
-		    // - Long.parseLong(s2 + s1);
-		    // if (comp == 0) {
-		    // return 0;
-		    // } else {
-		    // return comp > 0 ? -1 : 1;
-		    // }
 		}
-	    };
+	    });
 
-	    Arrays.sort(tmp, comp);
-	    StringBuilder sb = new StringBuilder();
-	    for (int i = 0; i < tmp.length; i++) {
-		sb.append(tmp[i]);
+	    StringBuilder res = new StringBuilder();
+	    for (int i = 0; i < nums2.length; i++) {
+		// avoid cases like "00".
+		if (res.length() == 0 && nums2[i] == 0 && i < nums2.length - 1 && nums2[i] == nums2[i + 1]) {
+		    continue;
+		}
+		res.append(String.valueOf(nums2[i]));
 	    }
 
-	    if (sb.charAt(0) == '0') {
-		sb.setLength(1);
-	    }
-
-	    return sb.toString();
+	    return res.toString();
 	}
-
     }
+
 }

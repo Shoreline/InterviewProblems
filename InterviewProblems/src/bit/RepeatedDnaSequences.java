@@ -2,10 +2,8 @@ package bit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Repeated DNA Sequences
@@ -26,46 +24,43 @@ import java.util.Set;
  */
 
 /*
- * Set the bits  
+ * Use a base-4 number to represent a 10-character DNA String
+ * 
+ * Set the bits
  */
-public class FindRepeatedDnaSequences {
+public class RepeatedDnaSequences {
     public class Solution {
 	public List<String> findRepeatedDnaSequences(String s) {
-	    Set<String> res = new HashSet<String>();
+	    List<String> res = new ArrayList<>();
 	    if (s == null || s.length() < 10) {
-		return new ArrayList<String>(res);
+		return res;
 	    }
 
-	    Map<Character, Integer> map = new HashMap<Character, Integer>();
+	    Map<Character, Integer> map = new HashMap<>();
 	    map.put('A', 0);
 	    map.put('T', 1);
 	    map.put('C', 2);
 	    map.put('G', 3);
 
-	    Set<Integer> sequences = new HashSet<Integer>();
-	    int num = 0;
+	    Map<Integer, Integer> counts = new HashMap<>();
+	    int value = 0;
 	    for (int i = 0; i < s.length(); i++) {
-		char c = s.charAt(i);
-		if (i < 10) {
-		    num = (num << 2) + map.get(c);
-		    if (i == 9) {
-			sequences.add(num);
-		    }
-		} else {
-		    num = num & ((1 << 18) - 1);
-		    
-		    //num = num << 2 + map.get(c); wrong! 
-		    num = (num << 2) + map.get(c);
-
-		    if (sequences.contains(num)) {
+		value = value << 2; // <<2 equals to *4
+		value += map.get(s.charAt(i));
+		if (i >= 9) {
+		    value &= ((1 << 20) - 1);
+		    Integer count = counts.get(value);
+		    if (count == null) {
+			counts.put(value, 1);
+		    } else if (count == 1) {
 			res.add(s.substring(i - 9, i + 1));
-		    } else {
-			sequences.add(num);
+			counts.put(value, count + 1);
 		    }
+
 		}
 	    }
 
-	    return new ArrayList<String>(res);
+	    return res;
 	}
     }
 }
