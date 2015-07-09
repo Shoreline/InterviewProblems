@@ -41,14 +41,15 @@ public class NumberOfIslands {
 		for (int j = 0; j < grid[0].length; j++) {
 		    if (grid[i][j] == '1') {
 			res++;
-			dfs(grid, i, j);
+			mark(grid, i, j);
 		    }
 		}
 	    }
 	    return res;
 	}
 
-	private void dfs(char[][] grid, int i, int j) {
+	// DFS: mark adjacent '1's 
+	private void mark(char[][] grid, int i, int j) {
 	    if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
 		return;
 	    }
@@ -58,10 +59,10 @@ public class NumberOfIslands {
 	    }
 
 	    grid[i][j] = '0';
-	    dfs(grid, i + 1, j);
-	    dfs(grid, i - 1, j);
-	    dfs(grid, i, j + 1);
-	    dfs(grid, i, j - 1);
+	    mark(grid, i + 1, j);
+	    mark(grid, i - 1, j);
+	    mark(grid, i, j + 1);
+	    mark(grid, i, j - 1);
 	}
     }
 }

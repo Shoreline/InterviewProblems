@@ -1,9 +1,12 @@
 package graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -40,14 +43,55 @@ import java.util.Set;
  */
 
 public class CourseSchedule {
-    /*
-     * The input prerequisites[] may contain duplicated elements. So have to use
-     * inEdges instead of inEdgesCount
-     */
+  /*
+   * Topological sort + BFS
+   */
+    public class Solution {
+	public boolean canFinish(int numCourses, int[][] prerequisites) {
+	    if (numCourses < 2) {
+		return true;
+	    }
+
+	    int[] inDegree = new int[numCourses];
+	    Map<Integer, List<Integer>> outMap = new HashMap<Integer, List<Integer>>();
+
+	    for (int i = 0; i < prerequisites.length; i++) {
+		if (!outMap.containsKey(prerequisites[i][1])) {
+		    outMap.put(prerequisites[i][1], new ArrayList<Integer>());
+		}
+		outMap.get(prerequisites[i][1]).add(prerequisites[i][0]);
+		inDegree[prerequisites[i][0]]++;
+	    }
+
+	    Queue<Integer> queue = new LinkedList<>();
+	    for (int i = 0; i < inDegree.length; i++) {
+		if (inDegree[i] == 0) {
+		    queue.add(i);
+		}
+	    }
+
+	    while (!queue.isEmpty()) {
+		int course = queue.poll();
+		if (outMap.get(course) == null) {
+		    continue;
+		}
+
+		for (int c : outMap.get(course)) {
+		    inDegree[c]--;
+		    if (inDegree[c] == 0) {
+			queue.add(c);
+		    }
+		}
+		outMap.remove(course);
+	    }
+
+	    return outMap.isEmpty();
+	}
+    }
+
     public class Solution_TopologicalSortBFS {
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
-	    if (numCourses < 1 || prerequisites == null
-		    || prerequisites.length == 0) {
+	    if (numCourses < 1 || prerequisites == null || prerequisites.length == 0) {
 		return true;
 	    }
 
