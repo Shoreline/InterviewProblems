@@ -12,6 +12,6 @@ import array.MaxPointsOnALine;
 public class _Test {
 
     public static void main(String[] args) {
-	
+	System.out.println(new HappyNumber().new Solution2().isHappy(7));
     }
 }

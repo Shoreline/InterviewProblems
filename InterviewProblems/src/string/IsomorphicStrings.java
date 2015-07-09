@@ -30,6 +30,30 @@ import java.util.Set;
 public class IsomorphicStrings {
     public class Solution {
 	public boolean isIsomorphic(String s, String t) {
+	    if (s.length() == 0 && t.length() == 0) {
+		return true;
+	    }
+
+	    Map<Character, Character> map = new HashMap<>();
+	    Set<Character> valueSet = new HashSet<>();
+	    for (int i = 0; i < s.length(); i++) {
+		char sc = s.charAt(i);
+		char tc = t.charAt(i);
+
+		if ((map.containsKey(sc) && map.get(sc) != tc) || (!map.containsKey(sc) && valueSet.contains(tc))) {
+		    return false;
+		} else {
+		    map.put(sc, tc);
+		    valueSet.add(tc);
+		}
+	    }
+
+	    return true;
+	}
+    }
+
+    public class Solution2 {
+	public boolean isIsomorphic(String s, String t) {
 	    if (s == null || s.length() == 0) {
 		return true;
 	    }

@@ -18,7 +18,7 @@ package array;
  */
 public class MinimumSizeSubarraySum {
     /*
-     * Typical sliding window for an array with all non-negative numbers 
+     * Typical sliding window for an array with all non-negative numbers
      * 
      * O(N) time; O(1) space
      */
@@ -28,23 +28,52 @@ public class MinimumSizeSubarraySum {
 		return 0;
 	    }
 
+	    int min = nums.length + 1;
+
 	    int i = 0;
 	    int j = 0;
 	    int sum = nums[0];
-	    int minLen = 0;
-
 	    while (j < nums.length) {
 		if (sum >= s) {
-		    minLen = minLen == 0 ? (j - i + 1) : Math.min(minLen, j - i
-			    + 1);
-		    if (i < j) {
+		    min = Math.min(min, j - i + 1);
+		}
+
+		if (sum >= s && i < j) {
+		    sum -= nums[i];
+		    i++;
+		} else {
+		    j++;
+		    if (j < nums.length) {
+			sum += nums[j];
+		    }
+		}
+	    }
+
+	    return min <= nums.length ? min : 0;
+	}
+    }
+
+    public class Solution2 {
+	public int minSubArrayLen(int s, int[] nums) {
+	    if (nums == null || nums.length == 0) {
+		return 0;
+	    }
+
+	    int min = nums.length + 1;
+
+	    int i = 0;
+	    int j = 0;
+	    int sum = nums[0];
+	    while (j < nums.length) {
+		if (sum >= s) {
+		    min = Math.min(min, j - i + 1);
+		    if (j > i) {
 			sum -= nums[i];
 			i++;
 		    } else {
 			j++;
-			i = j;
 			if (j < nums.length) {
-			    sum = nums[j];
+			    sum += nums[j];
 			}
 		    }
 		} else {
@@ -55,7 +84,7 @@ public class MinimumSizeSubarraySum {
 		}
 	    }
 
-	    return minLen;
+	    return min <= nums.length ? min : 0;
 	}
     }
 }

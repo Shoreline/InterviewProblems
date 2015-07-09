@@ -10,8 +10,7 @@ import java.util.Map;
  * 
  * Note: You may assume that all inputs are consist of lowercase letters a-z.
  * 
- * =================
- * Your Trie object will be instantiated and called as such:
+ * ================= Your Trie object will be instantiated and called as such:
  * 
  * Trie trie = new Trie();
  * 
@@ -27,61 +26,124 @@ import java.util.Map;
  * parent's <Character,TrieNode> map.
  */
 public class ImplementTrie {
-    class TrieNode {
-	// Initialize your data structure here.
-	boolean isEnd;
-	Map<Character, TrieNode> children;
+    class Solution {
+	class TrieNode {
+	    // Initialize your data structure here.
+	    TrieNode[] children;
+	    boolean isEnd;
 
-	public TrieNode() {
-	    children = new HashMap<Character, TrieNode>();
+	    public TrieNode() {
+		this.children = new TrieNode[26];
+		isEnd = false;
+	    }
+	}
+
+	public class Trie {
+	    private TrieNode root;
+
+	    public Trie() {
+		root = new TrieNode();
+	    }
+
+	    // Inserts a word into the trie.
+	    public void insert(String word) {
+		TrieNode node = root;
+		for (int i = 0; i < word.length(); i++) {
+		    char c = word.charAt(i);
+		    if (node.children[c - 'a'] == null) {
+			node.children[c - 'a'] = new TrieNode();
+		    }
+		    node = node.children[c - 'a'];
+		}
+		node.isEnd = true;
+	    }
+
+	    // Returns if the word is in the trie.
+	    public boolean search(String word) {
+		TrieNode node = root;
+		for (int i = 0; i < word.length(); i++) {
+		    char c = word.charAt(i);
+		    if (node.children[c - 'a'] == null) {
+			return false;
+		    }
+		    node = node.children[c - 'a'];
+		}
+		return node.isEnd;
+	    }
+
+	    // Returns if there is any word in the trie
+	    // that starts with the given prefix.
+	    public boolean startsWith(String prefix) {
+		TrieNode node = root;
+		for (int i = 0; i < prefix.length(); i++) {
+		    char c = prefix.charAt(i);
+		    if (node.children[c - 'a'] == null) {
+			return false;
+		    }
+		    node = node.children[c - 'a'];
+		}
+		return true;
+	    }
 	}
     }
 
-    public class Trie {
-	private TrieNode root;
+    class Solution2 {
+	class TrieNode {
+	    // Initialize your data structure here.
+	    boolean isEnd;
+	    Map<Character, TrieNode> children;
 
-	public Trie() {
-	    root = new TrieNode();
+	    public TrieNode() {
+		children = new HashMap<Character, TrieNode>();
+	    }
 	}
 
-	// Inserts a word into the trie.
-	public void insert(String word) {
-	    TrieNode cur = root;
-	    for (int i = 0; i < word.length(); i++) {
-		Character c = (Character) word.charAt(i);
-		if (!cur.children.containsKey(c)) {
-		    cur.children.put(c, new TrieNode());
-		}
-		cur = cur.children.get(c);
+	public class Trie {
+	    private TrieNode root;
+
+	    public Trie() {
+		root = new TrieNode();
 	    }
 
-	    cur.isEnd = true;
-	}
-
-	// Returns if the word is in the trie.
-	public boolean search(String word) {
-	    TrieNode node = lookUp(word);
-	    return node != null && node.isEnd;
-	}
-
-	// Returns if there is any word in the trie
-	// that starts with the given prefix.
-	public boolean startsWith(String prefix) {
-	    TrieNode node = lookUp(prefix);
-
-	    return node != null;
-	}
-
-	private TrieNode lookUp(String word) {
-	    TrieNode cur = root;
-	    for (int i = 0; i < word.length(); i++) {
-		Character c = (Character) word.charAt(i);
-		if (!cur.children.containsKey(c)) {
-		    return null;
+	    // Inserts a word into the trie.
+	    public void insert(String word) {
+		TrieNode cur = root;
+		for (int i = 0; i < word.length(); i++) {
+		    Character c = (Character) word.charAt(i);
+		    if (!cur.children.containsKey(c)) {
+			cur.children.put(c, new TrieNode());
+		    }
+		    cur = cur.children.get(c);
 		}
-		cur = cur.children.get(c);
+
+		cur.isEnd = true;
 	    }
-	    return cur;
+
+	    // Returns if the word is in the trie.
+	    public boolean search(String word) {
+		TrieNode node = lookUp(word);
+		return node != null && node.isEnd;
+	    }
+
+	    // Returns if there is any word in the trie
+	    // that starts with the given prefix.
+	    public boolean startsWith(String prefix) {
+		TrieNode node = lookUp(prefix);
+
+		return node != null;
+	    }
+
+	    private TrieNode lookUp(String word) {
+		TrieNode cur = root;
+		for (int i = 0; i < word.length(); i++) {
+		    Character c = (Character) word.charAt(i);
+		    if (!cur.children.containsKey(c)) {
+			return null;
+		    }
+		    cur = cur.children.get(c);
+		}
+		return cur;
+	    }
 	}
     }
 }

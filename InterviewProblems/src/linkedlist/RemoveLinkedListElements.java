@@ -39,4 +39,27 @@ public class RemoveLinkedListElements {
 	    return preHead.next;
 	}
     }
+
+    public class Solution2 {
+	public ListNode removeElements(ListNode head, int val) {
+	    if (head == null) {
+		return null;
+	    }
+	    ListNode preHead = new ListNode(-1);
+	    preHead.next = head;
+	    ListNode tail = preHead;
+	    ListNode cur = head;
+	    while (cur != null) {
+		ListNode next = cur.next;
+		if (cur.val != val) {
+		    tail.next = cur;
+		    tail = tail.next;
+		    tail.next = null;
+		}
+		cur = next;
+	    }
+
+	    return preHead.next;
+	}
+    }
 }

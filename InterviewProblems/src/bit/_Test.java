@@ -7,7 +7,7 @@ public class _Test {
 
     public static void main(String[] args) {
 	
-	System.out.println(new RepeatedDnaSequences().new Solution().findRepeatedDnaSequences("AAAAAAAAAAAA"));
+	System.out.println(5&6&7);
     }
     
     

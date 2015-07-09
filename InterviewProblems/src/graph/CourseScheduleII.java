@@ -1,9 +1,12 @@
 package graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -50,6 +53,52 @@ public class CourseScheduleII {
      * BFS topological sort.
      */
     public class Solution {
+	public int[] findOrder(int numCourses, int[][] prerequisites) {
+	    int[] res = new int[numCourses];
+
+	    int[] inDegrees = new int[numCourses];
+	    Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+
+	    for (int i = 0; i < prerequisites.length; i++) {
+		int course = prerequisites[i][0];
+		int pre = prerequisites[i][1];
+
+		if (map.get(pre) == null) {
+		    map.put(pre, new ArrayList<Integer>());
+		}
+		map.get(pre).add(course);
+		inDegrees[course]++;
+	    }
+
+	    Queue<Integer> queue = new LinkedList<Integer>();
+	    for (int i = 0; i < numCourses; i++) {
+		if (inDegrees[i] == 0) {
+		    queue.add(i);
+		}
+	    }
+
+	    int k = 0;
+	    while (!queue.isEmpty()) {
+		int course = queue.poll();
+		res[k] = course;
+		k++;
+
+		if (map.get(course) != null) {
+		    for (int c : map.get(course)) {
+			inDegrees[c]--;
+			if (inDegrees[c] == 0) {
+			    queue.add(c);
+			}
+		    }
+		    map.remove(course);
+		}
+	    }
+
+	    return map.isEmpty() ? res : new int[0];
+	}
+    }
+
+    public class Solution2 {
 	public int[] findOrder(int numCourses, int[][] prerequisites) {
 	    int[] res = new int[numCourses];
 

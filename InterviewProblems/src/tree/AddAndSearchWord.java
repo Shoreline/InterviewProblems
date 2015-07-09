@@ -30,72 +30,79 @@ package tree;
  * 
  * Note: You may assume that all words are consist of lowercase letters a-z.
  *
+ * ==============
+ *
+ * Your WordDictionary object will be instantiated and called as such:
+ * 
+ * WordDictionary wordDictionary = new WordDictionary();
+ * 
+ * wordDictionary.addWord("word");
+ * 
+ * wordDictionary.search("pattern");
  */
 
 /*
  * Trie tree.
  */
 public class AddAndSearchWord {
-    public class WordDictionary {
-	class TrieNode {
-	    TrieNode[] children;
-	    boolean isEnd;
+    class Solution {
+	public class WordDictionary {
+	    class TrieNode {
+		TrieNode[] children;
+		boolean isEnd;
 
-	    public TrieNode() {
-		children = new TrieNode[26];
-		isEnd = false;
-	    }
-	}
-
-	TrieNode root;
-
-	public WordDictionary() {
-	    root = new TrieNode();
-	}
-
-	// Adds a word into the data structure.
-	public void addWord(String word) {
-	    TrieNode cur = this.root;
-	    for (int i = 0; i < word.length(); i++) {
-		int c = word.charAt(i) - 'a';
-		if (cur.children[c] == null) {
-		    cur.children[c] = new TrieNode();
+		public TrieNode() {
+		    children = new TrieNode[26];
+		    isEnd = false;
 		}
-		cur = cur.children[c];
 	    }
 
-	    cur.isEnd = true;
-	}
+	    TrieNode root;
 
-	// Returns if the word is in the data structure. A word could
-	// contain the dot character '.' to represent any one letter.
-	public boolean search(String word) {
-	    return search(word, 0, root);
-	}
+	    public WordDictionary() {
+		root = new TrieNode();
+	    }
 
-	private boolean search(String word, int pos, TrieNode node) {
-	    TrieNode cur = node;
-
-	    while (pos < word.length() && cur != null) {
-		if (word.charAt(pos) == '.') {
-		    for (TrieNode child : cur.children) {
-			if (child != null && search(word, pos + 1, child)) {
-			    return true;
-			}
+	    // Adds a word into the data structure.
+	    public void addWord(String word) {
+		TrieNode cur = this.root;
+		for (int i = 0; i < word.length(); i++) {
+		    int c = word.charAt(i) - 'a';
+		    if (cur.children[c] == null) {
+			cur.children[c] = new TrieNode();
 		    }
-		    return false;
+		    cur = cur.children[c];
 		}
 
-		cur = cur.children[word.charAt(pos) - 'a'];
-		pos++;
+		cur.isEnd = true;
 	    }
 
-	    return cur != null && cur.isEnd;
-	}
-    }
+	    // Returns if the word is in the data structure. A word could
+	    // contain the dot character '.' to represent any one letter.
+	    public boolean search(String word) {
+		return search(word, 0, root);
+	    }
 
-    // Your WordDictionary object will be instantiated and called as such:
-    // WordDictionary wordDictionary = new WordDictionary();
-    // wordDictionary.addWord("word");
-    // wordDictionary.search("pattern");
+	    private boolean search(String word, int pos, TrieNode node) {
+		TrieNode cur = node;
+
+		while (pos < word.length() && cur != null) {
+		    if (word.charAt(pos) == '.') {
+			for (TrieNode child : cur.children) {
+			    if (child != null && search(word, pos + 1, child)) {
+				return true;
+			    }
+			}
+			return false;
+		    }
+
+		    cur = cur.children[word.charAt(pos) - 'a'];
+		    pos++;
+		}
+
+		return cur != null && cur.isEnd;
+	    }
+	}
+
+    }
 }

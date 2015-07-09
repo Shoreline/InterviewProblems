@@ -28,6 +28,23 @@ import java.util.Set;
 public class HappyNumber {
     public class Solution {
 	public boolean isHappy(int n) {
+	    Set<Integer> seen = new HashSet<>();
+	    while (!seen.contains(n)) {
+		seen.add(n);
+		int next = 0;
+		while (n != 0) {
+		    next += (n % 10) * (n % 10);
+		    n /= 10;
+		}
+		n = next;
+	    }
+
+	    return n == 1;
+	}
+    }
+
+    public class Solution2 {
+	public boolean isHappy(int n) {
 	    Set<Integer> seen = new HashSet<Integer>();
 
 	    while (n != 1) {

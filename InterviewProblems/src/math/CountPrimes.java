@@ -1,5 +1,6 @@
 package math;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -18,24 +19,18 @@ import java.util.TreeSet;
  *
  */
 public class CountPrimes {
-
     /*
      * Eratosthenes algorithm
      * 
      * Can use bitmap to optimize space
+     * 
+     * primes[k] indicates whether Integer k is a prime. In this way primes[0]
+     * and primes[1] is wasted, but easier to understand
      */
     public class Solution {
 	public int countPrimes(int n) {
-	    if (n < 2) {
-		return 0;
-	    }
-
-	    // primes[k] indicates Integer k. In this way primes[0] and
-	    // primes[1] is wasted, but easier to understand
 	    boolean[] primes = new boolean[n];
-	    for (int i = 0; i < n; i++) {
-		primes[i] = true;
-	    }
+	    Arrays.fill(primes, true);
 
 	    int count = 0;
 	    for (int i = 2; i < n; i++) {
@@ -45,34 +40,6 @@ public class CountPrimes {
 		    int j = 2;
 		    while (i * j < n) {
 			primes[i * j] = false;
-			j++;
-		    }
-		}
-	    }
-
-	    return count;
-	}
-    }
-
-    public class Solution_2 {
-	public int countPrimes(int n) {
-	    if (n < 2) {
-		return 0;
-	    }
-
-	    boolean[] primes = new boolean[n - 1];
-	    for (int i = 0; i < n - 1; i++) {
-		primes[i] = true;
-	    }
-
-	    int count = 0;
-	    for (int i = 1; i < n - 1; i++) {
-		if (primes[i]) {
-		    count++;
-
-		    int j = 2;
-		    while ((i + 1) * j < n) {
-			primes[(i + 1) * j - 1] = false;
 			j++;
 		    }
 		}
