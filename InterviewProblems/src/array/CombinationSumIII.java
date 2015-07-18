@@ -47,8 +47,7 @@ public class CombinationSumIII {
 	    return res;
 	}
 
-	private void dfs(int k, int min, int target, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int k, int min, int target, List<Integer> tmp, List<List<Integer>> res) {
 	    if (target == 0 && tmp.size() == k) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;

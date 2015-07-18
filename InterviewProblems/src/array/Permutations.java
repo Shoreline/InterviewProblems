@@ -27,8 +27,7 @@ public class Permutations {
 	    return res;
 	}
 
-	private void dfs(int[] nums, boolean[] used, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int[] nums, boolean[] used, List<Integer> tmp, List<List<Integer>> res) {
 	    if (tmp.size() == nums.length) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;

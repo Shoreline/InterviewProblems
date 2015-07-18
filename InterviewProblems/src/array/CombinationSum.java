@@ -42,8 +42,7 @@ public class CombinationSum {
 	    return res;
 	}
 
-	private void dfs(int[] candidates, int target, int pos,
-		List<Integer> tmp, List<List<Integer>> res) {
+	private void dfs(int[] candidates, int target, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    if (target == 0) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
@@ -80,8 +79,7 @@ public class CombinationSum {
 	    return res;
 	}
 
-	private void combinationSumHelper(int[] candidates, int target,
-		List<Integer> tmp, Set<List<Integer>> res) {
+	private void combinationSumHelper(int[] candidates, int target, List<Integer> tmp, Set<List<Integer>> res) {
 	    if (target == 0) {
 		List<Integer> solution = new ArrayList<Integer>(tmp);
 		Collections.sort(solution);
@@ -96,8 +94,7 @@ public class CombinationSum {
 		    break;
 		} else {
 		    tmp.add(candidates[i]);
-		    combinationSumHelper(candidates, target - candidates[i],
-			    tmp, res);
+		    combinationSumHelper(candidates, target - candidates[i], tmp, res);
 		    tmp.remove(tmp.size() - 1);
 		}
 	    }
@@ -115,8 +112,7 @@ public class CombinationSum {
 	 * 
 	 * Any way to use the two pointer algorithm in two sum?
 	 */
-	public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates,
-		int target) {
+	public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target) {
 	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	    if (candidates == null || candidates.length == 0 || target <= 0) {
@@ -129,8 +125,7 @@ public class CombinationSum {
 	    return result;
 	}
 
-	private ArrayList<ArrayList<Integer>> combinationSum(int[] candidates,
-		int target, int cur) {
+	private ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target, int cur) {
 	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	    if (candidates == null || candidates.length == 0 || target <= 0) {
@@ -153,8 +148,7 @@ public class CombinationSum {
 		    continue;
 		}
 
-		ArrayList<ArrayList<Integer>> temp = combinationSum(candidates,
-			target - candidates[i], i);
+		ArrayList<ArrayList<Integer>> temp = combinationSum(candidates, target - candidates[i], i);
 		for (ArrayList<Integer> aList : temp) {
 		    aList.add(candidates[i]);
 		}
@@ -168,13 +162,11 @@ public class CombinationSum {
 	 * classic recursion.
 	 */
 
-	public ArrayList<ArrayList<Integer>> combinationSum1(int[] candidates,
-		int target) {
+	public ArrayList<ArrayList<Integer>> combinationSum1(int[] candidates, int target) {
 
 	    Arrays.sort(candidates); // probably not necessary here
 
-	    ArrayList<ArrayList<Integer>> result = combinationSum1help(
-		    candidates, target);
+	    ArrayList<ArrayList<Integer>> result = combinationSum1help(candidates, target);
 
 	    HashSet<ArrayList<Integer>> finalResult = new HashSet<ArrayList<Integer>>();
 
@@ -188,8 +180,7 @@ public class CombinationSum {
 	    return result;
 	}
 
-	private ArrayList<ArrayList<Integer>> combinationSum1help(
-		int[] candidates, int target) {
+	private ArrayList<ArrayList<Integer>> combinationSum1help(int[] candidates, int target) {
 	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	    for (int i = 0; i < candidates.length; i++) {
@@ -202,8 +193,7 @@ public class CombinationSum {
 		    result.add(aResult);
 		}
 
-		ArrayList<ArrayList<Integer>> newResult = combinationSum1help(
-			candidates, target - candidates[i]);
+		ArrayList<ArrayList<Integer>> newResult = combinationSum1help(candidates, target - candidates[i]);
 
 		for (ArrayList<Integer> aResult : newResult) {
 		    aResult.add(candidates[i]);

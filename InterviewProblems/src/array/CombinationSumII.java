@@ -42,13 +42,12 @@ public class CombinationSumII {
 	    return res;
 	}
 
-	private void dfs(int[] candidates, int target, int pos,
-		List<Integer> tmp, List<List<Integer>> res) {
+	private void dfs(int[] candidates, int target, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    if (target == 0) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
 	    }
-	    
+
 	    for (int i = pos; i < candidates.length; i++) {
 		if (candidates[i] > target) {
 		    break;
@@ -68,8 +67,7 @@ public class CombinationSumII {
      * Similar as permuations2, add a boolean array to flag whether an element
      * is used.
      */
-    public static ArrayList<ArrayList<Integer>> combinationSum2(int[] num,
-	    int target) {
+    public static ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target) {
 	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	if (num == null || num.length == 0 || target <= 0)
@@ -83,8 +81,7 @@ public class CombinationSumII {
 	return result;
     }
 
-    private static ArrayList<ArrayList<Integer>> combinationSum2(int[] num,
-	    int target, int cur, boolean occupaid[]) {
+    private static ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target, int cur, boolean occupaid[]) {
 
 	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
@@ -113,8 +110,7 @@ public class CombinationSumII {
 		result.add(aList);
 	    } else {
 		occupaid[i] = true;
-		ArrayList<ArrayList<Integer>> temp = combinationSum2(num,
-			target - num[i], i - 1, occupaid);
+		ArrayList<ArrayList<Integer>> temp = combinationSum2(num, target - num[i], i - 1, occupaid);
 		occupaid[i] = false;
 		for (ArrayList<Integer> aList : temp) {
 		    aList.add(num[i]);
@@ -138,8 +134,7 @@ public class CombinationSumII {
      * thoughts in Word Search
      */
 
-    public static ArrayList<ArrayList<Integer>> combinationSum1(int[] num,
-	    int target) {
+    public static ArrayList<ArrayList<Integer>> combinationSum1(int[] num, int target) {
 
 	Arrays.sort(num);
 
@@ -148,8 +143,7 @@ public class CombinationSumII {
 	    occupied[i] = true;
 	}
 
-	ArrayList<ArrayList<Integer>> result = combinationSum1(num, target,
-		occupied);
+	ArrayList<ArrayList<Integer>> result = combinationSum1(num, target, occupied);
 
 	// Any better way to get rid of duplicate elements?
 	HashSet<ArrayList<Integer>> finalResult = new HashSet<ArrayList<Integer>>();
@@ -164,8 +158,7 @@ public class CombinationSumII {
 	return result;
     }
 
-    private static ArrayList<ArrayList<Integer>> combinationSum1(int[] num,
-	    int target, boolean[] occupied) {
+    private static ArrayList<ArrayList<Integer>> combinationSum1(int[] num, int target, boolean[] occupied) {
 	ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	for (int i = 0; i < num.length; i++) {
@@ -180,8 +173,7 @@ public class CombinationSumII {
 	    } else {
 		occupied[i] = false;
 
-		ArrayList<ArrayList<Integer>> newResult = combinationSum1(num,
-			target - num[i], occupied);
+		ArrayList<ArrayList<Integer>> newResult = combinationSum1(num, target - num[i], occupied);
 		for (ArrayList<Integer> aResult : newResult) {
 		    aResult.add(num[i]);
 		}

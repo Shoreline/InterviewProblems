@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Permutations2 {
     /*
-     * Similar to permutations I, jus two differences
+     * Similar to permutations I, just two differences
      */
     public class Solution {
 	public List<List<Integer>> permuteUnique(int[] nums) {
@@ -32,8 +32,7 @@ public class Permutations2 {
 	    return res;
 	}
 
-	private void dfs(int[] nums, boolean[] used, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int[] nums, boolean[] used, List<Integer> tmp, List<List<Integer>> res) {
 	    if (tmp.size() == nums.length) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
@@ -46,8 +45,7 @@ public class Permutations2 {
 	     * the second one, ... the last one
 	     */
 	    for (int i = 0; i < nums.length; i++) {
-		if (used[i]
-			|| (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+		if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
 		    continue;
 		}
 		used[i] = true;
@@ -80,8 +78,8 @@ public class Permutations2 {
 	    return result;
 	}
 
-	private void permuteUnique(int[] num, boolean[] occupancy, int amount,
-		int[] temp, HashSet<ArrayList<Integer>> tempResult) {
+	private void permuteUnique(int[] num, boolean[] occupancy, int amount, int[] temp,
+		HashSet<ArrayList<Integer>> tempResult) {
 
 	    if (amount == num.length) {
 		ArrayList<Integer> aResult = new ArrayList<Integer>();
