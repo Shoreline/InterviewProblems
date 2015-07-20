@@ -10,7 +10,7 @@ public class ArrayTest {
      */
     public static void main(String[] args) {
 	
-	System.out.println(new MaximalRectangle().new Solution().maximalRectangle(new char[][]{{'1','1'}}));
+	System.out.println(new MaximalSquare().new Solution().maximalSquare(new char[][]{{'1','1'},{'1','1'}}));
     }
 
     

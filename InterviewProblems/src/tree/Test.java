@@ -14,7 +14,9 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	
+	TreeNode root = new TreeNode(1);
+	root.left = new TreeNode(2);
+	System.out.println(new CountCompleteTreeNodes().new Solution().countNodes(root));
     }
 
  

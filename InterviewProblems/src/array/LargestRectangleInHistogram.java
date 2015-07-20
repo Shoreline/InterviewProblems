@@ -53,7 +53,8 @@ public class LargestRectangleInHistogram {
      * not the most concise one, but more straightforward
      * 
      * The stack saves the index of previous rectangle's right side. So its left
-     * side index is stack.pop().peek() +1. Also, this is not the rectangle we want to use! The one we want to use has its right side of index i-1
+     * side index is stack.pop().peek() +1. Also, this is not the rectangle we
+     * want to use! The one we want to use has its right side of index i-1
      * 
      * Use the extended height array reduced code complexity
      */
@@ -76,8 +77,7 @@ public class LargestRectangleInHistogram {
 		} else {
 		    while (!stack.isEmpty() && height[i] < height[stack.peek()]) {
 			int j = stack.pop();
-			area = height[j]
-				* (stack.isEmpty() ? i : i - stack.peek() - 1);
+			area = height[j] * (stack.isEmpty() ? i : i - stack.peek() - 1);
 			max = Math.max(max, area);
 		    }
 		    stack.push(i);
@@ -146,8 +146,7 @@ public class LargestRectangleInHistogram {
 
 	    while (!stack.isEmpty()) {
 		int index = stack.pop();
-		int l = stack.empty() ? height.length : height.length
-			- stack.peek() - 1;
+		int l = stack.empty() ? height.length : height.length - stack.peek() - 1;
 		max = Math.max(max, height[index] * l);
 	    }
 
@@ -214,8 +213,7 @@ public class LargestRectangleInHistogram {
 		    if (i == j) {
 			minTable[i][j] = height[i];
 		    } else {
-			minTable[i][j] = Math
-				.min(height[j], minTable[i][j - 1]);
+			minTable[i][j] = Math.min(height[j], minTable[i][j - 1]);
 		    }
 		}
 	    }
