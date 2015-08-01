@@ -46,15 +46,16 @@ public class FlattenIterator {
 
 	    return m;
 	}
-	// @Override
-	// public void remove() {
-	// // TODO Auto-generated method stub
-	//
-	// }
+
+	@Override
+	public void remove() {
+	  // not required in Java 8
+	}
 
     }
 
-    public static Iterator<String> flatten(final Iterator<Iterator<String>> iters) {
+    public static Iterator<String> flatten(
+	    final Iterator<Iterator<String>> iters) {
 	return new Iterator<String>() {
 	    private Iterator<String> curIter = null;
 	    private String nextItem = advanceItem();
@@ -63,7 +64,8 @@ public class FlattenIterator {
 		if (iters == null && curIter == null)
 		    throw new NullPointerException();
 
-		while ((iters != null && iters.hasNext()) || (curIter != null && curIter.hasNext())) {
+		while ((iters != null && iters.hasNext())
+			|| (curIter != null && curIter.hasNext())) {
 		    if ((curIter == null || !curIter.hasNext()))
 			if (iters != null && iters.hasNext())
 			    curIter = iters.next();

@@ -52,9 +52,9 @@ public class TextFileIterator implements Iterator<String> {
     }
 
     // we dont need remove the line just read it
-    // @Override
-    // public void remove() {
-    // throw new UnsupportedOperationException();
-    // }
+    @Override
+    public void remove() {
+	throw new UnsupportedOperationException();
+    }
 
 }
