@@ -16,11 +16,11 @@ public class BipartiteGraph {
 
 	    queue.add(nodes.get(0));
 	    colorMap.put(nodes.get(0), color);
-	    color = !color;
-
+	    
 	    while (!queue.isEmpty()) {
 		UndirectedGraphNode node = queue.poll();
-
+		color = !colorMap.get(node); // All neighbors' color shall be opposite with this node
+		
 		for (UndirectedGraphNode neighbor : node.neighbors) {
 		    if (!colorMap.containsKey(neighbor)) {
 			colorMap.put(neighbor, color);
@@ -29,8 +29,6 @@ public class BipartiteGraph {
 			return false;
 		    }
 		}
-
-		color = !color;
 	    }
 
 	    return true;
