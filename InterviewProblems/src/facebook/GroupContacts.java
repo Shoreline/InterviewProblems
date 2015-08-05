@@ -27,6 +27,9 @@ import java.util.*;
  * Use union-find algorithm
  * 
  * http://dongxicheng.org/structure/union-find-set/
+ * 
+ * 
+ * While grouping, use the ID of each contact record (#1->0; #2->1, etc) instead of contact name to represent each contact record.
  */
 public class GroupContacts {
 
