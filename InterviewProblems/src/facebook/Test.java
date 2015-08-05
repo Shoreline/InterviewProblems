@@ -1,18 +1,13 @@
 package facebook;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Test {
 
     public static void main(String[] args) {
-	Set<Character> input = new HashSet<>();
-	input.add('a');
-	input.add('b');
-	input.add('c');
-
-	System.out.println(new CombinationsFBII().new Method2().combination(input,
-		2));
+	
+	String[] input = new String[]{"foo", "foog", "food", "asdf"};
+	System.out.println(new SmallestPrefixSubset().new Method_noTrie().smallestPrefixSubset(input));
     }
 
 }

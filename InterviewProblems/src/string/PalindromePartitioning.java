@@ -40,9 +40,9 @@ public class PalindromePartitioning {
 		return;
 	    }
 
-	    for (int i = pos; i < s.length(); i++) {
-		String substr = s.substring(pos, i + 1);
+	    for (int i = pos; i < s.length(); i++) {		
 		if (palindromes[pos][i]) {
+		    String substr = s.substring(pos, i + 1);
 		    tmp.add(substr);
 		    dfs(s, i + 1, palindromes, tmp, res);
 		    tmp.remove(tmp.size() - 1);
@@ -50,6 +50,9 @@ public class PalindromePartitioning {
 	    }
 	}
 
+	/*
+	 * dp[i][j]: if s.substring(i, j+1) is a palindrome
+	 */
 	private boolean[][] getPalindromes(String s) {
 	    boolean[][] dp = new boolean[s.length()][s.length()];
 
