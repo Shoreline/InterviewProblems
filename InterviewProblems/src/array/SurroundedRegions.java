@@ -12,17 +12,34 @@ import java.util.Queue;
  * A region is captured by flipping all 'O's into 'X's in that surrounded
  * region.
  * 
- * For example, X X X X X O O X X X O X X O X X
+ * For example,
  * 
- * After running your function, the board should be: X X X X X X X X X X X X X O
- * X X
+ * X X X X
+ * 
+ * X O O X
+ * 
+ * X X O X
+ * 
+ * X O X X
+ * 
+ * After running your function, the board should be:
+ * 
+ * X X X X
+ * 
+ * X X X X
+ * 
+ * X X X X
+ * 
+ * X O X X
  * 
  */
 
 /*
- * Idea: do not looking for surrounded regions directly. Mark 'O' regions that
- * connected to an edge with another color. Except these regions, all other 'O'
- * regions shall be flipped to 'X'
+ * Flood fill
+ * 
+ * Idea: do not looking for surrounded regions directly. Flood fill all 'O'
+ * regions that connected to an edge with the third color. Except these regions,
+ * all other 'O' regions shall be flipped to 'X'
  * 
  * Important: Different between queue.add() and queue.offer() in Java; When to
  * flag node while doing BFS
@@ -36,13 +53,13 @@ public class SurroundedRegions {
 	    }
 
 	    for (int i = 0; i < board.length; i++) {
-		fill(board, i, 0, 'O', '#');
-		fill(board, i, board[0].length - 1, 'O', '#');
+		floodFill(board, i, 0, 'O', '#');
+		floodFill(board, i, board[0].length - 1, 'O', '#');
 	    }
 
 	    for (int j = 0; j < board[0].length; j++) {
-		fill(board, 0, j, 'O', '#');
-		fill(board, board.length - 1, j, 'O', '#');
+		floodFill(board, 0, j, 'O', '#');
+		floodFill(board, board.length - 1, j, 'O', '#');
 	    }
 
 	    for (int i = 0; i < board.length; i++) {
@@ -52,7 +69,7 @@ public class SurroundedRegions {
 	    }
 	}
 
-	private void fill(char[][] board, int i, int j, char oldColor,
+	private void floodFill(char[][] board, int i, int j, char oldColor,
 		char newColor) {
 	    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length
 		    || board[i][j] != oldColor) {
