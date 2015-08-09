@@ -12,7 +12,7 @@ package string;
  * definition.
  */
 
-public class Implement_strStr {
+public class StrStr {
 
     public class Solution {
 	public int strStr(String haystack, String needle) {

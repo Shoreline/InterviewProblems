@@ -21,7 +21,10 @@ import java.util.Map;
 
 public class LetterCombinationsofAPhoneNumber {
     /*
-     * DFS
+     * DFS.
+     * 
+     * Time: MAX(number of characters mapping to a digit) ^ digits.length().
+     * Space: same as time
      */
     public class Solution {
 	public List<String> letterCombinations(String digits) {
@@ -30,25 +33,25 @@ public class LetterCombinationsofAPhoneNumber {
 		return res;
 	    }
 
-	    String[] map = new String[] { "", "", "a", "b", "ghi", "jkl",
-		    "mno", "pqrs", "tuv", "wxyz" };
+	    String[] kb = new String[] { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
-	    dfs(digits, 0, map, "", res);
+	    dfs(digits, 0, kb, new char[digits.length()], res);
 
 	    return res;
 	}
 
-	private void dfs(String digits, int pos, String[] map, String tmp,
-		List<String> res) {
+	private void dfs(String digits, int pos, String[] kb, char[] tmp, List<String> res) {
 	    if (pos == digits.length()) {
-		res.add(tmp);
+		res.add(new String(tmp));
 		return;
 	    }
 
-	    // for(int i = pos; i<digits.length(); i++){ // adding this for loop is wrong
-	    String letters = map[digits.charAt(pos) - '0'];
-	    for (int j = 0; j < letters.length(); j++) {
-		dfs(digits, pos + 1, map, tmp + letters.charAt(j), res);
+	    // for(int i = pos; i<digits.length(); i++){ // adding this for loop
+	    // is wrong
+	    String letters = kb[digits.charAt(pos) - '0'];
+	    for (int i = 0; i < letters.length(); i++) {
+		tmp[pos] = letters.charAt(i);
+		dfs(digits, pos + 1, kb, tmp, res);
 	    }
 	    // }
 	}
@@ -78,8 +81,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    keyboard.put('8', "tuv".toCharArray());
 	    keyboard.put('9', "wxyz".toCharArray());
 
-	    List<StringBuilder> sbList = letterCombinationshelp(
-		    digits.toCharArray(), digits.length() - 1, keyboard);
+	    List<StringBuilder> sbList = letterCombinationshelp(digits.toCharArray(), digits.length() - 1, keyboard);
 	    for (StringBuilder sb : sbList) {
 		res.add(sb.toString());
 	    }
@@ -87,8 +89,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    return res;
 	}
 
-	private List<StringBuilder> letterCombinationshelp(char[] digits,
-		int ptr, Map<Character, char[]> keyboard) {
+	private List<StringBuilder> letterCombinationshelp(char[] digits, int ptr, Map<Character, char[]> keyboard) {
 	    List<StringBuilder> res = new ArrayList<StringBuilder>();
 
 	    if (ptr == 0) {
@@ -101,8 +102,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    }
 
 	    for (char c : keyboard.get(digits[ptr])) {
-		List<StringBuilder> tmp = letterCombinationshelp(digits,
-			ptr - 1, keyboard);
+		List<StringBuilder> tmp = letterCombinationshelp(digits, ptr - 1, keyboard);
 		for (StringBuilder sb : tmp) {
 		    StringBuilder newSB = new StringBuilder(sb);
 		    newSB.append(c);
@@ -141,8 +141,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    keyboard.put('9', "wxyz");
 	    keyboard.put('0', " ");
 
-	    ArrayList<StringBuilder> resultBuilder = letterCombinations(digits,
-		    keyboard);
+	    ArrayList<StringBuilder> resultBuilder = letterCombinations(digits, keyboard);
 
 	    for (StringBuilder aStr : resultBuilder) {
 		result.add(aStr.toString());
@@ -151,8 +150,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    return result;
 	}
 
-	private static ArrayList<StringBuilder> letterCombinations(
-		String digits, HashMap<Character, String> keyboard) {
+	private static ArrayList<StringBuilder> letterCombinations(String digits, HashMap<Character, String> keyboard) {
 
 	    ArrayList<StringBuilder> result = new ArrayList<StringBuilder>();
 
@@ -171,8 +169,7 @@ public class LetterCombinationsofAPhoneNumber {
 	    }
 
 	    String letters = keyboard.get(digits.charAt(digits.length() - 1));
-	    ArrayList<StringBuilder> temp = letterCombinations(
-		    digits.substring(0, digits.length() - 1), keyboard);
+	    ArrayList<StringBuilder> temp = letterCombinations(digits.substring(0, digits.length() - 1), keyboard);
 	    // *Do not add original temp back!
 	    // result.addAll(temp);
 	    for (StringBuilder aString : temp) {

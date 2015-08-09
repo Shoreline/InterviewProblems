@@ -1,17 +1,18 @@
 package tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
- * Given a binary tree and a sum, determine if the tree has a root-to-leaf
- * path such that adding up all the values along the path equals the given
- * sum.
+ * Given a binary tree and a sum, determine if the tree has a root-to-leaf path
+ * such that adding up all the values along the path equals the given sum.
  * 
  * For example: Given the below binary tree and sum = 22,
  * 
  * 5 / \ 4 8 / / \ 11 13 4 / \ \ 7 2 1
  * 
- * return true, as there exist a root-to-leaf path 5->4->11->2 which sum is
- * 22.
+ * return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
  */
 public class PathSum {
     /*
@@ -21,13 +22,50 @@ public class PathSum {
 	public boolean hasPathSum(TreeNode root, int sum) {
 	    if (root == null) {
 		return false;
-	    } else if (root.left == null && root.right == null
-		    && root.val == sum) {
+	    } else if (root.left == null && root.right == null && root.val == sum) {
 		return true;
 	    }
 
-	    return hasPathSum(root.left, sum - root.val)
-		    || hasPathSum(root.right, sum - root.val);
+	    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+	}
+    }
+
+    /*
+     * DFS
+     * 
+     * The idea is to use a values Queue to save root-to-node sum for each node.
+     */
+    public class Solution_Iteration {
+	public boolean hasPathSum(TreeNode root, int sum) {
+	    if (root == null)
+		return false;
+
+	    Queue<TreeNode> nodes = new LinkedList<TreeNode>();
+	    Queue<Integer> values = new LinkedList<Integer>();
+
+	    nodes.add(root);
+	    values.add(root.val);
+
+	    while (!nodes.isEmpty()) {
+		TreeNode cur = nodes.poll();
+		int sumValue = values.poll();
+
+		if (cur.left == null && cur.right == null && sumValue == sum) {
+		    return true;
+		}
+
+		if (cur.left != null) {
+		    nodes.add(cur.left);
+		    values.add(sumValue + cur.left.val);
+		}
+
+		if (cur.right != null) {
+		    nodes.add(cur.right);
+		    values.add(sumValue + cur.right.val);
+		}
+	    }
+
+	    return false;
 	}
     }
 
@@ -50,8 +88,7 @@ public class PathSum {
 		return curSum == sum ? true : false;
 	    }
 
-	    return dfsHelper(root.left, curSum + root.val, sum)
-		    || dfsHelper(root.right, curSum + root.val, sum);
+	    return dfsHelper(root.left, curSum + root.val, sum) || dfsHelper(root.right, curSum + root.val, sum);
 	}
     }
 
@@ -70,8 +107,7 @@ public class PathSum {
 
 	}
 
-	private boolean hasPathSum(TreeNode root, int sum,
-		ArrayList<Integer> rootToNode) {
+	private boolean hasPathSum(TreeNode root, int sum, ArrayList<Integer> rootToNode) {
 
 	    if (root == null) {
 		return false;
@@ -96,8 +132,7 @@ public class PathSum {
 	    if (root.right != null)
 		listForRight.add(root.right.val);
 
-	    return (hasPathSum(root.left, sum, listForLeft) || hasPathSum(
-		    root.right, sum, listForRight));
+	    return (hasPathSum(root.left, sum, listForLeft) || hasPathSum(root.right, sum, listForRight));
 	}
     }
 

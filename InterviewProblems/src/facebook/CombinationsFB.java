@@ -22,8 +22,7 @@ public class CombinationsFB {
 	    return res;
 	}
 
-	private void dfs(Character[] chars, int k, char[] tmp, int size,
-		List<String> res) {
+	private void dfs(Character[] chars, int k, char[] tmp, int size, List<String> res) {
 	    if (size == k) {
 		res.add(new String(tmp));
 		return;

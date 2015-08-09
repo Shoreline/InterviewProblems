@@ -1,7 +1,9 @@
 package tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Given a binary tree and a sum, find all root-to-leaf paths where each path's
@@ -28,8 +30,7 @@ public class PathSumII {
 	    return res;
 	}
 
-	private void dfs(TreeNode root, int sum, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(TreeNode root, int sum, List<Integer> tmp, List<List<Integer>> res) {
 
 	    tmp.add(root.val);
 	    if (root.left == null && root.right == null && root.val == sum) {
@@ -49,60 +50,51 @@ public class PathSumII {
 	}
     }
 
-    /*
-     * 
-     * It will be easier if we use a static variable to store and update result.
-     */
-    class Solution_2013 {
-	public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) {
-	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-	    ArrayList<Integer> path = new ArrayList<Integer>();
+    public class Solution_Iteration {
+	public List<List<Integer>> pathSum(TreeNode root, int sum) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    if (root == null)
+		return res;
 
-	    if (root == null) {
-		return result;
-	    }
+	    Queue<TreeNode> nodes = new LinkedList<>();
+	    Queue<Integer> subSums = new LinkedList<>();
+	    Queue<List<Integer>> paths = new LinkedList<>();
 
-	    path.add(root.val);
+	    nodes.add(root);
+	    subSums.add(root.val);
+	    List<Integer> initialList = new ArrayList<>();
+	    initialList.add(root.val);
+	    paths.add(initialList);
 
-	    result = pathSum(root, sum, path);
+	    while (!nodes.isEmpty()) {
+		TreeNode cur = nodes.poll();
+		int sumVal = subSums.poll();
+		List<Integer> path = paths.poll();
 
-	    return result;
-
-	}
-
-	public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum,
-		ArrayList<Integer> path) {
-
-	    if (root == null) {
-		return null;
-	    }
-
-	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-
-	    if (root.left == null && root.right == null) {
-		int curSum = 0;
-		for (Integer anInteger : path) {
-		    curSum += anInteger;
+		if (cur.left == null && cur.right == null && sumVal == sum) {
+		    res.add(path);
 		}
-		if (curSum == sum) {
-		    result.add(path);
+
+		if (cur.left != null) {
+		    nodes.add(cur.left);
+		    subSums.add(sumVal + cur.left.val);
+
+		    List<Integer> tmp = new ArrayList<>(path);
+		    tmp.add(cur.left.val);
+		    paths.add(tmp);
+		}
+
+		if (cur.right != null) {
+		    nodes.add(cur.right);
+		    subSums.add(sumVal + cur.right.val);
+
+		    List<Integer> tmp = new ArrayList<>(path);
+		    tmp.add(cur.right.val);
+		    paths.add(tmp);
 		}
 	    }
 
-	    ArrayList<Integer> listForLeft = new ArrayList<Integer>(path);
-	    ArrayList<Integer> listForRight = new ArrayList<Integer>(path);
-
-	    if (root.left != null) {
-		listForLeft.add(root.left.val);
-		result.addAll(pathSum(root.left, sum, listForLeft));
-	    }
-
-	    if (root.right != null) {
-		listForRight.add(root.right.val);
-		result.addAll(pathSum(root.right, sum, listForRight));
-	    }
-
-	    return result;
+	    return res;
 	}
     }
 

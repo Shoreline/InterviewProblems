@@ -12,14 +12,12 @@ public class CombinationsFBII {
 	public List<String> combination(Set<Character> input, int k) {
 	    List<String> res = new ArrayList<>();
 
-	    dfs(input.toArray(new Character[0]), k, new boolean[input.size()],
-		    new char[k], 0, res);
+	    dfs(input.toArray(new Character[0]), k, new boolean[input.size()], new char[k], 0, res);
 
 	    return res;
 	}
 
-	private void dfs(Character[] chars, int k, boolean[] occupied,
-		char[] tmp, int size, List<String> res) {
+	private void dfs(Character[] chars, int k, boolean[] occupied, char[] tmp, int size, List<String> res) {
 	    if (size == k) {
 		res.add(new String(tmp));
 		return;
@@ -38,6 +36,8 @@ public class CombinationsFBII {
 
     /*
      * follow up++:不用额外空间怎么做。
+     * 
+     * Trade with time.
      */
     class Method2 {
 	public List<String> combination(Set<Character> input, int k) {
@@ -48,8 +48,7 @@ public class CombinationsFBII {
 	    return res;
 	}
 
-	private void dfs(Character[] chars, int k, char[] tmp, int size,
-		List<String> res) {
+	private void dfs(Character[] chars, int k, char[] tmp, int size, List<String> res) {
 	    if (size == k) {
 		res.add(new String(tmp));
 		return;
@@ -63,7 +62,7 @@ public class CombinationsFBII {
 			break;
 		    }
 		}
-		
+
 		if (!occupied) {
 		    tmp[size] = chars[i];
 		    dfs(chars, k, tmp, size + 1, res);
