@@ -27,6 +27,11 @@ import java.util.Map;
  * Use a base-4 number to represent a 10-character DNA String
  * 
  * Set the bits
+ * 
+ * The goal is to keep the substring window to have the most recent 10 digits (
+ * a digit here is represented by two bits) of this 4-based number.
+ * 
+ * -> so ((1<<20) - 1) will filter all bits beyond the rightmost 20 bits.
  */
 public class RepeatedDnaSequences {
     public class Solution {

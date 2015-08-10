@@ -12,6 +12,10 @@ package string;
  * definition.
  */
 
+/*
+ * Has other solutions implementing advanced known algorithms, like KMP
+ * (O(m+n)), Rabin-Karp, Boyer-Moore
+ */
 public class StrStr {
 
     public class Solution {
@@ -40,51 +44,52 @@ public class StrStr {
 	}
     }
 
-    /**
-     * Implement strStr()
-     * 
-     * Returns a pointer to the first occurrence of needle in haystack, or null
-     * if needle is not part of haystack.
-     */
-
     /*
-     * Has other solutions implementing advanced known algorithms, like KMP,
-     * Rabin-Karp, Boyer-Moore
+     * use a prime P as base to compute a P-based number to represent a String.
      */
-
-    public String strStr(String haystack, String needle) {
-	if (haystack == null || needle == null)
-	    return null;
-
-	// corner case
-	if (needle == "")
-	    return haystack;
-
-	for (int i = 0; i < haystack.length(); i++) {
-	    /*
-	     * add this to avoid unnecessary comparisons. Without it, the
-	     * solution below cannot pass the large set
-	     * 
-	     * Actually, the if block below can be merged into the condition of
-	     * for loop
-	     */
-	    if (haystack.length() - i < needle.length())
+    public class Method_RollingHash {
+	public String strStr(String haystack, String needle) {
+	    if (haystack == null || needle == null)
+		return null;
+	    if (haystack.length() == 0) {
+		return needle.length() == 0 ? "" : null;
+	    }
+	    if (needle.length() == 0)
+		return haystack;
+	    if (haystack.length() < needle.length())
 		return null;
 
-	    if (haystack.charAt(i) == needle.charAt(0)) {
-		for (int j = 0; j < needle.length(); j++) {
-		    if (i + j >= haystack.length()
-			    || haystack.charAt(i + j) != needle.charAt(j)) {
-			break;
-			// cannot let i=i+j-1, for example: "mississippi",
-			// "issip"
-		    }
-		    if (j == needle.length() - 1)
-			return haystack.substring(i);
+	    int base = 29;
+	    long patternHash = 0;
+	    long tempBase = 1;
+
+	    for (int i = needle.length() - 1; i >= 0; i--) {
+		patternHash += (int) needle.charAt(i) * tempBase;
+		tempBase *= base;
+	    }
+
+	    long hayHash = 0;
+	    tempBase = 1;
+	    for (int i = needle.length() - 1; i >= 0; i--) {
+		hayHash += (int) haystack.charAt(i) * tempBase;
+		tempBase *= base;
+	    }
+	    tempBase /= base;
+
+	    if (hayHash == patternHash) {
+		return haystack;
+	    }
+
+	    for (int i = needle.length(); i < haystack.length(); i++) {
+		hayHash = (hayHash - (int) haystack.charAt(i - needle.length()) * tempBase) * base
+			+ (int) haystack.charAt(i);
+		if (hayHash == patternHash) {
+		    return haystack.substring(i - needle.length() + 1);
 		}
 	    }
+	    return null;
 	}
 
-	return null;
     }
+
 }
