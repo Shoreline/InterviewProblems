@@ -3,6 +3,8 @@ package linkedin;
 import tree.TreeNode;
 
 /**
+ * Inorderly conver BT into a DLL
+ * 
  * Given a Binary Tree (Bt), convert it to a Doubly Linked List(DLL). The left
  * and right pointers in nodes are to be used as previous and next pointers
  * respectively in converted DLL. The order of nodes in DLL must be same as
