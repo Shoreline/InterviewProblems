@@ -8,6 +8,8 @@ import tree.TreeNode;
  */
 
 /*
+ * http://geeksquiz.com/binary-search-tree-set-2-delete/
+ * 
  * When we delete a node, there possibilities arise.
   1) Node to be deleted is leaf: Simply remove from the tree.
               50                            50
