@@ -45,21 +45,21 @@ public class ConvertSortedListToBinarySearchTree {
 	    return treeBuilder(curHead, 0, len - 1); // len-1, not len!
 	}
 
-	private TreeNode treeBuilder(List<ListNode> head, int start, int end) {
+	private TreeNode treeBuilder(List<ListNode> curHead, int start, int end) {
 	    if (start > end) {
 		return null;
 	    }
 
 	    // in-order traverse. Go for the left child first.
 	    int mid = (start + end) / 2;
-	    TreeNode left = treeBuilder(head, start, mid - 1);
+	    TreeNode left = treeBuilder(curHead, start, mid - 1);
 
-	    ListNode headNode = head.get(0);
+	    ListNode headNode = curHead.get(0);
 	    TreeNode root = new TreeNode(headNode.val);
 
 	    // headNode=headNode.next; // this does not work!
-	    head.set(0, headNode.next);
-	    TreeNode right = treeBuilder(head, mid + 1, end);
+	    curHead.set(0, headNode.next);
+	    TreeNode right = treeBuilder(curHead, mid + 1, end);
 
 	    root.left = left;
 	    root.right = right;
