@@ -28,6 +28,39 @@ public class BinaryTreePostOrderTraversal {
      */
     public class Solution {
 	public List<Integer> postorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<>();
+	    Stack<TreeNode> stack = new Stack<>();
+	    TreeNode pre = null;
+	    stack.push(root);
+
+	    while (!stack.isEmpty()) {
+		TreeNode cur = stack.peek();
+
+		if (cur == null) {
+		    stack.pop();
+		    continue;
+		}
+
+		if (cur.left == null && cur.right == null) {
+		    res.add(cur.val);
+		    pre = cur;
+		    stack.pop();
+		} else if (pre != null && (pre == cur.left || pre == cur.right)) {
+		    res.add(cur.val);
+		    pre = cur;
+		    stack.pop();
+		} else {
+		    stack.push(cur.right);
+		    stack.push(cur.left);
+		}
+	    }
+
+	    return res;
+	}
+    }
+
+    public class Solution2 {
+	public List<Integer> postorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<Integer>();
 	    if (root == null) {
 		return res;
@@ -46,8 +79,7 @@ public class BinaryTreePostOrderTraversal {
 		 * 
 		 * 2) is to deal with n, n.right, n.left situation
 		 */
-		if ((cur.left == null && cur.right == null)
-			|| (pre != null && (pre == cur.left || pre == cur.right))) {
+		if ((cur.left == null && cur.right == null) || (pre != null && (pre == cur.left || pre == cur.right))) {
 		    res.add(cur.val);
 		    pre = cur;
 		    stack.pop();

@@ -19,13 +19,39 @@ import java.util.Stack;
  */
 public class BinaryTreeInorderTraversal {
     /*
+     * Recursion solution O(N) time, O(logN) space
+     * 
+     * O(N) time: total N nodes, visit each one once.
+     * 
+     * O(logN) space: tree height is logN, so maximum logN layers of recursion.
+     */
+    public class Solution {
+	public List<Integer> inorderTraversal(TreeNode root) {
+	    List<Integer> res = new ArrayList<>();
+	    dfs(root, res);
+
+	    return res;
+	}
+
+	private void dfs(TreeNode root, List<Integer> res) {
+	    if (root == null) {
+		return;
+	    }
+
+	    dfs(root.left, res);
+	    res.add(root.val);
+	    dfs(root.right, res);
+	}
+    }
+
+    /*
      * Morris Traversal: O(N) time (actually is O(2N)); O(1) space
      * 
      * http://blog.csdn.net/linhuanmars/article/details/20187257
      * 
      * Only use two additional variables.
      */
-    public class Solution {
+    public class Solution_Morris {
 	public List<Integer> inorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<>();
 	    TreeNode cur = root;
@@ -85,14 +111,7 @@ public class BinaryTreeInorderTraversal {
 	}
     }
 
-    /*
-     * Recursion solution O(N) time, O(logN) space
-     * 
-     * O(N) time: total N nodes, visit each one once.
-     * 
-     * O(logN) space: tree height is logN, so maximum logN layers of recursion.
-     */
-    public class Solution_recursion {
+    public class Solution_recursion4 {
 	public List<Integer> inorderTraversal(TreeNode root) {
 	    List<Integer> res = new ArrayList<>();
 	    if (root == null) {

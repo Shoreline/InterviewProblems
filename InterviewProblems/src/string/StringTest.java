@@ -10,7 +10,7 @@ public class StringTest {
      * @param args
      */
     public static void main(String[] args) {
-	
+	System.out.println(new ReverseInteger().new Solution().reverse(1534236469));
     }
     
 

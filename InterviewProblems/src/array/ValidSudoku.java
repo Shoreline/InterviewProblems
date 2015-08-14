@@ -28,13 +28,10 @@ public class ValidSudoku {
 			continue;
 		    }
 		    int num = board[i][j] - '1';// let c belongs to 0 ~ 8
-		    if (rows[i][num] || columns[j][num]
-			    || blocks[i / 3 * 3 + j / 3][num]) {
+		    if (rows[i][num] || columns[j][num] || blocks[i / 3 * 3 + j / 3][num]) {
 			return false;
 		    }
-		    rows[i][num] = true;
-		    columns[j][num] = true;
-		    blocks[i / 3 * 3 + j / 3][num] = true;
+		    rows[i][num] = columns[j][num] = blocks[i / 3 * 3 + j / 3][num] = true;
 		}
 	    }
 

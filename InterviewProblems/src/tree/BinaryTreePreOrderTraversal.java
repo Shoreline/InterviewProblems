@@ -59,24 +59,23 @@ public class BinaryTreePreOrderTraversal {
      * Iterative solution. 'root' is the current node being processed
      * 
      * No need to push root right after initialize stack
+     * 
+     * Since Stack is FILO, so push the right child first
      */
     public class Solution_Iteration {
 	public List<Integer> preorderTraversal(TreeNode root) {
-	    List<Integer> res = new ArrayList<Integer>();
-	    Stack<TreeNode> stack = new Stack<TreeNode>();
+	    List<Integer> res = new ArrayList<>();
+	    Stack<TreeNode> stack = new Stack<>();
+	    stack.push(root);
 
-	    while (root != null || !stack.isEmpty()) {
-		if (root == null) {
-		    root = stack.pop();
+	    while (!stack.isEmpty()) {
+		TreeNode cur = stack.pop();
+
+		if (cur != null) {
+		    res.add(cur.val);
+		    stack.push(cur.right);
+		    stack.push(cur.left);
 		}
-
-		res.add(root.val);
-
-		if (root.right != null) {
-		    stack.push(root.right);
-		}
-
-		root = root.left;
 	    }
 
 	    return res;

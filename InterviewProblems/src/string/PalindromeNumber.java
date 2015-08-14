@@ -27,6 +27,10 @@ public class PalindromeNumber {
 	    }
 
 	    int div = 1;
+	    /*
+	     * must use x/div, instead of x/(10*div). The latter expression may
+	     * overflow
+	     */
 	    while (x / div >= 10) {
 		div *= 10;
 	    }
@@ -108,8 +112,7 @@ public class PalindromeNumber {
 		x = x / 10;
 	    }
 
-	    if (x > 0 && Integer.MAX_VALUE / 10 == res
-		    && Integer.MAX_VALUE % 10 >= x % 10) {
+	    if (x > 0 && Integer.MAX_VALUE / 10 == res && Integer.MAX_VALUE % 10 >= x % 10) {
 		res = res * 10 + x % 10;
 		x = x / 10;
 	    }

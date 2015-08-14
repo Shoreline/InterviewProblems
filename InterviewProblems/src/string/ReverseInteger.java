@@ -24,8 +24,32 @@ package string;
  */
 /*
  * The tricky part is how to deal with overflow.
+ * 
+ * -> If the reversed number exceeds the range of integer, return 0.
+ * 
+ * If to use a long variable, in the end an int is expected to be returned.
  */
 public class ReverseInteger {
+    public class Solution_easy {
+	public int reverse(int x) {
+	    int sign = (x >= 0 ? 1 : -1);
+	    x = Math.abs(x);
+	    long res = 0;
+
+	    while (x > 0) {
+		res = res * 10 + x % 10;
+		x /= 10;
+	    }
+
+	    if ((sign == 1 && res > (long) Integer.MAX_VALUE)
+		    || (sign == -1 && res * sign < (long) Integer.MIN_VALUE)) {
+		return 0;
+	    }
+
+	    return (int) (sign * res);
+	}
+    }
+
     /*
      * considered overflow.
      * 
@@ -44,8 +68,7 @@ public class ReverseInteger {
 		x = x / 10;
 	    }
 
-	    if (x > 0 && Integer.MAX_VALUE / 10 == res
-		    && Integer.MAX_VALUE % 10 >= x % 10) {
+	    if (x > 0 && Integer.MAX_VALUE / 10 == res && Integer.MAX_VALUE % 10 >= x % 10) {
 		res = res * 10 + x % 10;
 		x = x / 10;
 	    }

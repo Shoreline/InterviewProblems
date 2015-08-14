@@ -29,8 +29,40 @@ public class WordBreakII {
     /*
      * DFS brute force search, use a 'memo' map to cache reusable intermediate
      * results
+     * 
      */
     public class Solution {
+	public List<String> wordBreak(String s, Set<String> wordDict) {
+	    return dfs(s, wordDict, new HashMap<String, List<String>>());
+	}
+
+	private List<String> dfs(String s, Set<String> wordDict, Map<String, List<String>> memo) {
+
+	    if (memo.containsKey(s)) {
+		return memo.get(s);
+	    }
+
+	    List<String> res = new ArrayList<>();
+	    if (wordDict.contains(s)) {
+		res.add(s);
+	    }
+
+	    for (int i = 1; i < s.length(); i++) {
+		String word = s.substring(0, i);
+		if (wordDict.contains(word)) {
+		    List<String> restList = dfs(s.substring(i), wordDict, memo);
+		    for (String rest : restList) {
+			res.add(word + " " + rest);
+		    }
+		}
+	    }
+
+	    memo.put(s, res);
+	    return res;
+	}
+    }
+
+    public class Solution2 {
 	public List<String> wordBreak(String s, Set<String> dict) {
 	    // String str -> all posssible word break sentences of str in dict
 	    Map<String, List<String>> memo = new HashMap<String, List<String>>();
@@ -38,8 +70,7 @@ public class WordBreakII {
 	    return dfs(s, dict, memo);
 	}
 
-	private List<String> dfs(String s, Set<String> dict,
-		Map<String, List<String>> memo) {
+	private List<String> dfs(String s, Set<String> dict, Map<String, List<String>> memo) {
 
 	    if (memo.containsKey(s)) {
 		return memo.get(s);
@@ -85,8 +116,7 @@ public class WordBreakII {
 	    return res;
 	}
 
-	private void dfs(String s, Set<String> wordDict, int pos, String tmp,
-		List<String> res) {
+	private void dfs(String s, Set<String> wordDict, int pos, String tmp, List<String> res) {
 	    if (pos == s.length()) {
 		res.add(tmp);
 		return;
@@ -97,8 +127,7 @@ public class WordBreakII {
 		sb.append(s.charAt(i));
 
 		if (wordDict.contains(sb.toString())) {
-		    String next = tmp.isEmpty() ? sb.toString() : tmp + " "
-			    + sb.toString();
+		    String next = tmp.isEmpty() ? sb.toString() : tmp + " " + sb.toString();
 		    dfs(s, wordDict, i + 1, next, res);
 		}
 	    }
@@ -118,8 +147,7 @@ public class WordBreakII {
 	    return res;
 	}
 
-	private void dfs(String s, Set<String> wordDict, int pos, String tmp,
-		List<String> res) {
+	private void dfs(String s, Set<String> wordDict, int pos, String tmp, List<String> res) {
 	    if (pos == s.length()) {
 		res.add(tmp);
 		return;
