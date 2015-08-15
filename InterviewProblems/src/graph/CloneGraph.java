@@ -95,7 +95,8 @@ public class CloneGraph {
 		UndirectedGraphNode aNode = queue.poll();
 		if (!visited.contains(aNode)) {
 		    if (!nodeMap.containsKey(aNode)) {
-			nodeMap.put(aNode, new UndirectedGraphNode(aNode.label));
+			nodeMap.put(aNode,
+				new UndirectedGraphNode(aNode.label));
 		    }
 		    UndirectedGraphNode clone = nodeMap.get(aNode);
 
