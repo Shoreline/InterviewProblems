@@ -23,6 +23,33 @@ public class PathSumII {
     public class Solution {
 	public List<List<Integer>> pathSum(TreeNode root, int sum) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+
+	    dfs(root, sum, new ArrayList<Integer>(), res);
+
+	    return res;
+	}
+
+	private void dfs(TreeNode root, int sum, List<Integer> tmp, List<List<Integer>> res) {
+	    if (root == null) {
+		return;
+	    }
+
+	    tmp.add(root.val);
+	    if (root.left == null && root.right == null && root.val == sum) {
+		res.add(new ArrayList<Integer>(tmp));
+		tmp.remove(tmp.size() - 1);
+		return;
+	    }
+
+	    dfs(root.left, sum - root.val, tmp, res);
+	    dfs(root.right, sum - root.val, tmp, res);
+	    tmp.remove(tmp.size() - 1);
+	}
+    }
+
+    public class Solution2 {
+	public List<List<Integer>> pathSum(TreeNode root, int sum) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 	    if (root == null) {
 		return res;
 	    }
