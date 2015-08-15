@@ -1,5 +1,8 @@
 package tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Binary Tree Maximum Path Sum
  * 
@@ -15,6 +18,41 @@ public class BinaryTreeMaximumPathSum {
      * Similar to the local/global max thought in DP
      */
     public class Solution {
+	public int maxPathSum(TreeNode root) {
+	    List<Integer> max = new ArrayList<>();
+	    max.add(Integer.MIN_VALUE);
+	    helper(root, max);
+
+	    return max.get(0);
+	}
+
+	private int helper(TreeNode root, List<Integer> max) {
+	    if (root == null) {
+		return 0;
+	    }
+
+	    int leftMax = helper(root.left, max);
+	    int rightMax = helper(root.right, max);
+	    int subMax = root.val;
+
+	    if (leftMax > 0) {
+		subMax += leftMax;
+	    }
+	    if (rightMax > 0) {
+		subMax += rightMax;
+	    }
+
+	    max.set(0, Math.max(max.get(0), subMax));
+
+	    if (leftMax <= 0 && rightMax <= 0) {
+		return root.val;
+	    } else {
+		return root.val + Math.max(leftMax, rightMax);
+	    }
+	}
+    }
+
+    public class Solution2 {
 	int max = Integer.MIN_VALUE;
 
 	public int maxPathSum(TreeNode root) {
