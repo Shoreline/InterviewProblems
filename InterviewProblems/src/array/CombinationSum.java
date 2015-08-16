@@ -31,10 +31,6 @@ public class CombinationSum {
     public class Solution {
 	public List<List<Integer>> combinationSum(int[] candidates, int target) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
-	    if (candidates == null || candidates.length == 0) {
-		return res;
-	    }
-
 	    Arrays.sort(candidates);
 
 	    dfs(candidates, target, 0, new ArrayList<Integer>(), res);
@@ -46,12 +42,12 @@ public class CombinationSum {
 	    if (target == 0) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
+	    } else if (target < 0) {
+		return;
 	    }
 
 	    for (int i = pos; i < candidates.length; i++) {
-		if (candidates[i] > target) {
-		    break;
-		} else if (i > 0 && candidates[i] == candidates[i - 1]) {
+		if (i > 0 && candidates[i] == candidates[i - 1]) {
 		    continue;
 		}
 		tmp.add(candidates[i]);
@@ -59,7 +55,7 @@ public class CombinationSum {
 		tmp.remove(tmp.size() - 1);
 	    }
 	}
-    }
+    }	
 
     public class Solution_old {
 	public List<List<Integer>> combinationSum(int[] candidates, int target) {

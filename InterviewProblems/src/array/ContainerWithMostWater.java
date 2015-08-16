@@ -23,18 +23,15 @@ public class ContainerWithMostWater {
 	}
 
 	int max = 0;
-
 	int i = 0;
 	int j = height.length - 1;
 
 	while (i < j) {
-	    int cur = (j - i) * Math.min(height[i], height[j]);
+	    int vol = (j - i) * Math.min(height[i], height[j]);
 
-	    if (cur > max) {
-		// Here do not need to change i, j, since the condition is
-		// cur>max, not >=
-		max = cur;
-	    } else if (height[i] <= height[j]) {
+	    max = Math.max(max, vol);
+
+	    if (height[i] <= height[j]) {
 		// when leftHeight<=rightHeight, any possible larger container
 		// will not use this left line
 		i++;

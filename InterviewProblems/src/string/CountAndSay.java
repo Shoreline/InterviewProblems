@@ -1,6 +1,8 @@
 package string;
 
 /**
+ * Count and Say
+ * 
  * The count-and-say sequence is the sequence of integers beginning as follows:
  * 1, 11, 21, 1211, 111221, ...
  * 
@@ -22,8 +24,7 @@ public class CountAndSay {
 		for (int i = 0; i < input.length(); i++) {
 		    char digit = input.charAt(i);
 		    int count = 1;
-		    while (i + count < input.length()
-			    && input.charAt(i + count) == digit) {
+		    while (i + count < input.length() && input.charAt(i + count) == digit) {
 			count++;
 		    }
 		    i += (count - 1);

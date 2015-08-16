@@ -69,10 +69,8 @@ public class SurroundedRegions {
 	    }
 	}
 
-	private void floodFill(char[][] board, int i, int j, char oldColor,
-		char newColor) {
-	    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length
-		    || board[i][j] != oldColor) {
+	private void floodFill(char[][] board, int i, int j, char oldColor, char newColor) {
+	    if (board[i][j] != oldColor || board[i][j] == newColor) {
 		return;
 	    }
 
@@ -147,8 +145,7 @@ public class SurroundedRegions {
 	}
 
 	private void filler(char[][] board, int i, int j) {
-	    if (board[i][j] == 'O'
-		    && (i == 0 || i == board.length - 1 || j == 0 || j == board[0].length - 1)) {
+	    if (board[i][j] == 'O' && (i == 0 || i == board.length - 1 || j == 0 || j == board[0].length - 1)) {
 		board[i][j] = '#';
 	    }
 
@@ -201,17 +198,14 @@ public class SurroundedRegions {
 	}
 
 	private boolean dfs(char[][] board, int i, int j) {
-	    if (i < 0 || i > board.length - 1 || j < 0
-		    || j > board[0].length - 1 || board[i][j] == 'X') {
+	    if (i < 0 || i > board.length - 1 || j < 0 || j > board[0].length - 1 || board[i][j] == 'X') {
 		return true;
-	    } else if (i == 0 || i == board.length - 1 || j == 0
-		    || j == board[0].length - 1) {
+	    } else if (i == 0 || i == board.length - 1 || j == 0 || j == board[0].length - 1) {
 		return false;
 	    }
 
 	    board[i][j] = 'X';
-	    if (dfs(board, i - 1, j) && dfs(board, i + 1, j)
-		    && dfs(board, i, j - 1) && dfs(board, i, j + 1)) {
+	    if (dfs(board, i - 1, j) && dfs(board, i + 1, j) && dfs(board, i, j - 1) && dfs(board, i, j + 1)) {
 		return true;
 	    } else {
 		board[i][j] = 'O';

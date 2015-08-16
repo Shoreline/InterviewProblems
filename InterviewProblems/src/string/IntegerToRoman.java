@@ -19,11 +19,9 @@ public class IntegerToRoman {
 
     public class Solution {
 	public String intToRoman(int num) {
-	    
-	    int integers[] = new int[] { 1000, 900, 500, 400, 100, 90, 50, 40,
-		    10, 9, 5, 4, 1 };
-	    String romans[] = new String[] { "M", "CM", "D", "CD", "C", "XC",
-		    "L", "XL", "X", "IX", "V", "IV", "I" };
+
+	    int integers[] = new int[] { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+	    String romans[] = new String[] { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
 
 	    StringBuilder res = new StringBuilder();
 	    int i = 0;
@@ -62,8 +60,7 @@ public class IntegerToRoman {
 	    return result.toString();
 	}
 
-	private StringBuilder intToRomanHelp(int num,
-		HashMap<Integer, Character> ntr) {
+	private StringBuilder intToRomanHelp(int num, HashMap<Integer, Character> ntr) {
 	    StringBuilder result = new StringBuilder();
 	    if (num == 0)
 		return result;

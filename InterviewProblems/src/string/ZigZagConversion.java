@@ -35,8 +35,7 @@ public class ZigZagConversion {
 	    for (int i = 0; i < numRows; i++) {
 		for (int j = i; j < s.length(); j += step) {
 		    res.append(s.charAt(j));
-		    if (i != 0 && i != numRows - 1
-			    && j + step - 2 * i < s.length()) {
+		    if (i != 0 && i != numRows - 1 && j + step - 2 * i < s.length()) {
 			res.append(s.charAt(j + step - 2 * i));
 		    }
 		}
@@ -183,8 +182,7 @@ public class ZigZagConversion {
 	    return s;
 
 	StringBuilder result = new StringBuilder();
-	ArrayList<ArrayList<Character>> lists = new ArrayList<ArrayList<Character>>(
-		nRows);
+	ArrayList<ArrayList<Character>> lists = new ArrayList<ArrayList<Character>>(nRows);
 
 	int i = 0;
 	while (i + (nRows) < s.length()) {

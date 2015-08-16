@@ -22,7 +22,7 @@ public class PalindromePartitioningII {
      * 
      * minCuts[i]: the minimum cut # for the first i characters of s
      * 
-     * Set minCuts[0]=-1, or return minCuts[s.length()] -1 ! 
+     * Set minCuts[0]=-1, or return minCuts[s.length()] -1 !
      */
     public class Solution_me {
 	public int minCut(String s) {
@@ -31,13 +31,13 @@ public class PalindromePartitioningII {
 	    }
 
 	    boolean[][] palindromes = getPalindromes(s);
-	    int[] minCuts = new int[s.length() + 1]; 
+	    int[] minCuts = new int[s.length() + 1];
 	    Arrays.fill(minCuts, Integer.MAX_VALUE);
 	    minCuts[0] = -1; // important!
 
-	    for (int i = 1; i <= s.length(); i++) {
+	    for (int i = 1; i <= s.length(); i++) { // "i" means the first-i characters
 		for (int k = 0; k < i; k++) {
-		    if (palindromes[k][i - 1]) {
+		    if (palindromes[k][i - 1]) { // "i-1" is the index of the i-th characters
 			minCuts[i] = Math.min(minCuts[k] + 1, minCuts[i]);
 		    }
 		}
@@ -50,8 +50,7 @@ public class PalindromePartitioningII {
 	    boolean[][] dp = new boolean[s.length()][s.length()];
 	    for (int i = s.length() - 1; i >= 0; i--) {
 		for (int j = i; j < s.length(); j++) {
-		    if (s.charAt(i) == s.charAt(j)
-			    && (j - i <= 2 || dp[i + 1][j - 1])) {
+		    if (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1])) {
 			dp[i][j] = true;
 		    }
 		}
@@ -84,8 +83,7 @@ public class PalindromePartitioningII {
 		 * properly filled
 		 */
 		for (int j = 0; j < i; j++) {
-		    if (s.charAt(j) == s.charAt(i - 1)
-			    && (i - 1 - j <= 2 || isPalindrome[j + 1][i - 2])) {
+		    if (s.charAt(j) == s.charAt(i - 1) && (i - 1 - j <= 2 || isPalindrome[j + 1][i - 2])) {
 			isPalindrome[j][i - 1] = true;
 			minCut[i] = Math.min(minCut[i], minCut[j] + 1);
 		    }

@@ -1,10 +1,7 @@
 package string;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +27,7 @@ public class SubstringWithConcatenationOfAllWords {
     public class Solution {
 	public List<Integer> findSubstring(String s, String[] words) {
 	    List<Integer> res = new ArrayList<>();
-	    if (s == null || words == null || words.length == 0
-		    || s.length() < words.length * words[0].length()) {
+	    if (s == null || words == null || words.length == 0 || s.length() < words.length * words[0].length()) {
 		return res;
 	    }
 	    Map<String, Integer> toFind = new HashMap<>();
@@ -50,10 +46,8 @@ public class SubstringWithConcatenationOfAllWords {
 		boolean hasAllWords = true;
 		for (int j = i; j < i + words.length * size; j += size) {
 		    String word = s.substring(j, j + size);
-		    found.put(word,
-			    found.containsKey(word) ? found.get(word) + 1 : 1);
-		    if (toFind.get(word) == null
-			    || toFind.get(word) < found.get(word)) {
+		    found.put(word, found.containsKey(word) ? found.get(word) + 1 : 1);
+		    if (toFind.get(word) == null || toFind.get(word) < found.get(word)) {
 			hasAllWords = false;
 			break;
 		    }

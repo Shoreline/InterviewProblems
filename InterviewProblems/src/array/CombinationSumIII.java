@@ -37,6 +37,29 @@ public class CombinationSumIII {
     public class Solution {
 	public List<List<Integer>> combinationSum3(int k, int n) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    dfs(k, n, 1, new ArrayList<Integer>(), res);
+	    return res;
+	}
+
+	private void dfs(int k, int n, int pos, List<Integer> tmp, List<List<Integer>> res) {
+	    if (n == 0 && tmp.size() == k) {
+		res.add(new ArrayList<Integer>(tmp));
+		return;
+	    } else if (n < 0 || tmp.size() >= k) {
+		return;
+	    }
+
+	    for (int i = pos; i <= 9; i++) {
+		tmp.add(i);
+		dfs(k, n - i, i + 1, tmp, res);
+		tmp.remove(tmp.size() - 1);
+	    }
+	}
+    }
+
+    public class Solution2 {
+	public List<List<Integer>> combinationSum3(int k, int n) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 
 	    if (k < 1 || n < 1) {
 		return res;

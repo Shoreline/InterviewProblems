@@ -30,7 +30,7 @@ public class GenerateParentheses {
      */
 
     /*
-     * Use char[] instead of StringBuilder or String to save tmp. 
+     * Use char[] instead of StringBuilder or String to save tmp.
      */
     public class Solution {
 	public List<String> generateParenthesis(int n) {
@@ -45,8 +45,7 @@ public class GenerateParentheses {
 	}
 
 	// left: remaining left paren can be used. Similar for right.
-	private void dfs(int left, int right, int pos, char[] tmp,
-		List<String> res) {
+	private void dfs(int left, int right, int pos, char[] tmp, List<String> res) {
 	    if (left == 0 && right == 0) {
 		res.add(new String(tmp));
 		return;

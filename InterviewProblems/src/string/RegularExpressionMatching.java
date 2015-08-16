@@ -18,11 +18,13 @@ package string;
 public class RegularExpressionMatching {
 
     /*
-     * DP: http://bangbingsyb.blogspot.com/2014/11/leetcode-regular-expression-matching.html
+     * DP: http://bangbingsyb.blogspot.com/2014/11/leetcode-regular-expression-
+     * matching.html
      * 
      * O(M*N) time and O(M*N) space
      * 
-     * dp[i][j]: if the first i characters in s and the first j characters in p is a match
+     * dp[i][j]: if the first i characters in s and the first j characters in p
+     * is a match
      */
     public class Solution {
 	public boolean isMatch(String s, String p) {
@@ -37,29 +39,24 @@ public class RegularExpressionMatching {
 
 	    for (int i = 0; i <= lenS; i++) {
 		for (int j = 1; j <= lenP; j++) {
-		    if (p.charAt(j - 1) != '.' && p.charAt(j - 1) != '*'
-			    && i > 0 && s.charAt(i - 1) == p.charAt(j - 1)
-			    && dp[i - 1][j - 1]) 
-		    {
+		    if (p.charAt(j - 1) != '.' && p.charAt(j - 1) != '*' && i > 0 && s.charAt(i - 1) == p.charAt(j - 1)
+			    && dp[i - 1][j - 1]) {
 			dp[i][j] = true;
-		    } 
-		    else if (p.charAt(j - 1) == '.' && i > 0
-			    && dp[i - 1][j - 1]) 
-		    {
+		    } else if (p.charAt(j - 1) == '.' && i > 0 && dp[i - 1][j - 1]) {
 			dp[i][j] = true;
-		    } 
-		    else if (p.charAt(j - 1) == '*' && j > 1) 
-		    {
-			if (dp[i][j - 1] || dp[i][j - 2]) 
-			{
+		    } else if (p.charAt(j - 1) == '*' && j > 1) {
+			// matches 1 or 0 of preceding character: p.charAt(j-1)
+			if (dp[i][j - 1] || dp[i][j - 2]) {
 			    dp[i][j] = true;
 			}
-			
-			// if * matches multiple preceding characters in s. Like s="abccc" and p="abc*"
-			if (i > 0 && dp[i - 1][j]
-				&& (s.charAt(i - 1) == p.charAt(j - 2) || p
-					.charAt(j - 2) == '.')) 
-			{
+
+			/*
+			 * if * matches multiple preceding characters in s. Like
+			 * s="abcc" and p="abc*" while i=4 and j=4: 1) The first
+			 * j characters of p must also already matched the first
+			 * i-1 and the first i-2 characters of s.
+			 */
+			if (i > 0 && dp[i - 1][j] && (s.charAt(i - 1) == p.charAt(j - 2) || p.charAt(j - 2) == '.')) {
 			    dp[i][j] = true;
 			}
 		    }

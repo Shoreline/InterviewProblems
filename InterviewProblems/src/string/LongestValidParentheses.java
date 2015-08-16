@@ -48,8 +48,7 @@ public class LongestValidParentheses {
 					// valid start
 		} else {
 		    stack.pop();
-		    int len = stack.isEmpty() ? (i - validStart + 1)
-			    : (i - stack.peek());
+		    int len = stack.isEmpty() ? (i - validStart + 1) : (i - stack.peek());
 
 		    max = Math.max(max, len);
 		}

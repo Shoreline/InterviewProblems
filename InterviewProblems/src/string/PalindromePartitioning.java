@@ -33,14 +33,13 @@ public class PalindromePartitioning {
 	    return res;
 	}
 
-	private void dfs(String s, int pos, boolean[][] palindromes,
-		List<String> tmp, List<List<String>> res) {
+	private void dfs(String s, int pos, boolean[][] palindromes, List<String> tmp, List<List<String>> res) {
 	    if (pos == s.length()) {
 		res.add(new ArrayList<String>(tmp));
 		return;
 	    }
 
-	    for (int i = pos; i < s.length(); i++) {		
+	    for (int i = pos; i < s.length(); i++) {
 		if (palindromes[pos][i]) {
 		    String substr = s.substring(pos, i + 1);
 		    tmp.add(substr);
@@ -58,8 +57,7 @@ public class PalindromePartitioning {
 
 	    for (int i = s.length() - 1; i >= 0; i--) {
 		for (int j = i; j < s.length(); j++) {
-		    if (s.charAt(i) == s.charAt(j)
-			    && (j - i <= 2 || dp[i + 1][j - 1])) {
+		    if (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1])) {
 			dp[i][j] = true;
 		    }
 		}
@@ -80,8 +78,7 @@ public class PalindromePartitioning {
 	    return res;
 	}
 
-	private void dfs(String s, int pos, List<String> tmp,
-		List<List<String>> res) {
+	private void dfs(String s, int pos, List<String> tmp, List<List<String>> res) {
 	    if (pos == s.length()) {
 		res.add(new ArrayList<String>(tmp));
 		return;
@@ -120,8 +117,7 @@ public class PalindromePartitioning {
 	    return res;
 	}
 
-	private void dfs(String s, int pos, List<String> tmp,
-		List<List<String>> res) {
+	private void dfs(String s, int pos, List<String> tmp, List<List<String>> res) {
 	    if (pos == s.length()) {
 		res.add(new ArrayList<String>(tmp));
 		return;
