@@ -8,42 +8,45 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * Word Ladder II
+ * Word Ladder
  * 
- * Given two words (start and end), and a dictionary, find all shortest
- * transformation sequence(s) from start to end, such that:
+ * Given two words (beginWord and endWord), and a dictionary, find the length of
+ * shortest transformation sequence from beginWord to endWord, such that:
  * 
  * Only one letter can be changed at a time Each intermediate word must exist in
- * the dictionary For example,
+ * the dictionary
  * 
- * Given:
+ * For example,
  * 
- * start = "hit"
+ * Given: start = "hit", end = "cog", dict = ["hot","dot","dog","lot","log"]
  * 
- * end = "cog"
+ * As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+ * return its length 5.
  * 
- * dict = ["hot","dot","dog","lot","log"]
+ * Note:
  * 
- * Return [
+ * Return 0 if there is no such transformation sequence. All words have the same
+ * length. All words contain only lowercase alphabetic characters.
  * 
- * ["hit","hot","dot","dog","cog"],
- * 
- * ["hit","hot","lot","log","cog"]
- * 
- * ]
  */
 
+/*
+ * BFS
+ * 
+ * Use two int variables (curLvlLen and nextLvlLen) to help tracking BFS level
+ * 
+ * Be careful where to label visited nodes
+ */
 public class WordLadder {
     public class Solution {
-	public int ladderLength(String startWord, String endWord,
-		Set<String> wordDict) {
+	public int ladderLength(String startWord, String endWord, Set<String> wordDict) {
 	    if (wordDict == null || wordDict.size() == 0) {
 		return 0;
 	    }
 
 	    Queue<String> queue = new LinkedList<String>();
 	    queue.offer(startWord);
-	    wordDict.remove(startWord);
+	    wordDict.remove(startWord); // important
 	    int length = 1;
 
 	    while (!queue.isEmpty()) {
@@ -79,22 +82,11 @@ public class WordLadder {
     }
 
     /*
-     * BFS
-     * 
-     * Use two int variables (curLvlLen and nextLvlLen) to help tracking BFS
-     * level
-     * 
-     * Be careful where to label visited nodes
-     */
-
-    /*
      * TLE
      */
     public class Method {
-	public int ladderLength(String startWord, String endWord,
-		Set<String> wordDict) {
-	    if ((startWord == null && endWord == null)
-		    || (startWord.length() == 0 && endWord.length() == 0)
+	public int ladderLength(String startWord, String endWord, Set<String> wordDict) {
+	    if ((startWord == null && endWord == null) || (startWord.length() == 0 && endWord.length() == 0)
 		    || wordDict == null) {
 		return 0;
 	    }
@@ -115,8 +107,7 @@ public class WordLadder {
 		    return ladderLen;
 		}
 
-		Set<String> nextStrings = getNextStrings(curStr, wordDict,
-			visited);
+		Set<String> nextStrings = getNextStrings(curStr, wordDict, visited);
 		for (String str : nextStrings) {
 		    queue.add(str);
 		    nextLvlLen++;
@@ -135,8 +126,7 @@ public class WordLadder {
 	    return 0;
 	}
 
-	private Set<String> getNextStrings(String s, Set<String> dict,
-		Set<String> visited) {
+	private Set<String> getNextStrings(String s, Set<String> dict, Set<String> visited) {
 	    Set<String> res = new HashSet<String>();
 	    for (int i = 0; i < s.length(); i++) {
 		char[] cArray = s.toCharArray();

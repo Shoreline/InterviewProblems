@@ -33,8 +33,7 @@ public class WordLadderII {
      * ]
      */
 
-    public static ArrayList<ArrayList<String>> findLadders(String start,
-	    String end, HashSet<String> dict) {
+    public static ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
 	// Start typing your Java solution below
 	// DO NOT write main() function
 

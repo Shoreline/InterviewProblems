@@ -43,6 +43,71 @@ package string;
 public class ValidNumber {
     public class Solution {
 	public boolean isNumber(String s) {
+	    if (s == null) {
+		return false;
+	    }
+	    s = s.trim();
+	    if (s.length() == 0) {
+		return false;
+	    }
+
+	    boolean usedDot = false;
+	    boolean usedE = false;
+
+	    for (int i = 0; i < s.length(); i++) {
+		char c = s.charAt(i);
+		switch (c) {
+		case '.':
+		    if (usedDot || usedE) {
+			return false;
+		    } else if ((i == 0 || !Character.isDigit(s.charAt(i - 1)))
+			    && (i == s.length() - 1 || !Character.isDigit(s.charAt(i + 1)))) {
+			return false;
+		    }
+		    usedDot = true;
+		    break;
+		case '+':
+		case '-':
+		    if (i == s.length() - 1) {
+			return false;
+		    }
+		    if (!Character.isDigit(s.charAt(i + 1)) && s.charAt(i + 1) != '.') {
+			return false;
+		    }
+		    if (i != 0 && Character.toLowerCase(s.charAt(i - 1)) != 'e') {
+			return false;
+		    }
+		    break;
+		case 'e':
+		case 'E':
+		    if (usedE || i == 0 || i == s.length() - 1) {
+			return false;
+		    }
+		    usedE = true;
+		    break;
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		    break;
+		default:
+		    return false;
+		}
+
+	    }
+
+	    return true;
+	}
+    }
+
+    public class Solution2 {
+	public boolean isNumber(String s) {
 	    if (s == null)
 		return false;
 	    s = s.trim();
@@ -53,19 +118,15 @@ public class ValidNumber {
 	    for (int i = 0; i < s.length(); i++) {
 		switch (s.charAt(i)) {
 		case '.':
-		    if (dotFlag
-			    || eFlag
-			    || ((i == 0 || !Character.isDigit(s.charAt(i - 1))) && (i == s
-				    .length() - 1 || !Character.isDigit(s
-				    .charAt(i + 1)))))
+		    if (dotFlag || eFlag || ((i == 0 || !Character.isDigit(s.charAt(i - 1)))
+			    && (i == s.length() - 1 || !Character.isDigit(s.charAt(i + 1)))))
 			return false;
 		    dotFlag = true;
 		    break;
 		case '+':
 		case '-':
 		    if ((i > 0 && (s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E'))
-			    || (i == s.length() - 1 || !(Character.isDigit(s
-				    .charAt(i + 1)) || s.charAt(i + 1) == '.')))
+			    || (i == s.length() - 1 || !(Character.isDigit(s.charAt(i + 1)) || s.charAt(i + 1) == '.')))
 			return false;
 		    break;
 		case 'e':
@@ -113,7 +174,7 @@ public class ValidNumber {
 	    return true;
 	}
     }
-    
+
     /*
      * Finite auto machine
      * http://blog.csdn.net/kenden23/article/details/18696083
