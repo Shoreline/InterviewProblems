@@ -28,6 +28,31 @@ import java.util.Set;
  *
  */
 public class IsomorphicStrings {
+    public class Solution_simple {
+	public boolean isIsomorphic(String s, String t) {
+	    if (s == null && t == null || (s.length() == 0 && t.length() == 0)) {
+		return true;
+	    }
+	    if (s == null || t == null || s.length() == 0 || t.length() == 0 || s.length() != t.length()) {
+		return false;
+	    }
+
+	    Map<Character, Character> mapST = new HashMap<>();
+	    Map<Character, Character> mapTS = new HashMap<>();
+	    for (int i = 0; i < s.length(); i++) {
+		char cs = s.charAt(i);
+		char ct = t.charAt(i);
+		if (mapST.containsKey(cs) && mapST.get(cs) != ct || (mapTS.containsKey(ct) && mapTS.get(ct) != cs)) {
+		    return false;
+		}
+		mapST.put(cs, ct);
+		mapTS.put(ct, cs);
+	    }
+
+	    return true;
+	}
+    }
+
     public class Solution {
 	public boolean isIsomorphic(String s, String t) {
 	    if (s.length() == 0 && t.length() == 0) {

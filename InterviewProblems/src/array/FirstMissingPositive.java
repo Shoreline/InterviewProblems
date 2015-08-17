@@ -42,19 +42,21 @@ public class FirstMissingPositive {
 		}
 	    }
 
+	    // after this for loop, all valid nums[i] saves a negative value
 	    for (int i = 0; i < nums.length; i++) {
 		if (nums[i] != 0) {
-		    int k = Math.abs(nums[i]) - 1;
-		    if (nums[k] == 0) {
-			nums[k] = -Math.abs(nums[i]);
+		    int index = Math.abs(nums[i]) - 1;
+		    if (nums[index] == 0) {
+			nums[index] = -Math.abs(nums[i]);
 		    } else {
-			nums[k] = -Math.abs(nums[k]);
+			nums[index] = -Math.abs(nums[index]);
 		    }
 		}
 	    }
 
-	    for (int i = 0; i < nums.length; i++) {	
-		if (nums[i] >= 0) {
+	    for (int i = 0; i < nums.length; i++) {
+		// if (nums[i] >= 0) {
+		if (!(nums[i] < 0)) {
 		    return i + 1;
 		}
 	    }

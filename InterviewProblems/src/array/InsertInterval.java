@@ -29,11 +29,8 @@ public class InsertInterval {
      * newInterval absorb curInterval, until it is safe to insert
      */
     public class Solution {
-	public List<Interval> insert(List<Interval> intervals,
-		Interval newInterval) {
-	    if (intervals == null || newInterval == null) {
-		return intervals;
-	    }
+	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+
 	    List<Interval> res = new ArrayList<>();
 	    boolean inserted = false;
 
@@ -42,7 +39,7 @@ public class InsertInterval {
 		    res.add(cur);
 		} else if (newInterval.end < cur.start) {
 		    res.add(newInterval);
-		    res.add(cur);
+		    res.add(cur); // easy to forget!
 		    inserted = true;
 		} else {
 		    newInterval.start = Math.min(cur.start, newInterval.start);
@@ -62,11 +59,9 @@ public class InsertInterval {
      * Same algorithm as the 2013 solution
      */
     public class Solution2 {
-	public List<Interval> insert(List<Interval> intervals,
-		Interval newInterval) {
+	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
 	    List<Interval> res = new ArrayList<Interval>();
-	    if (intervals == null || intervals.size() == 0
-		    || newInterval == null) {
+	    if (intervals == null || intervals.size() == 0 || newInterval == null) {
 		res.add(newInterval);
 		return res;
 	    }
@@ -89,10 +84,8 @@ public class InsertInterval {
 		if (!hasInserted && cur.end >= newInterval.start) {
 		    newInterval.start = Math.min(newInterval.start, cur.start);
 
-		    while (i < intervals.size()
-			    && intervals.get(i).start <= newInterval.end) {
-			newInterval.end = Math.max(newInterval.end,
-				intervals.get(i).end);
+		    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+			newInterval.end = Math.max(newInterval.end, intervals.get(i).end);
 			i++;
 		    }
 
@@ -109,8 +102,7 @@ public class InsertInterval {
     }
 
     class Solution_2013 {
-	public ArrayList<Interval> insert(ArrayList<Interval> intervals,
-		Interval newInterval) {
+	public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
 	    ArrayList<Interval> result = new ArrayList<Interval>();
 
 	    if (intervals == null || intervals.isEmpty()) {
@@ -148,13 +140,10 @@ public class InsertInterval {
 	    while (i < intervals.size()) {
 		Interval curInterval = intervals.get(i);
 		if (!insertStart && curInterval.end >= newInterval.start) {
-		    newInterval.start = Math.min(curInterval.start,
-			    newInterval.start);
+		    newInterval.start = Math.min(curInterval.start, newInterval.start);
 		    insertStart = true;
-		    while (i < intervals.size()
-			    && intervals.get(i).start <= newInterval.end) {
-			newInterval.end = Math.max(newInterval.end,
-				intervals.get(i).end);
+		    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+			newInterval.end = Math.max(newInterval.end, intervals.get(i).end);
 			i++;
 		    }
 		    result.add(newInterval);

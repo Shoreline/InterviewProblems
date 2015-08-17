@@ -48,16 +48,15 @@ public class BinarySearchTreeIterator {
 	 */
 	// hasNext() is assumed to be checked outside before next()
 	public int next() {
-	    TreeNode min = stack.pop();
-	    int res = min.val;
-	    if (min.right != null) {
-		TreeNode node = min.right;
-		while (node != null) {
-		    stack.push(node);
-		    node = node.left;
-		}
+	    TreeNode res = stack.pop();
+	    
+	    TreeNode node = res.right;
+	    while (node != null) {
+		stack.push(node);
+		node = node.left;
 	    }
-	    return res;
+	    
+	    return res.val;
 	}
     }
 

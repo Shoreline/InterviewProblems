@@ -44,7 +44,7 @@ public class MinimumWindowSubstring {
 
 	    // sliding window
 	    int left = 0;
-	    int count = 0;
+	    int count = 0; // # of valid characters of t in current window
 	    int minLen = s.length() + 1; // important, make it > s.length()
 	    int minStart = 0;
 	    for (int right = 0; right < s.length(); right++) {
@@ -77,8 +77,7 @@ public class MinimumWindowSubstring {
 
 	    }
 
-	    return minLen > s.length() ? "" : s.substring(minStart, minStart
-		    + minLen);
+	    return minLen<=s.length()?s.substring(minStart,minStart+minLen):"";
 	}
     }
 

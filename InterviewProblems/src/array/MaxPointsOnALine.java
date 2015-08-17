@@ -24,7 +24,6 @@ import java.util.Map;
  * 3) convert int to double while computing slope
  */
 public class MaxPointsOnALine {
-
     public class Solution {
 	public int maxPoints(Point[] points) {
 	    if (points == null || points.length == 0) {
@@ -53,7 +52,7 @@ public class MaxPointsOnALine {
 		    }
 		}
 
-		res = Math.max(Math.max(res, duplicates), h + duplicates);
+		res = Math.max(res, h + duplicates);
 		for (double slope : slopeCount.keySet()) {
 		    res = Math.max(res, slopeCount.get(slope) + duplicates);
 		}

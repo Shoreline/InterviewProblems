@@ -26,10 +26,8 @@ public class MaximumProductSubarray {
 	    int max = nums[0];
 
 	    for (int i = 1; i < nums.length; i++) {
-		int tmp = Math.max(nums[i],
-			Math.max(localMin * nums[i], localMax * nums[i]));
-		localMin = Math.min(nums[i],
-			Math.min(localMin * nums[i], localMax * nums[i]));
+		int tmp = Math.max(nums[i], Math.max(localMin * nums[i], localMax * nums[i]));
+		localMin = Math.min(nums[i], Math.min(localMin * nums[i], localMax * nums[i]));
 		localMax = tmp;
 		max = Math.max(max, localMax);
 	    }
@@ -51,10 +49,8 @@ public class MaximumProductSubarray {
 	    dp2[0] = nums[0];
 
 	    for (int i = 1; i < nums.length; i++) {
-		dp1[i] = Math.max(nums[i],
-			Math.max(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
-		dp2[i] = Math.min(nums[i],
-			Math.min(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
+		dp1[i] = Math.max(nums[i], Math.max(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
+		dp2[i] = Math.min(nums[i], Math.min(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
 
 		max = Math.max(max, dp1[i]);
 	    }
