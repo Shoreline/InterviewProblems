@@ -1,6 +1,6 @@
 package tree;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Symmetric Tree
@@ -51,8 +51,34 @@ public class SymmetricTree {
 		return false;
 	    }
 
-	    return isSymmetric(r1.left, r2.right)
-		    && isSymmetric(r1.right, r2.left);
+	    return isSymmetric(r1.left, r2.right) && isSymmetric(r1.right, r2.left);
+	}
+    }
+
+    /*
+     * BFS
+     */
+    public class Solution_Iteration {
+	public boolean isSymmetric(TreeNode root) {
+	    if (root == null)
+		return true;
+	    Queue<TreeNode> l = new LinkedList<TreeNode>(), r = new LinkedList<TreeNode>();
+	    l.add(root.left);
+	    r.add(root.right);
+	    while (!l.isEmpty() && !r.isEmpty()) {
+		TreeNode temp1 = l.poll(), temp2 = r.poll();
+		if (temp1 == null && temp2 != null || temp1 != null && temp2 == null)
+		    return false;
+		if (temp1 != null) {
+		    if (temp1.val != temp2.val)
+			return false;
+		    l.add(temp1.left);
+		    l.add(temp1.right);
+		    r.add(temp2.right);
+		    r.add(temp2.left);
+		}
+	    }
+	    return true;
 	}
     }
 
