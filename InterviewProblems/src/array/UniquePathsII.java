@@ -44,6 +44,7 @@ public class UniquePathsII {
 		    } else if (i == 0 && j == 0) {
 			dp[j] = 1;
 		    }
+		    // below block is useless, but no harm to keep
 		    // else if(i ==0){
 		    // dp[j]=dp[j-1];
 		    // }

@@ -24,7 +24,27 @@ package array;
  * result
  */
 public class JumpGame2 {
-    public class Solution {
+
+    public class Solution_Greedy {
+	// assume the last index is reachable
+	public int jump(int[] nums) {
+	    int step = 0;
+	    int ptr = 0;
+	    int max = 0;
+	    while (max < nums.length - 1) {
+		int range = max;
+		while (ptr <= range) {
+		    max = Math.max(max, ptr + nums[ptr]);
+		    ptr++;
+		}
+		step++;
+	    }
+
+	    return step;
+	}
+    }
+
+    public class Solution_Greedy4 {
 	public int jump(int[] nums) {
 	    if (nums == null || nums.length == 0) {
 		return -1;
@@ -34,8 +54,7 @@ public class JumpGame2 {
 	    int curReach = 0;
 	    int nextReach = 0;
 	    int jumps = 0;
-	    while (i < nums.length && curReach < nums.length - 1
-		    && i <= curReach) {
+	    while (i < nums.length && curReach < nums.length - 1 && i <= curReach) {
 		for (int j = i; j <= curReach; j++) {
 		    nextReach = Math.max(nextReach, j + nums[j]);
 		}

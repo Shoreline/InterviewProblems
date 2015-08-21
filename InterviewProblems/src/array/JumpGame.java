@@ -31,14 +31,18 @@ public class JumpGame {
 		return false;
 	    }
 
-	    int reach = nums[0]; // reach is 0-based index
-	    int i = 1;
-	    while (i < nums.length && reach >= i && reach < nums.length - 1) {
-		reach = Math.max(reach, i + nums[i]);
-		i++;
+	    int max = nums[0]; // 0-based index
+	    int ptr = 0;
+	    while (ptr <= max && ptr < nums.length) {
+		if (max >= nums.length - 1) {
+		    return true;
+		}
+
+		max = Math.max(max, nums[ptr] + ptr);
+		ptr++;
 	    }
 
-	    return reach >= nums.length - 1;
+	    return false;
 	}
     }
 

@@ -48,13 +48,13 @@ output:
 ]
  *
  */
-public class FactorCombinations {
+public class FactorCombinations {        
     public class Solution {
 	public List<List<Integer>> getFactors(int n) {
 	    if (n == 1) {
 		return new ArrayList<List<Integer>>();
 	    }
-	    return dfs(n, n - 1);
+	    return dfs(n, n / 2);
 	}
 
 	private List<List<Integer>> dfs(int n, int limit) {

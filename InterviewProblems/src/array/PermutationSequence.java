@@ -1,6 +1,6 @@
 package array;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Permutation Sequence
@@ -20,8 +20,8 @@ public class PermutationSequence {
     /*
      * Time: O(N^2). The remove() of an arrayList costs O(N)
      * 
-     * For N unused digits, there are N! permutations in total. Chose
-     * the r-largest digit in them as the next digit of result, then all
+     * For N unused digits, there are N! permutations in total. Chose the
+     * r-largest digit in them as the next digit of result, then all
      * (r-1)*(N-1)! possibilities will be surely smaller than the final number
      * 
      * k-th permutation, means there are (k-1) permutations smaller than it. So
@@ -29,25 +29,17 @@ public class PermutationSequence {
      */
     public class Solution {
 	public String getPermutation(int n, int k) {
-	    if (n < 1)
-		return "";
-
 	    StringBuilder result = new StringBuilder();
-	    ArrayList<Integer> unUsed = new ArrayList<Integer>();
+	    List<Integer> unUsed = new ArrayList<Integer>();
 	    int f = 1;
 	    for (int i = 1; i <= n; i++) {
 		unUsed.add(i);
 		f *= i;
 	    }
-	    if (k > f) {
-		return "";
-	    }
 
 	    while (!unUsed.isEmpty()) {
-		int len = unUsed.size();
-
 		// let f = (len-1)!, which is the # of combos for len-1 digits
-		f = f / len;
+		f = f / unUsed.size();
 		// index is guaranteed between [0, len-1]
 
 		int rank = (k - 1) / f;
