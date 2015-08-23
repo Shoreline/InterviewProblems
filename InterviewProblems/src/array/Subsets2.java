@@ -29,13 +29,36 @@ public class Subsets2 {
      * be added to tmp list
      * 
      * The rest is the same with subset I
-     * 
+     */
+
+    public class Solution {
+	public List<List<Integer>> subsetsWithDup(int[] nums) {
+	    List<List<Integer>> res = new ArrayList<List<Integer>>();
+	    Arrays.sort(nums);
+	    dfs(nums, 0, new ArrayList<Integer>(), res);
+	    return res;
+	}
+
+	private void dfs(int[] nums, int pos, List<Integer> tmp, List<List<Integer>> res) {
+	    res.add(new ArrayList<Integer>(tmp));
+
+	    for (int i = pos; i < nums.length; i++) {
+		if (i == pos || nums[i] != nums[i - 1]) {
+		    tmp.add(nums[i]);
+		    dfs(nums, i + 1, tmp, res);
+		    tmp.remove(tmp.size() - 1);
+		}
+	    }
+	}
+    }
+
+    /*
      * if (i > pos && nums[i] == nums[i - 1]) continue;
      * 
      * -> if i==pos, then no matter nums[i] is a repeated element it will be
      * added to tmp
      */
-    public class Solution {
+    public class Solution3 {
 	public List<List<Integer>> subsetsWithDup(int[] nums) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
 	    if (nums == null || nums.length == 0) {
@@ -47,8 +70,7 @@ public class Subsets2 {
 	    return res;
 	}
 
-	private void dfs(int[] nums, int pos, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int[] nums, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    res.add(new ArrayList<Integer>(tmp));
 
 	    for (int i = pos; i < nums.length; i++) {
@@ -77,14 +99,12 @@ public class Subsets2 {
 	public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
 	    Arrays.sort(num);
 
-	    ArrayList<ArrayList<Integer>> result = subsetsWithDup(num,
-		    num.length - 1);
+	    ArrayList<ArrayList<Integer>> result = subsetsWithDup(num, num.length - 1);
 
 	    return result;
 	}
 
-	private ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num,
-		int startIndex) {
+	private ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num, int startIndex) {
 	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
 
 	    if (startIndex < 0) {
@@ -94,8 +114,7 @@ public class Subsets2 {
 		return result;
 	    }
 
-	    ArrayList<ArrayList<Integer>> temp = subsetsWithDup(num,
-		    startIndex - 1);
+	    ArrayList<ArrayList<Integer>> temp = subsetsWithDup(num, startIndex - 1);
 	    result.addAll(temp);
 
 	    if (startIndex > 0 && num[startIndex] == num[startIndex - 1]) {

@@ -13,11 +13,10 @@ package string;
  */
 
 /*
- * dp[i][j]: whether the first i characters in s1 and first j characters in
- * s2 can form the first i+j characters of s3
+ * dp[i][j]: whether the first i characters in s1 and first j characters in s2
+ * can form the first i+j characters of s3
  * 
- * Check the rolling array version, no need additional initialization
- * process
+ * Check the rolling array version, no need additional initialization process
  */
 public class InterleavingString {
     /*
@@ -37,16 +36,14 @@ public class InterleavingString {
 	    for (int i = 0; i < maxWord.length(); i++) {
 		res[0] = res[0] && maxWord.charAt(i) == s3.charAt(i);
 		for (int j = 0; j < minWord.length(); j++) {
-		    res[j + 1] = res[j + 1]
-			    && maxWord.charAt(i) == s3.charAt(i + j + 1)
-			    || res[j]
-			    && minWord.charAt(j) == s3.charAt(i + j + 1);
+		    res[j + 1] = res[j + 1] && maxWord.charAt(i) == s3.charAt(i + j + 1)
+			    || res[j] && minWord.charAt(j) == s3.charAt(i + j + 1);
 		}
 	    }
 	    return res[minWord.length()];
 	}
     }
-    
+
     /*
      * Straightforward DP using 2D array.
      */
@@ -63,11 +60,9 @@ public class InterleavingString {
 		    if (i == 0 && j == 0) {
 			dp[i][j] = true;
 		    } else if (i == 0) {
-			dp[i][j] = dp[i][j - 1]
-				&& s2.charAt(j - 1) == s3.charAt(j - 1);
+			dp[i][j] = dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
 		    } else if (j == 0) {
-			dp[i][j] = dp[i - 1][j]
-				&& s1.charAt(i - 1) == s3.charAt(i - 1);
+			dp[i][j] = dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i - 1);
 		    } else {
 			dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1))
 				|| (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
@@ -77,7 +72,7 @@ public class InterleavingString {
 
 	    return dp[s1.length()][s2.length()];
 	}
-    }    
+    }
 
     /*
      * Interesting way of initialization
@@ -90,12 +85,10 @@ public class InterleavingString {
 	    boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
 	    dp[0][0] = true;
 
-	    for (int i = 1; i <= s1.length()
-		    && s1.charAt(i - 1) == s3.charAt(i - 1); i++)
+	    for (int i = 1; i <= s1.length() && s1.charAt(i - 1) == s3.charAt(i - 1); i++)
 		dp[i][0] = true;
 
-	    for (int i = 1; i <= s2.length()
-		    && s2.charAt(i - 1) == s3.charAt(i - 1); i++)
+	    for (int i = 1; i <= s2.length() && s2.charAt(i - 1) == s3.charAt(i - 1); i++)
 		dp[0][i] = true;
 
 	    for (int i = 1; i <= s1.length(); i++) {

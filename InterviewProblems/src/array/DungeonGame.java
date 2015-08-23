@@ -46,7 +46,7 @@ package array;
  * 
  * For point (i,j), pick the route needs smaller HP from (i+1,j) and (i,j+1). If
  * at point (i,j) there is a orb to heal, the hero needs even less HP (minus
- * positive), other wise needs more (minus negative)
+ * positive), otherwise needs more (minus negative)
  */
 public class DungeonGame {
     public class Solution {

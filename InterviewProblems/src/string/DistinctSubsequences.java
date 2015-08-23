@@ -74,8 +74,7 @@ public class DistinctSubsequences {
 	    res[0] = 1;
 	    for (int i = 0; i < S.length(); i++) {
 		for (int j = T.length() - 1; j >= 0; j--) {
-		    res[j + 1] = (S.charAt(i) == T.charAt(j) ? res[j] : 0)
-			    + res[j + 1];
+		    res[j + 1] = (S.charAt(i) == T.charAt(j) ? res[j] : 0) + res[j + 1];
 		}
 	    }
 	    return res[T.length()];

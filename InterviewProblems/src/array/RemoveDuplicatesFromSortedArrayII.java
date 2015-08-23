@@ -22,22 +22,22 @@ public class RemoveDuplicatesFromSortedArrayII {
      * iteration of for loop
      */
     public class Solution {
-	public int removeDuplicates(int[] A) {
-	    if (A == null || A.length == 0) {
+	public int removeDuplicates(int[] nums) {
+	    if (nums == null || nums.length == 0) {
 		return 0;
 	    }
 
 	    int ptr = 1;
 	    int counter = 1;
-	    for (int i = 1; i < A.length; i++) {
-		if (A[i] == A[i - 1]) {
+	    for (int i = 1; i < nums.length; i++) {
+		if (nums[i] == nums[i - 1]) {
 		    counter++;
 		} else {
 		    counter = 1;
 		}
 
 		if (counter <= 2) {
-		    A[ptr] = A[i];
+		    nums[ptr] = nums[i];
 		    ptr++;
 		}
 	    }

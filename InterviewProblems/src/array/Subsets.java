@@ -36,12 +36,11 @@ public class Subsets {
 	    return res;
 	}
 
-	private void dfs(int[] nums, int pos, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int[] nums, int pos, List<Integer> tmp, List<List<Integer>> res) {
 
 	    // add N elements in tmp
 	    res.add(new ArrayList<Integer>(tmp));
-	   
+
 	    for (int i = pos; i < nums.length; i++) {
 		tmp.add(nums[i]);
 		// call next round dfs to add N+1 elements
@@ -68,17 +67,16 @@ public class Subsets {
 	    return res;
 	}
 
-	private void dfs(int[] nums, int pos, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int[] nums, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    if (pos == nums.length) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
 	    }
 
-	    //tmp.add(999);
+	    // tmp.add(999);
 	    dfs(nums, pos + 1, tmp, res);
-	    //tmp.remove(tmp.size()-1);
-	    
+	    // tmp.remove(tmp.size()-1);
+
 	    for (int i = pos; i < nums.length; i++) {
 		tmp.add(nums[i]);
 		dfs(nums, i + 1, tmp, res);

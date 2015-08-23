@@ -63,21 +63,51 @@ public class LargestRectangleInHistogram {
 	    if (height == null || height.length == 0) {
 		return 0;
 	    }
-	    Stack<Integer> stack = new Stack<>();
 
 	    int[] tmp = new int[height.length + 1];
 	    tmp = Arrays.copyOf(height, height.length + 1);
 	    height = tmp;
 
 	    int max = 0;
-	    int area = 0;
+	    Stack<Integer> stack = new Stack<>();
+	    for (int i = 0; i < height.length; i++) {
+
+		while (!stack.isEmpty() && height[stack.peek()] > height[i]) {
+		    int h = height[stack.pop()];
+		    int right = i - 1;
+		    int left = stack.isEmpty() ? 0 : (stack.peek() + 1);
+		    int area = (right - left + 1) * h;
+		    max = Math.max(max, area);
+		}
+		
+		stack.push(i);
+	    }
+
+	    return max;
+	}
+    }
+
+    public class Solution4 {
+	public int largestRectangleArea(int[] height) {
+	    if (height == null || height.length == 0) {
+		return 0;
+	    }
+
+	    int[] tmp = new int[height.length + 1];
+	    tmp = Arrays.copyOf(height, height.length + 1);
+	    height = tmp;
+
+	    int max = 0;
+	    Stack<Integer> stack = new Stack<>();
 	    for (int i = 0; i < height.length; i++) {
 		if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
 		    stack.push(i);
 		} else {
-		    while (!stack.isEmpty() && height[i] < height[stack.peek()]) {
-			int j = stack.pop();
-			area = height[j] * (stack.isEmpty() ? i : i - stack.peek() - 1);
+		    while (!stack.isEmpty() && height[stack.peek()] > height[i]) {
+			int h = height[stack.pop()];
+			int right = i - 1;
+			int left = stack.isEmpty() ? 0 : stack.peek() + 1;
+			int area = (right - left + 1) * h;
 			max = Math.max(max, area);
 		    }
 		    stack.push(i);

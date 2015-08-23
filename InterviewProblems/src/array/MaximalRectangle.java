@@ -19,6 +19,41 @@ public class MaximalRectangle {
      */
     public class Solution {
 	public int maximalRectangle(char[][] matrix) {
+	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+		return 0;
+	    }
+
+	    int max = 0;
+	    int[] hist = new int[matrix[0].length + 1];
+	    for (int i = 0; i < matrix.length; i++) {
+		for (int j = 0; j < matrix[0].length; j++) {
+		    hist[j] = matrix[i][j] == '0' ? 0 : (hist[j] + 1);
+		}
+		max = Math.max(max, getLargestHistogram(hist));
+	    }
+
+	    return max;
+	}
+
+	private int getLargestHistogram(int[] height) {
+	    int max = 0;
+	    Stack<Integer> stack = new Stack<>();
+	    for (int i = 0; i < height.length; i++) {
+		while (!stack.isEmpty() && height[stack.peek()] > height[i]) {
+		    int h = height[stack.pop()];
+		    int right = i - 1;
+		    int left = stack.isEmpty() ? 0 : (stack.peek() + 1);
+		    int area = h * (right - left + 1);
+		    max = Math.max(max, area);
+		}
+		stack.push(i);
+	    }
+	    return max;
+	}
+    }
+
+    public class Solution2 {
+	public int maximalRectangle(char[][] matrix) {
 	    if (matrix == null | matrix.length == 0 || matrix[0].length == 0) {
 		return 0;
 	    }

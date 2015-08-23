@@ -25,17 +25,13 @@ public class Combinations {
     public class Solution {
 	public List<List<Integer>> combine(int n, int k) {
 	    List<List<Integer>> res = new ArrayList<List<Integer>>();
-	    if (n < 1 || k < 1) {
-		return res;
-	    }
 
 	    dfs(n, k, 1, new ArrayList<Integer>(), res);
 
 	    return res;
 	}
 
-	private void dfs(int n, int k, int pos, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfs(int n, int k, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    if (tmp.size() == k) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
@@ -67,8 +63,7 @@ public class Combinations {
 	    return res;
 	}
 
-	private void dfsHelper(int n, int k, int pos, List<Integer> tmp,
-		List<List<Integer>> res) {
+	private void dfsHelper(int n, int k, int pos, List<Integer> tmp, List<List<Integer>> res) {
 	    if (tmp.size() == k) {
 		res.add(new ArrayList<Integer>(tmp));
 		return;

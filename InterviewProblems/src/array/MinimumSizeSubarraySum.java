@@ -28,6 +28,28 @@ public class MinimumSizeSubarraySum {
 		return 0;
 	    }
 
+	    int minSize = nums.length + 1;
+	    int sum = 0; // summation range: [left,right]
+	    int left = 0;
+	    for (int right = 0; right < nums.length; right++) {
+		sum += nums[right];
+		while (sum >= s) {
+		    minSize = Math.min(minSize, right - left + 1);
+		    sum -= nums[left];
+		    left++;
+		}
+	    }
+
+	    return minSize == nums.length + 1 ? 0 : minSize;
+	}
+    }
+
+    public class Solution3 {
+	public int minSubArrayLen(int s, int[] nums) {
+	    if (nums == null || nums.length == 0) {
+		return 0;
+	    }
+
 	    int min = nums.length + 1;
 
 	    int i = 0;

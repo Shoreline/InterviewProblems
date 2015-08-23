@@ -3,14 +3,14 @@ package array;
 import java.util.Arrays;
 
 
-public class ArrayTest {
+public class Test {
 
     /**
      * @param args
      */
     public static void main(String[] args) {
 	
-	System.out.println(new MaximalSquare().new Solution().maximalSquare(new char[][]{{'1','1'},{'1','1'}}));
+	System.out.println(new MinimumSizeSubarraySum().new Solution3().minSubArrayLen(3, new int[]{1,1}));
     }
 
     
