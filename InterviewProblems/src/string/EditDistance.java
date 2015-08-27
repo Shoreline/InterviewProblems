@@ -40,8 +40,7 @@ public class EditDistance {
 		    } else if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
 			dp[i][j] = dp[i - 1][j - 1];
 		    } else {
-			dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],
-				Math.min(dp[i - 1][j], dp[i][j - 1]));
+			dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
 		    }
 
 		}
@@ -85,9 +84,7 @@ public class EditDistance {
 		    if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
 			dp[i][j] = dp[i - 1][j - 1];
 		    } else {
-			int min = Math.min(
-				Math.min(dp[i - 1][j], dp[i][j - 1]),
-				dp[i - 1][j - 1]);
+			int min = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]);
 			dp[i][j] = min + 1;
 		    }
 		}

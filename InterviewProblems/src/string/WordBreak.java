@@ -14,7 +14,6 @@ import java.util.Set;
  *
  */
 
-
 /*
  * I think the two solutions, DP or not, cost same resource.
  * 
@@ -27,10 +26,11 @@ public class WordBreak {
      * dp[i] defines whether there is a perfect word break ends for the first i
      * characters.
      * 
-     * So only if any dp[j] == true && dict.contains(s.substring(j,i)) then d[i] is true | 0<=j<i
+     * So only if any dp[j] == true && dict.contains(s.substring(j,i)) then d[i]
+     * is true | 0<=j<i
      * 
-     * The DP array size is s.length() + 1 since we need to include the case when 
-     * zero character of s is included
+     * The DP array size is s.length() + 1 since we need to include the case
+     * when zero character of s is included
      */
     public class Solution {
 	public boolean wordBreak(String s, Set<String> dict) {
@@ -57,33 +57,33 @@ public class WordBreak {
 	    return dp[dp.length - 1];
 	}
     }
-    
+
     /*
-     * Also passed LeetCode judge. 
+     * Also passed LeetCode judge.
      */
     public class Solution_normal {
-	    public boolean wordBreak(String s, Set<String> wordDict) {
-	        if(s==null || s.length()==0){
-	            return true;
-	        }
-	        
-	        boolean[] breakable = new boolean[s.length()+1];
-	        breakable[0]=true;
-	        
-	        for(int i = 0; i<s.length(); i++){
-	            if(!breakable[i]){
-	               continue;
-	            }
-	            
-	            for(int j =i+1; j<=s.length();j++){
-	                String word = s.substring(i,j);
-	                if(wordDict.contains(word)){
-	                    breakable[j] = true;
-	                }
-	            }
-	        }
-	        
-	        return breakable[breakable.length-1];
+	public boolean wordBreak(String s, Set<String> wordDict) {
+	    if (s == null || s.length() == 0) {
+		return true;
 	    }
+
+	    boolean[] breakable = new boolean[s.length() + 1];
+	    breakable[0] = true;
+
+	    for (int i = 0; i < s.length(); i++) {
+		if (!breakable[i]) {
+		    continue;
+		}
+
+		for (int j = i + 1; j <= s.length(); j++) {
+		    String word = s.substring(i, j);
+		    if (wordDict.contains(word)) {
+			breakable[j] = true;
+		    }
+		}
+	    }
+
+	    return breakable[breakable.length - 1];
 	}
+    }
 }

@@ -11,7 +11,7 @@ package google;
 /*
  * First to confirm the accuracy. Below assume the accuracy is hits/second.
  */
-public class WebHitCounter {
+public class DesignAHitCounter {
     class Method_LinkedList {
 	class CountingNode {
 	    long second; // second period
