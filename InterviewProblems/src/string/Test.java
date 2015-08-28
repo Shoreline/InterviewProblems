@@ -10,7 +10,7 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new AnagramsII().new Solution().groupAnagrams(new String[]{"ape","and","cat"}));
+	System.out.println(new EditDistance().new Solution().minDistance("abcde", "xyz"));
     }
     
 
