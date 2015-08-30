@@ -31,8 +31,8 @@ public class DeepIterator {
 	private Stack<Iterator<Integer>> iteratorStack = new Stack<Iterator<Integer>>();
 	private Integer top = null;
 
-	public DeepIterator_Integer(Iterable<Integer> iterable) {
-	    this.iteratorStack.push(iterable.iterator());
+	public DeepIterator_Integer(Iterator itr) {
+	    this.iteratorStack.push(itr);
 	}
 
 	/*
@@ -94,10 +94,10 @@ public class DeepIterator {
      */
     public class DeepIterator_Generic<T> implements Iterator<T> {
 	final Class<T> type;
-	private Stack<Iterator<T>> iteratorStack = new Stack<Iterator<T>>();
+	private Stack<Iterator> iteratorStack = new Stack<>();
 	private T top = null;
 
-	public DeepIterator_Generic(Iterable<T> iterable, Class<T> _type) {
+	public DeepIterator_Generic(Iterable iterable, Class<T> _type) {
 	    this.iteratorStack.push(iterable.iterator());
 	    type = _type;
 	}

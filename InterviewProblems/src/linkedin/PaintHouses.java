@@ -1,6 +1,8 @@
 package linkedin;
 
 /**
+ * Paint House
+ * 
  * Given a list of houses and the cost of painting each house, the houses can be
  * painted in three colors RED, GREEN and BLUE, two neighboring houses can’t be
  * painted in the same color, calculate the total minimum cost for painting all
@@ -26,7 +28,7 @@ package linkedin;
  * 
  * cost[i][G] + min(cost{i-1, R}, cost{i-1, B}) )
  */
-public class PaintHouseWithColor {
+public class PaintHouses {
     class Solution {
 	// cost is a #_of_house x 3 array
 	public int minPaintCost(int[][] costs) {
