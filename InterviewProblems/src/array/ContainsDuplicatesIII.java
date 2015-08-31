@@ -24,19 +24,43 @@ public class ContainsDuplicatesIII {
 		return false;
 	    }
 
-	    TreeSet<Long> set = new TreeSet<>();
+	    TreeSet<Long> window = new TreeSet<>();
 	    for (int i = 0; i < nums.length; i++) {
-		if (set.subSet((long) nums[i] - t, (long) nums[i] + t + 1).size() > 0) {
+		if (window.subSet((long) nums[i] - t, (long) nums[i] + t + 1).size() > 0) {
 		    return true;
 		}
 		if (i >= k) {
 		    // remove by value, not index
-		    set.remove((long) nums[i - k]);
+		    window.remove((long) nums[i - k]);
 		}
-		set.add((long) nums[i]);
+		window.add((long) nums[i]);
 	    }
 
 	    return false;
 	}
     }
+
+    /*
+     * won't work for cases like: window={0, 100}, k = 10; and nums[i]= 50
+     */
+    public class WrongMethod {
+	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+	    if (nums == null || nums.length < 2 || k < 1 || t < 0) {
+		return false;
+	    }
+
+	    TreeSet<Long> window = new TreeSet<>();
+	    for (int i = 0; i < nums.length; i++) {
+		if (!window.isEmpty() && nums[i] <= window.last() + t && nums[i] >= window.first() - t) {
+		    return true;
+		}
+		if (i >= k) {
+		    window.remove((long) nums[i - k]);
+		}
+		window.add((long) nums[i]);
+	    }
+	    return false;
+	}
+    }
+
 }

@@ -35,6 +35,34 @@ public class MaximalSquare {
 	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
 		return 0;
 	    }
+	    
+	    int[] dp = new int[matrix[0].length];
+	    int max = 0;
+	    for (int i = 0; i < matrix.length; i++) {
+		int preij = 0; // saves dp[i-1][j-1], if dp is a 2d array
+		for (int j = 0; j < matrix[0].length; j++) {
+		    int tmp = dp[j];
+		    if (matrix[i][j] == '0') {
+			dp[j] = 0;
+		    } else if (i == 0 || j == 0) {
+			dp[j] = 1;
+		    } else {
+			dp[j] = Math.min(preij, Math.min(dp[j - 1], dp[j])) + 1;
+		    }
+		    preij = tmp;
+		    max = Math.max(max, dp[j]);
+		}
+	    }
+
+	    return max * max;
+	}
+    }
+
+    public class Solution_DP2 {
+	public int maximalSquare(char[][] matrix) {
+	    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+		return 0;
+	    }
 
 	    int[] pre = new int[matrix[0].length];
 	    int max = 0;

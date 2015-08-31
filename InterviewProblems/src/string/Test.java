@@ -10,7 +10,7 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new EditDistance().new Solution().minDistance("abcde", "xyz"));
+	System.out.println(new StrobogrammaticNumberII().new Solution().findStrobogrammatic(2));
     }
     
 
