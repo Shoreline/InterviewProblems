@@ -2,6 +2,15 @@ package string;
 
 import java.util.*;
 
+/**
+ * Palindrome Permutation
+ * 
+ * Given a string, determine if a permutation of the
+ * string could form a palindrome.
+ * 
+ * For example, "code" -> False, "aab" -> True, "carerac" -> True.
+ *
+ */
 public class PalindromePermutation {
     public class Solution {
 	public boolean canPermutePalindrome(String s) {

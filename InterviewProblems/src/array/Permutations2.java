@@ -37,7 +37,7 @@ public class Permutations2 {
 		res.add(new ArrayList<Integer>(tmp));
 		return;
 	    }
-
+	    
 	    /*
 	     * *Important* If meet a duplicate, do not use it until its
 	     * predecessor has been used -> make sure for a set of duplicate
