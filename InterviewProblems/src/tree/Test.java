@@ -16,7 +16,7 @@ public class Test {
     public static void main(String[] args) {
 	TreeNode root = new TreeNode(1);
 	root.left = new TreeNode(2);
-	System.out.println(new CountCompleteTreeNodes().new Solution().countNodes(root));
+	System.out.println(new VerifyPreorderSequenceInBinarySearchTree().new Solution().verifyPreorder(new int[]{1,2}));
     }
 
  
