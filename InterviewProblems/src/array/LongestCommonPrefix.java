@@ -32,6 +32,5 @@ public class LongestCommonPrefix {
 	    return res.toString();
 	}
     }
-    
-    
+
 }

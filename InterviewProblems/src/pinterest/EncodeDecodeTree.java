@@ -1,4 +1,4 @@
-package linkedin;
+package pinterest;
 
 import java.util.*;
 
