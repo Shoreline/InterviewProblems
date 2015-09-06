@@ -10,6 +10,13 @@ import java.util.*;
  * (2) Write a fn to shuffle the deck.
  *
  */
+
+/*
+ * the shuffle is done by randomly swap the i-th and j-th cards.
+ * 
+ * -> each card get a chance to swap its position with another ramdonly selected
+ * card (can be itself)
+ */
 public class DesignADeckOfCards {
     public enum Suit {
 	Club(0), Diamond(1), Heart(2), Spade(3);
