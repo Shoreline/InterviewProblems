@@ -28,8 +28,12 @@ import java.util.*;
  * (((2*3)-4)*5) = 10
  * 
  * Output: [-34, -14, -10, -10, 10]
- *
  * 
+ */
+
+/*
+ * Add a pair of parentheses to a parentheses-free string -> split this list of
+ * integers into two parts
  */
 public class DifferentWaysToAddParentheses {
     public class Solution {
@@ -41,12 +45,15 @@ public class DifferentWaysToAddParentheses {
 	    for (int i = 0; i < input.length(); i++) {
 		char c = input.charAt(i);
 		if (c == '+' || c == '-' || c == '*') {
-		    List<Integer> left = diffWaysToCompute(input.substring(0, i));
-		    List<Integer> right = diffWaysToCompute(input.substring(i + 1, input.length()));
+		    List<Integer> left = diffWaysToCompute(
+			    input.substring(0, i));
+		    List<Integer> right = diffWaysToCompute(
+			    input.substring(i + 1, input.length()));
 
 		    for (int val1 : left) {
 			for (int val2 : right) {
-			    int ans = c == '+' ? val1 + val2 : (c == '-' ? val1 - val2 : val1 * val2);
+			    int ans = c == '+' ? val1 + val2
+				    : (c == '-' ? val1 - val2 : val1 * val2);
 			    res.add(ans); // ok to have duplicates
 			}
 		    }
