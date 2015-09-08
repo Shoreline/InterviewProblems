@@ -37,12 +37,10 @@ public class PathSumII {
 	    tmp.add(root.val);
 	    if (root.left == null && root.right == null && root.val == sum) {
 		res.add(new ArrayList<Integer>(tmp));
-		tmp.remove(tmp.size() - 1);
-		return;
+	    } else {
+		dfs(root.left, sum - root.val, tmp, res);
+		dfs(root.right, sum - root.val, tmp, res);
 	    }
-
-	    dfs(root.left, sum - root.val, tmp, res);
-	    dfs(root.right, sum - root.val, tmp, res);
 	    tmp.remove(tmp.size() - 1);
 	}
     }

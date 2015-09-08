@@ -54,11 +54,12 @@ public class ConvertSortedListToBinarySearchTree {
 	    int mid = (start + end) / 2;
 	    TreeNode left = treeBuilder(curHead, start, mid - 1);
 
+	    // the curHead is not the same as the passed in argument
 	    ListNode headNode = curHead.get(0);
 	    TreeNode root = new TreeNode(headNode.val);
 
 	    // headNode=headNode.next; // this does not work!
-	    curHead.set(0, headNode.next);
+	    curHead.set(0, headNode.next); // important
 	    TreeNode right = treeBuilder(curHead, mid + 1, end);
 
 	    root.left = left;

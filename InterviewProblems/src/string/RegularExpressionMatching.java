@@ -75,6 +75,22 @@ public class RegularExpressionMatching {
      * 
      * corner case: s = "", p = "a*b*c*"; they still match
      */
+    public class Solution_recursion2 {
+	public boolean isMatch(String s, String p) {
+	    if (p == null || p.isEmpty()) {
+		return s == null || s.isEmpty();
+	    }
+
+	    if (p.length() > 1 && p.charAt(1) == '*') {
+		return isMatch(s, p.substring(2)) || s != null && s.length() > 0
+			&& (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.') && isMatch(s.substring(1), p);
+	    } else {
+		return s != null && s.length() > 0 && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
+			&& isMatch(s.substring(1), p.substring(1));
+	    }
+	}
+    }
+
     class Solution_recursion {
 	public boolean isMatch(String s, String p) {
 	    if ((s == null && p == null) || s.length() == 0 && p.length() == 0) {

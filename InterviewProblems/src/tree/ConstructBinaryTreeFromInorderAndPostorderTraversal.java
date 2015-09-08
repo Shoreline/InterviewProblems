@@ -15,7 +15,7 @@ import java.util.Map;
  * Same method as construct binary tree from preorder and inorder traversal
  */
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
-    
+
     public class Solution {
 	public TreeNode buildTree(int[] inorder, int[] postorder) {
 	    // no need to check if their length is 0
@@ -28,12 +28,11 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
 		map.put(inorder[i], i);
 	    }
 
-	    return buildHelper(inorder, 0, inorder.length - 1, postorder, 0,
-		    postorder.length - 1, map);
+	    return buildHelper(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1, map);
 	}
 
-	private TreeNode buildHelper(int[] inorder, int inL, int inR,
-		int[] postorder, int postL, int postR, Map<Integer, Integer> map) {
+	private TreeNode buildHelper(int[] inorder, int inL, int inR, int[] postorder, int postL, int postR,
+		Map<Integer, Integer> map) {
 	    if (inL > inR) {
 		return null;
 	    }
@@ -41,10 +40,10 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
 	    TreeNode root = new TreeNode(postorder[postR]);
 	    int inOrderIndex = map.get(root.val);
 
-	    root.left = buildHelper(inorder, inL, inOrderIndex - 1, postorder,
-		    postL, postL + inOrderIndex - inL - 1, map);
-	    root.right = buildHelper(inorder, inOrderIndex + 1, inR, postorder,
-		    postL + inOrderIndex - inL, postR - 1, map);
+	    root.left = buildHelper(inorder, inL, inOrderIndex - 1, postorder, postL, postL + inOrderIndex - inL - 1,
+		    map);
+	    root.right = buildHelper(inorder, inOrderIndex + 1, inR, postorder, postL + inOrderIndex - inL, postR - 1,
+		    map);
 	    return root;
 	}
 

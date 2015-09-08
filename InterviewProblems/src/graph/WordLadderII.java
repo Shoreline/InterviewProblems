@@ -5,106 +5,113 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
+/**
+ * Word Ladder II
+ * 
+ * Given two words (start and end), and a dictionary, find all shortest
+ * transformation sequence(s) from start to end, such that:
+ * 
+ * Only one letter can be changed at a time Each intermediate word must exist in
+ * the dictionary For example,
+ * 
+ * Given:
+ * 
+ * start = "hit"
+ * 
+ * end = "cog"
+ * 
+ * dict = ["hot","dot","dog","lot","log"]
+ * 
+ * Return [
+ * 
+ * ["hit","hot","dot","dog","cog"],
+ * 
+ * ["hit","hot","lot","log","cog"]
+ * 
+ * ]
+ */
 public class WordLadderII {
-    /**
-     * Word Ladder II
-     * 
-     * Given two words (start and end), and a dictionary, find all shortest
-     * transformation sequence(s) from start to end, such that:
-     * 
-     * Only one letter can be changed at a time Each intermediate word must
-     * exist in the dictionary For example,
-     * 
-     * Given:
-     * 
-     * start = "hit"
-     * 
-     * end = "cog"
-     * 
-     * dict = ["hot","dot","dog","lot","log"]
-     * 
-     * Return [
-     * 
-     * ["hit","hot","dot","dog","cog"],
-     * 
-     * ["hit","hot","lot","log","cog"]
-     * 
-     * ]
-     */
+    
+    class Method {
+	public List<List<String>> findLadders(String start, String end, Set<String> wordList) {
 
-    public static ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
-	// Start typing your Java solution below
-	// DO NOT write main() function
+	    List<List<String>> res = new ArrayList<List<String>>();
 
-	ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+	    if (wordList == null || wordList.size() == 0) {
+		List<String> aList = new ArrayList<String>();
+		res.add(aList);
+		return res;
+	    }
 
-	if (dict == null || dict.size() == 0) {
-	    ArrayList<String> aList = new ArrayList<String>();
-	    result.add(aList);
-	    return result;
-	}
+	    Queue<String> queue = new LinkedList<String>();
+	    Set<String> visited = new HashSet<String>();
 
-	LinkedList<String> queue = new LinkedList<String>();
-	HashSet<String> visited = new HashSet<String>();
+	    // To get all paths, shall use a HashMap<String, Hash<String>> map!
+	    HashMap<String, String> backtrackMap = new HashMap<String, String>();
 
-	// To get all paths, shall use a HashMap<String, Hash<String>> map!
-	HashMap<String, String> backtrackMap = new HashMap<String, String>();
+	    queue.add(start);
+	    visited.add(start);
 
-	queue.add(start);
-	visited.add(start);
+	    while (!queue.isEmpty()) {
+		int size = queue.size();
+		for (int i = 0; i < size; i++) {
+		    String word = queue.poll();
+		    Set<String> possibleWords = getPossibleWords(word);
 
-	while (!queue.isEmpty()) {
-	    String word = queue.poll();
-	    HashSet<String> possibleWords = getPossibleWords(word);
+		    for (String aWord : possibleWords) {
 
-	    for (String aWord : possibleWords) {
+			if (aWord.equals(end)) {
 
-		if (aWord.equals(end)) {
+			    List<String> ans = new ArrayList<String>();
+			    ans.add(end);
 
-		    ArrayList<String> aList = new ArrayList<String>();
-		    aList.add(end);
+			    while (word != null) {
+				ans.add(word);
+				word = backtrackMap.get(word);
+			    }
+			    Collections.reverse(ans);
+			    res.add(ans);
 
-		    while (word != null) {
-			aList.add(word);
-			word = backtrackMap.get(word);
+			} else {
+			    if (!wordList.contains(aWord) || visited.contains(aWord))
+				continue;
 
+			    queue.add(aWord);
+			    visited.add(aWord);
+
+			    backtrackMap.put(aWord, word);
+
+			}
 		    }
-		    Collections.reverse(aList);
-		    result.add(aList);
-		} else {
-
-		    if (!dict.contains(aWord) || visited.contains(aWord))
-			continue;
-
-		    queue.add(aWord);
-		    visited.add(aWord);
-
-		    backtrackMap.put(aWord, word);
-
+		}
+		if (!res.isEmpty()) {
+		    return res;
 		}
 	    }
 
+	    return res;
 	}
 
-	return result;
-    }
+	private Set<String> getPossibleWords(String word) {
+	    Set<String> possibleWords = new HashSet<String>();
 
-    private static HashSet<String> getPossibleWords(String word) {
-	HashSet<String> possibleWords = new HashSet<String>();
+	    for (int i = 0; i < word.length(); i++) {
+		char[] wordArray = word.toCharArray();
 
-	for (int i = 0; i < word.length(); i++) {
-	    char[] wordArray = word.toCharArray();
-
-	    for (char c = 'a'; c <= 'z'; c++) {
-		if (c == word.charAt(i))
-		    continue;
-		wordArray[i] = c;
-		possibleWords.add(new String(wordArray));
+		for (char c = 'a'; c <= 'z'; c++) {
+		    if (c == word.charAt(i))
+			continue;
+		    wordArray[i] = c;
+		    possibleWords.add(new String(wordArray));
+		}
 	    }
-	}
 
-	return possibleWords;
+	    return possibleWords;
+	}
     }
 
 }

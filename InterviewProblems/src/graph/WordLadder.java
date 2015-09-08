@@ -36,6 +36,11 @@ import java.util.Set;
  * Use two int variables (curLvlLen and nextLvlLen) to help tracking BFS level
  * 
  * Be careful where to label visited nodes
+ * 
+ * Once add a word to queue, delete it from the dict map! -> Because we do not
+ * use a visited<word> variable to track visited words.
+ * 
+ * BFS, a word will only be visited once. So no need to add back deleted words to dict.
  */
 public class WordLadder {
     public class Solution {

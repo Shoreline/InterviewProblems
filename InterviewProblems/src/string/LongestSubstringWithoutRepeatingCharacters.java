@@ -59,8 +59,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	while (i < s.length()) {
 	    char c = s.charAt(i);
 
-	    if (charLastPos.containsKey(c)
-		    && i - charLastPos.get(c) <= curLength) {
+	    if (charLastPos.containsKey(c) && i - charLastPos.get(c) <= curLength) {
 		// find a repeated char, curLength will be changed
 		maxLength = Math.max(curLength, maxLength);
 		curLength = i - charLastPos.get(c);
@@ -143,14 +142,12 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	     * the if block below judges if the list uniqueSequence does not
 	     * contain char c
 	     */
-	    if (index == 0 && !uniqueSequence.isEmpty()
-		    && c != uniqueSequence.get(0)) {
+	    if (index == 0 && !uniqueSequence.isEmpty() && c != uniqueSequence.get(0)) {
 		index = -1;
 	    }
 
 	    if (index != -1) {
-		uniqueSequence = new ArrayList<Character>(
-			uniqueSequence.subList(index + 1, uniqueSequence.size()));
+		uniqueSequence = new ArrayList<Character>(uniqueSequence.subList(index + 1, uniqueSequence.size()));
 	    }
 
 	    uniqueSequence.add(c);

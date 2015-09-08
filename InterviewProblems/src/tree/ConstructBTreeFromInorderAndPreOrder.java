@@ -10,8 +10,8 @@ import java.util.Map;
  */
 
 /*
- * Keep track of the index range of current sub-tree in int[] preorder and
- * int[] inorder.
+ * Keep track of the index range of current sub-tree in int[] preorder and int[]
+ * inorder.
  * 
  * Each time being invoked, the helper method build the root node of current
  * sub-tree, then call itself twice to continuously build root.left and
@@ -30,12 +30,11 @@ public class ConstructBTreeFromInorderAndPreOrder {
 		inorderIndexMap.put(inorder[i], i);
 	    }
 
-	    return treeBuilder(preorder, 0, preorder.length - 1, inorder, 0,
-		    inorder.length - 1, inorderIndexMap);
+	    return treeBuilder(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inorderIndexMap);
 	}
 
-	private TreeNode treeBuilder(int[] preorder, int preStart, int preEnd,
-		int[] inorder, int inStart, int inEnd, Map<Integer, Integer> map) {
+	private TreeNode treeBuilder(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd,
+		Map<Integer, Integer> map) {
 	    if (inStart > inEnd) {
 		return null;
 	    }
@@ -43,11 +42,12 @@ public class ConstructBTreeFromInorderAndPreOrder {
 	    TreeNode root = new TreeNode(preorder[preStart]);
 
 	    int index = map.get(root.val);
-	    int lenLeft = index - inStart; // length, not offset. offset is length -1
-	    TreeNode left = treeBuilder(preorder, preStart + 1, preStart + 1
-		    + lenLeft - 1, inorder, inStart, index - 1, map);
-	    TreeNode right = treeBuilder(preorder, preStart + 1 + lenLeft - 1
-		    + 1, preEnd, inorder, index + 1, inEnd, map);
+	    int lenLeft = index - inStart; // length, not offset. offset is
+					   // length -1
+	    TreeNode left = treeBuilder(preorder, preStart + 1, preStart + 1 + lenLeft - 1, inorder, inStart, index - 1,
+		    map);
+	    TreeNode right = treeBuilder(preorder, preStart + 1 + lenLeft - 1 + 1, preEnd, inorder, index + 1, inEnd,
+		    map);
 	    root.left = left;
 	    root.right = right;
 
