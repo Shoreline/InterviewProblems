@@ -17,7 +17,7 @@ package facebook;
  * 
  * The key is how to increase head and tail: tail = (tail+1)%size;
  */
-public class CyclicalBufferImplementation {
+public class ImplementCircularBuffer {
     class Method {
 	class CyclicalBuffer {
 	    int size;
