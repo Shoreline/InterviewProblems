@@ -21,6 +21,35 @@ package array;
  * prices.length/2 +1transactions)
  */
 public class BestTimeToBuyAndSellStockIV {
+    /*
+     * also work??
+     */
+    public class Solution1d {
+	public int maxProfit(int k, int[] prices) {
+	    if (prices == null || prices.length < 2) {
+		return 0;
+	    }
+
+	    if (k > prices.length / 2) {
+		int res = 0;
+		for (int i = 1; i < prices.length; i++) {
+		    res += Math.max(prices[i] - prices[i - 1], 0);
+		}
+		return res;
+	    }
+
+	    int[] local = new int[k + 1];
+	    int[] global = new int[k + 1];
+	    for (int i = 0; i < prices.length - 1; i++) {
+		int diff = prices[i + 1] - prices[i];
+		for (int j = k; j >= 1; j--) {
+		    local[j] = Math.max(global[j - 1] + diff, local[j] + diff);
+		    global[j] = Math.max(local[j], global[j]);
+		}
+	    }
+	    return global[k];
+	}
+    }
 
     public class Solution {
 	public int maxProfit(int k, int[] prices) {
@@ -41,8 +70,7 @@ public class BestTimeToBuyAndSellStockIV {
 	    for (int i = 0; i < prices.length - 1; i++) {
 		int diff = prices[i + 1] - prices[i];
 		for (int j = k; j >= 1; j--) {
-		    local[j] = Math.max(global[j - 1] + (diff > 0 ? diff : 0),
-			    local[j] + diff);
+		    local[j] = Math.max(global[j - 1] + (diff > 0 ? diff : 0), local[j] + diff);
 		    global[j] = Math.max(local[j], global[j]);
 		}
 	    }
@@ -76,8 +104,7 @@ public class BestTimeToBuyAndSellStockIV {
 	    for (int i = 1; i < prices.length; i++) {
 		int diff = prices[i] - prices[i - 1];
 		for (int j = 1; j <= k; j++) {
-		    local[i][j] = Math.max(local[i - 1][j] + diff,
-			    global[i - 1][j - 1] + Math.max(diff, 0));
+		    local[i][j] = Math.max(local[i - 1][j] + diff, global[i - 1][j - 1] + Math.max(diff, 0));
 		    global[i][j] = Math.max(global[i - 1][j], local[i][j]);
 		}
 	    }

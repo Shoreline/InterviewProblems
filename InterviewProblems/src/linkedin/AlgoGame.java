@@ -19,7 +19,40 @@ package linkedin;
  * n-1轮(后手): 当前的数组中选任何一个数 X 都不能使得 Sum > target. 但是当后手选完之后存在一个数可使得 Sum > target
  * 
  */
-public class PickNumbers {
+public class AlgoGame {
+    class Method2 {
+	public boolean canIWin(int[] numberPool, int target) {
+
+	    return dfs(numberPool, target);
+	}
+
+	private boolean dfs(int[] numberPool, int target) {
+	    if (target < 0) {
+		return false;
+	    }
+
+	    for (int i = 0; i < numberPool.length && numberPool[i] > 0; i++) {
+		if (numberPool[i] > 0) {
+		    int num = numberPool[i];
+		    if (num >= target) {
+			return true;
+		    }
+
+		    numberPool[i] = -1;
+		    boolean canHeWin = dfs(numberPool, target - num); // other's
+		    // turn
+		    if(!canHeWin){
+			return true;
+		    }
+		    
+		    numberPool[i] = num;
+		}
+	    }
+	    return false;
+	}
+
+    }
+    
     class Method {
 	public boolean canIWin(int[] numberPool, int target) {
 

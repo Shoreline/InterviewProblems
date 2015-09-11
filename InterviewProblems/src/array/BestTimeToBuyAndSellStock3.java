@@ -61,9 +61,7 @@ public class BestTimeToBuyAndSellStock3 {
 	    for (int i = 1; i < prices.length; i++) {
 		int dailyDiff = prices[i] - prices[i - 1];
 		for (int j = 1; j <= k; j++) {
-		    local[i][j] = Math.max(
-			    global[i - 1][j - 1] + Math.max(dailyDiff, 0),
-			    local[i - 1][j] + dailyDiff);
+		    local[i][j] = Math.max(global[i - 1][j - 1] + Math.max(dailyDiff, 0), local[i - 1][j] + dailyDiff);
 		    global[i][j] = Math.max(local[i][j], global[i - 1][j]);
 		}
 	    }
