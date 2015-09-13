@@ -16,6 +16,8 @@ import java.util.*;
  * 
  * -> each card get a chance to swap its position with another ramdonly selected
  * card (can be itself)
+ * 
+ * -> really? check http://coolshell.cn/articles/8593.html
  */
 public class DesignADeckOfCards {
     public enum Suit {
@@ -49,6 +51,13 @@ public class DesignADeckOfCards {
 	public void shuffle() {
 	    for (int i = 0; i < cards.size(); i++) {
 		int j = (int) Math.random() * cards.size();
+		swap(i, j);
+	    }
+	}
+
+	public void shuffle2() {
+	    for (int i = cards.size() - 1; i >= 0; i++) {
+		int j = (int) Math.random() * i;
 		swap(i, j);
 	    }
 	}

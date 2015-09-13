@@ -8,7 +8,9 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new SkylineProblem().new Solution().getSkyline(new int[][] { { 0,1,3 }}));
+	int[] nums = new int[]{3, 5, 2, 1, 6, 4};
+	new WiggleSort().new Solution().wiggleSort(nums);
+	System.out.println(Arrays.toString(nums));
 
     }
 

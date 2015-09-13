@@ -26,7 +26,7 @@ public class MaximumGap {
      * ceiling[(B-A)/(N-1)].
      */
 
-    public class Solution2 {
+    public class Solution {
 	class Bucket {
 	    int low;
 	    int high;
@@ -49,13 +49,15 @@ public class MaximumGap {
 		max = Math.max(max, num);
 	    }
 
-	    int size = (int) Math
-		    .ceil((double) (max - min) / (nums.length - 1));
-	    Bucket[] buckets = new Bucket[nums.length]; // not nums.length-1!
-	    // or buckets = new Range[(max - min) / size + 1];
+	    if (max == min) {
+		return 0;
+	    }
+
+	    int size = (int) Math.ceil((double) (max - min) / (nums.length - 1));
+	    Bucket[] buckets = new Bucket[(max - min) / size + 1];
 
 	    for (int num : nums) {
-		int k = num / size;
+		int k = (num - min) / size;
 		Bucket bucket = buckets[k];
 		if (bucket == null) {
 		    bucket = new Bucket(num, num);
@@ -66,9 +68,8 @@ public class MaximumGap {
 		}
 	    }
 
-	    // TODO: not sure if preHigh and maxGap have right initial values
 	    int preHigh = min;
-	    int maxGap = size;
+	    int maxGap = 0;
 	    for (Bucket bucket : buckets) {
 		if (bucket != null) {
 		    int gap = bucket.low - preHigh;

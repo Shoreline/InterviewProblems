@@ -12,50 +12,49 @@ public class KthLargestElementInUnsortedArray {
      * 
      * Time: worst O(N^2), but average O(N)
      */
-    class Solution_QuickSelect {
-	public int partition(int[] nums, int start, int end, int pivotIndex) {
-	    // Move pivot to end
-	    int pVal = nums[pivotIndex];
-	    swap(nums, end, pivotIndex);
-
-	    int pos = start;
-	    for (int i = start; i <= end - 1; i++) {
-		if (nums[i] < pVal) {
-		    swap(nums, i, pos);
-		    pos++;
+    public class Solution_QuickSelect {
+	public int findKthLargest(int[] nums, int k) {
+	    k = nums.length + 1 - k;
+	    int left = 0;
+	    int right = nums.length - 1;
+	    while (left <= right) {
+		int p = partition(nums, left, right);
+		if (p == k - 1) {
+		    return nums[p];
+		} else if (p < k - 1) {
+		    left = p + 1;
+		} else {
+		    right = p - 1;
 		}
 	    }
-	    swap(nums, end, pos); // move pivot value to its final place
-	    return pos; // new index of pivot value
+
+	    return nums[right];
+	}
+
+	private int partition(int[] nums, int start, int end) {
+	    int p = start + (int) Math.floor(Math.random() * (end - start + 1));
+	    int pVal = nums[p];
+
+	    // Move pivot to end
+	    swap(nums, p, end);
+
+	    int ptr = start;
+	    for (int i = start; i <= end - 1; i++) {
+		if (nums[i] < pVal) {
+		    swap(nums, i, ptr);
+		    ptr++;
+		}
+	    }
+	    swap(nums, ptr, end); // move pivot value to its final place
+	    return ptr; // new index of pivot value
 	}
 
 	private void swap(int[] nums, int i, int j) {
-	    if (i == j) {
-		return;
-	    }
-	    nums[i] = nums[i] + nums[j];
-	    nums[j] = nums[i] - nums[j];
-	    nums[i] = nums[i] - nums[j];
-	}
-
-	public int quickSelect(int[] nums, int k) {
-	    int left = 0;
-	    int right = nums.length - 1;
-	    while (left < right) {
-		int pivotIndex = left + (int) Math.floor(Math.random() * (right - left + 1));
-		pivotIndex = partition(nums, left, right, pivotIndex);
-		if (k == pivotIndex) {
-		    return nums[pivotIndex - 1];
-		} else if (k < pivotIndex) {
-		    right = pivotIndex - 1;
-		} else {
-		    left = pivotIndex + 1;
-		}
-	    }
-	    return nums[left - 1];
+	    int tmp = nums[i];
+	    nums[i] = nums[j];
+	    nums[j] = tmp;
 	}
     }
-
     /*
      * Min Heap. Time: O(NlogK) ?
      */

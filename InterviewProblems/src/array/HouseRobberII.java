@@ -21,8 +21,12 @@ package array;
  * 
  * Similar to house robber I, can reuse its code.
  * 
- * Just consider the larger loot for two cases: 1) do not rob the first house;
- * 2) do not rob the last house.
+ * Just consider the larger loot for two cases: (not strictly separated)
+ * 
+ * 1) the first house may be robbed -> not allow to rob the last house;
+ * 
+ * 2) the first house is surely not robbed -> allow to rob the last house
+ * 
  */
 public class HouseRobberII {
     public class Solution {
@@ -33,8 +37,7 @@ public class HouseRobberII {
 		return nums[0];
 	    }
 
-	    return Math.max(rob(nums, 0, nums.length - 2),
-		    rob(nums, 1, nums.length - 1));
+	    return Math.max(rob(nums, 0, nums.length - 2), rob(nums, 1, nums.length - 1));
 	}
 
 	private int rob(int[] nums, int start, int end) {
@@ -59,8 +62,7 @@ public class HouseRobberII {
 		return nums[0];
 	    }
 
-	    return Math.max(rob(nums, 0, nums.length - 2),
-		    rob(nums, 1, nums.length - 1));
+	    return Math.max(rob(nums, 0, nums.length - 2), rob(nums, 1, nums.length - 1));
 	    // wrong: return
 	    // Math.max(rob(nums,0,nums.length-2)+nums[nums.length-1],
 	    // rob(nums,1,nums.length-1) + nums[0]);
@@ -81,6 +83,43 @@ public class HouseRobberII {
 	    }
 
 	    return dp[end];
+	}
+    }
+
+    /*
+     * Here try to split all cases into two categories: surely rob the first
+     * house; or surely rob the last house. Which does not cover all situations,
+     * like [1,3,1] that we do not want to rob either of them
+     */
+    public class Wrong_Method {
+	public int rob(int[] nums) {
+	    if (nums == null || nums.length == 0) {
+		return 0;
+	    } else if (nums.length == 1) {
+		return nums[0];
+	    }
+
+	    int max = nums[0];
+	    int prepreMax = nums[0];
+	    int preMax = 0;
+	    for (int i = 2; i < nums.length - 1; i++) {
+		int curMax = Math.max(preMax, prepreMax + nums[i]);
+		max = Math.max(max, curMax);
+		prepreMax = preMax;
+		preMax = curMax;
+	    }
+
+	    max = Math.max(max, nums[nums.length - 1]);
+	    prepreMax = nums[nums.length - 1];
+	    preMax = 0;
+	    for (int i = 1; i < nums.length - 2; i++) {
+		int curMax = Math.max(preMax, prepreMax + nums[i]);
+		max = Math.max(max, curMax);
+		prepreMax = preMax;
+		preMax = curMax;
+	    }
+
+	    return max;
 	}
     }
 }

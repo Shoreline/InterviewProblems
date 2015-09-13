@@ -26,7 +26,7 @@ public class FractorialTrailingZeroes {
 	public int trailingZeroes(int n) {
 	    int fives = 0;
 
-	    while (n > 4) {
+	    while (n > 1) {
 		fives += n / 5;
 		n /= 5;
 	    }
