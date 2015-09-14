@@ -23,25 +23,19 @@ import java.util.ArrayList;
  * 
  * For example, Given the following perfect binary tree,
  * 
- *       1
-       /  \
-      2    3
-     / \  / \
-    4  5  6  7
+ * 1 / \ 2 3 / \ / \ 4 5 6 7
  * 
  * After calling your function, the tree should look like:
  * 
- * 	 1 -> NULL
-       /  \
-      2 -> 3 -> NULL
-     / \  / \
-    4->5->6->7 -> NULL
+ * 1 -> NULL / \ 2 -> 3 -> NULL / \ / \ 4->5->6->7 -> NULL
  */
 
 public class PopulatingNextRightPointersInEachNode {
     /*
      * This method only good for this question. It assumes that the binary tree
-     * is perfect 
+     * is perfect
+     * 
+     * For each node, find its left and right nodes' next nodes
      */
     public class Solution {
 	public void connect(TreeLinkNode root) {
@@ -64,6 +58,60 @@ public class PopulatingNextRightPointersInEachNode {
 	    connect(root.right);
 
 	}
+    }
+
+    public class Solution_Iteration {
+	public void connect(TreeLinkNode root) {
+
+	    TreeLinkNode cur = root;
+	    while (cur != null) {
+		TreeLinkNode lvlHead = cur;
+		while (cur != null) {
+		    if (cur.left != null) {
+			cur.left.next = cur.right;
+		    }
+		    if (cur.right != null && cur.next != null) {
+			cur.right.next = cur.next.left;
+		    }
+		    cur = cur.next;
+		}
+		cur = lvlHead.left;
+	    }
+
+	}
+
+    }
+
+    /*
+     * For each node, find its next node.
+     */
+    public class Solution_Iteration2 {
+	public void connect(TreeLinkNode root) {
+	    if (root == null) {
+		return;
+	    }
+
+	    TreeLinkNode parent = root;
+	    TreeLinkNode cur = root.left;
+
+	    while (cur != null) {
+		TreeLinkNode tmp = cur;
+		while (cur != null) {
+		    if (cur == parent.left) {
+			cur.next = parent.right;
+		    } else if (cur == parent.right && parent.next != null) {
+			cur.next = parent.next.left;
+			parent = parent.next;
+		    }
+		    cur = cur.next;
+		}
+
+		parent = tmp;
+		cur = tmp.left;
+	    }
+
+	}
+
     }
 
     /*

@@ -31,20 +31,24 @@ public class ReverseWordsInAString {
      */
     public class Solution {
 	public String reverseWords(String s) {
-	    if (s == null || s.length() == 0) {
-		return s;
+	    if (s == null || s.isEmpty()) {
+		return "";
 	    }
 
-	    String[] subStrings = s.split(" ");
 	    StringBuilder res = new StringBuilder();
-	    for (int i = subStrings.length - 1; i >= 0; i--) {
-		if (!subStrings[i].isEmpty()) {
-		    res.append(subStrings[i]);
-		    res.append(" ");
+	    String[] words = s.split(" ");
+	    for (int i = words.length - 1; i >= 0; i--) {
+		if (!words[i].isEmpty()) {
+		    res.append(words[i]).append(" ");
 		}
 	    }
+
 	    // res.setLength(res.length()-1); error if res is empty
-	    return res.toString().trim();
+	    if (res.length() > 0) {
+		res.setLength(res.length() - 1);
+	    }
+	    return res.toString();
 	}
     }
+
 }
