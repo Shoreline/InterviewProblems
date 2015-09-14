@@ -18,22 +18,51 @@ package array;
  *
  */
 
+/*
+ * O(lgN) time
+ * 
+ * 1) let low<high and mid=(low+high)/2, then mid-1<=high for sure -> safe to
+ * compare num[mid] and num[mid+1]
+ * 
+ * 2) There is always at least one peak for int[] num (adjacent elements in num
+ * are different) -> There is always at least one peak for an array A if we
+ * assume A[-1]=A[A.len]= -∞ -> There is always at least one peak for an array A
+ * if A[-1]<A[0] && A[A.len]<A[A.len-1] -> if num[mid]<num[mid+1], there is at
+ * least one peak between num[mid+1] ~ num[num.len-1] -> if num[mid]>num[mid+1],
+ * there is at least one peak between num[0] ~ num[mid] (num[mid] always ≠
+ * num[mid+1])
+ */
 public class FindPeakElement {
     /*
-     * O(lgN) time
+     * easier to understand.
      * 
-     * 1) let low<high and mid=(low+high)/2, then mid-1<=high for sure -> safe
-     * to compare num[mid] and num[mid+1]
-     * 
-     * 2) There is always at least one peak for int[] num (adjacent elements in
-     * num are different) -> There is always at least one peak for an array A if
-     * we assume A[-1]=A[A.len]= -∞ -> There is always at least one peak for an
-     * array A if A[-1]<A[0] && A[A.len]<A[A.len-1] -> if num[mid]<num[mid+1],
-     * there is at least one peak between num[mid+1] ~ num[num.len-1] -> if
-     * num[mid]>num[mid+1], there is at least one peak between num[0] ~ num[mid]
-     * (num[mid] always ≠ num[mid+1])
+     * if left != right, then right> left, then mid+1<=right, so nums[mid+1]
+     * must not out of array boundary
      */
     public class Solution {
+	public int findPeakElement(int[] nums) {
+	    if (nums == null || nums.length == 0) {
+		return -1;
+	    }
+
+	    int left = 0;
+	    int right = nums.length - 1;
+	    while (left <= right) {
+		int mid = left + (right - left) / 2;
+		if (left == right) {
+		    return mid;
+		} else if (nums[mid] < nums[mid + 1]) {
+		    left = mid + 1;
+		} else {
+		    right = mid;
+		}
+	    }
+
+	    return -1;
+	}
+    }
+
+    public class Solution3 {
 	public int findPeakElement(int[] nums) {
 	    int low = 0;
 	    int high = nums.length - 1;

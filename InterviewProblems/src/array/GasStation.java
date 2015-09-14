@@ -24,13 +24,46 @@ package array;
  * positive segment. (if not, any positive stations before it and also in this
  * positive segment are also possible)
  * 
- * It is safe to reset start = i+1 if segNet<0. If the last stop is the one causing segnet<0, then the totalNet must < 0 and will return -1
+ * It is safe to reset start = i+1 if segNet<0. If the last stop is the one
+ * causing segnet<0, then the totalNet must < 0 and will return -1
  */
 public class GasStation {
+    /*
+     * Easier to understand
+     */
     public class Solution {
 	public int canCompleteCircuit(int[] gas, int[] cost) {
-	    if (gas == null || cost == null || gas.length == 0
-		    || cost.length == 0) {
+	    if (gas == null || gas.length == 0) {
+		return -1;
+	    }
+	    // else if (gas.length==1){
+	    // return 0;
+	    // }
+
+	    int costSum = cost[0];
+	    int gasSum = gas[0];
+	    int start = 0;
+	    int curGas = gas[0];
+	    for (int i = 1; i < gas.length; i++) {
+		costSum += cost[i];
+		gasSum += gas[i];
+		curGas -= cost[i - 1];
+		if (curGas < 0) {
+		    start = i;
+		    curGas = gas[i];
+		} else {
+		    curGas += gas[i];
+		}
+
+	    }
+
+	    return gasSum >= costSum ? start : -1;
+	}
+    }
+
+    public class Solution2 {
+	public int canCompleteCircuit(int[] gas, int[] cost) {
+	    if (gas == null || cost == null || gas.length == 0 || cost.length == 0) {
 		return -1;
 	    }
 
@@ -51,4 +84,5 @@ public class GasStation {
 	    return totalNet >= 0 ? start : -1;
 	}
     }
+
 }
