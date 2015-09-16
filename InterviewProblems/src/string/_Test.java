@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.Stack;
 
 
-public class Test {
+public class _Test {
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-	System.out.println(new StrobogrammaticNumberII().new Solution().findStrobogrammatic(2));
+	System.out.println(new IntegerToEnglishWords().new Solution2().numberToWords(123));
     }
     
 

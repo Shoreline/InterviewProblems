@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Fraction to Recurring Decimal 
+ * Fraction to Recurring Decimal
  * 
  * Given two integers representing the numerator and denominator of a fraction,
  * return the fraction in string format.
@@ -28,48 +28,43 @@ public class FractionToRecurringDecimal {
      */
     public class Solution {
 	public String fractionToDecimal(int numerator, int denominator) {
-	    // the only case the result can be 0
 	    if (numerator == 0) {
 		return "0";
 	    }
 
+	    StringBuilder res = new StringBuilder();
+	    boolean isNeg = (numerator > 0) ^ (denominator > 0);
+	    if (isNeg) {
+		res.append('-');
+	    }
 	    // use long to avoid Integer overflow
-	    boolean sign = (numerator < 0) ^ (denominator < 0);
-	    long num = Math.abs((long) numerator);
-	    long denom = Math.abs((long) denominator);
+	    long nu = Math.abs((long) numerator);
+	    long de = Math.abs((long) denominator);
 
-	    StringBuilder sb = new StringBuilder();
-	    if (sign) {
-		sb.append("-");
+	    res.append(String.valueOf(nu / de));
+
+	    if (nu % de == 0) {
+		return res.toString();
 	    }
 
-	    sb.append(String.valueOf(num / denom));
-	    num %= denom;
-	    if (num == 0) {
-		return sb.toString();
+	    res.append('.');
+	    // <某余数, 其在res字符串首次出现位置》
+	    Map<Long, Integer> seen = new HashMap<>();
+	    nu %= de;
+	    while (nu != 0 && !seen.containsKey(nu)) {
+		res.append(String.valueOf(nu * 10 / de));
+		seen.put(nu, res.length() - 1);
+		nu = (nu * 10) % de;
 	    }
 
-	    sb.append('.');
-	    // 循环体在字符串首次出现的位置
-	    Map<Long, Integer> map = new HashMap<Long, Integer>();
-
-	    int i = sb.length();
-	    while (num != 0 && !map.containsKey(num)) {
-		map.put(num, i); 
-		num *= 10; // important
-
-		sb.append(String.valueOf((num / denom)));
-		num %= denom;
-		i++;
+	    if (nu == 0) {
+		return res.toString();
 	    }
 
-	    if (num == 0) {
-		return sb.toString();
-	    }
-
-	    sb.insert(map.get(num), "(");
-	    sb.append(')');
-	    return sb.toString();
+	    res.insert(seen.get(nu), "(");
+	    res.append(')');
+	    return res.toString();
 	}
     }
+
 }
