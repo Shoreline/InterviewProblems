@@ -1,7 +1,7 @@
 package google;
 
 /**
- * find the most popular number in an array of interger. The 'popular number' is
+ * find the most popular number in an array of Integer. The 'popular number' is
  * defined as the number occurs more than n/4, where n is the length of array.
  * The array is already sorted
  * 
