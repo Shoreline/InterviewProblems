@@ -62,6 +62,19 @@ public class DesignADeckOfCards {
 	    }
 	}
 
+	/*
+	 * using a fixed seed to generate random number
+	 * 
+	 * rnd.nextInt(i): i must be positive
+	 */
+	public void shuffle3() {
+	    Random rnd = new Random(123);
+	    for (int i = cards.size() - 1; i > 1; i++) {
+		int j = rnd.nextInt(i);
+		swap(i, j);
+	    }
+	}
+
 	public String output() {
 	    StringBuilder res = new StringBuilder();
 

@@ -45,4 +45,22 @@ public class MeetingRooms {
 	    return true;
 	}
     }
+
+    /*
+     * O(N). Assume the smallest time unit is minute
+     */
+    class Answer2 {
+	public boolean isOverlap(Interval[] meetings) {
+	    int slots = 24 * 60;
+	    BitSet ret = new BitSet(slots);
+	    for (Interval meeting : meetings) {
+		BitSet bitSet = new BitSet(slots);
+		bitSet.set(meeting.start, meeting.end + 1);
+		if (ret.intersects(bitSet))
+		    return true;
+		ret.or(bitSet);
+	    }
+	    return false;
+	}
+    }
 }
