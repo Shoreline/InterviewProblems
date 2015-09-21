@@ -63,9 +63,7 @@ public class NQueens {
 	// newly added queen has conflict with existing queens
 	private boolean isValid(int count, int[] queens) {
 	    for (int i = 0; i < count - 1; i++) {
-		if (queens[i] == queens[count]
-			|| Math.abs(queens[i] - queens[count]) == Math.abs(i
-				- count)) {
+		if (queens[i] == queens[count] || Math.abs(queens[i] - queens[count]) == Math.abs(i - count)) {
 		    return false;
 		}
 	    }
@@ -121,8 +119,7 @@ public class NQueens {
 	return result;
     }
 
-    private static void getSolutions(ArrayList<ArrayList<Integer>> s, int n,
-	    boolean[] used, int[] temp, int amount) {
+    private static void getSolutions(ArrayList<ArrayList<Integer>> s, int n, boolean[] used, int[] temp, int amount) {
 	if (amount == n) {
 	    // check if this is a solution
 	    for (int i = 0; i < n; i++) {

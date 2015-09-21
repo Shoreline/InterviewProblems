@@ -32,6 +32,7 @@ public class DesignADeckOfCards {
     public class Card {
 	Suit suit;
 	int value;
+	boolean available; // Whether it is in the deck
 
 	@Override
 	public String toString() {
