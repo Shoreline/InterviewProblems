@@ -24,14 +24,17 @@ import java.util.Stack;
  * 1. a Stack of Iterator
  * 
  * 2. an Integer pointing to the next available item
+ * 
+ * To get the iterator of some item, convert this item into an Iterable instance
+ * then return .iterator()
  */
 @SuppressWarnings("unchecked")
 public class DeepIterator {
     public class DeepIterator_Integer implements Iterator<Integer> {
 	private Stack<Iterator<Integer>> iteratorStack = new Stack<Iterator<Integer>>();
-	private Integer top = null;
+	private Integer next = null;
 
-	public DeepIterator_Integer(Iterator itr) {
+	public DeepIterator_Integer(Iterator<Integer> itr) {
 	    this.iteratorStack.push(itr);
 	}
 
@@ -42,7 +45,7 @@ public class DeepIterator {
 	 */
 	@Override
 	public boolean hasNext() {
-	    if (this.top != null)
+	    if (this.next != null)
 		return true;
 
 	    while (!this.iteratorStack.isEmpty()) {
@@ -51,7 +54,7 @@ public class DeepIterator {
 		if (tmpIterator.hasNext()) {
 		    Object tmp = tmpIterator.next();
 		    if (tmp instanceof Integer) {
-			this.top = (Integer) tmp;
+			this.next = (Integer) tmp;
 			return true;
 		    } else if (tmp instanceof Iterable) {
 			this.iteratorStack.push(((Iterable<Integer>) tmp).iterator());
@@ -68,8 +71,8 @@ public class DeepIterator {
 	@Override
 	public Integer next() throws NoSuchElementException {
 	    if (hasNext()) {
-		Integer tmp = this.top;
-		this.top = null;
+		Integer tmp = this.next;
+		this.next = null;
 		return tmp;
 	    }
 

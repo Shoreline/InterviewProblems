@@ -3,7 +3,7 @@ package linkedin;
 import tree.TreeNode;
 
 public class BinaryTreeToCircularDoublyLinkedList {
-    class Solution {
+    class Method {
 	private TreeNode prev;
 	private TreeNode head;
 
@@ -24,6 +24,8 @@ public class BinaryTreeToCircularDoublyLinkedList {
 	    node.right = head;
 
 	    prev = node;
+	    head.left = node;
+	    node.right = head;
 
 	    bstToDLL(node.right);
 

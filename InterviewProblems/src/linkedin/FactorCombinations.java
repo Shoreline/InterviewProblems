@@ -66,7 +66,7 @@ public class FactorCombinations {
 
 	    for (int i = limit; i >= 2; i--) {
 		if (n % i == 0) {
-		    List<List<Integer>> rest = dfs(n / i, i);
+		    List<List<Integer>> rest = dfs(n / i, Math.min(i, n / i));
 		    for (List<Integer> ans : rest) {
 			ans.add(i);
 			res.add(ans);

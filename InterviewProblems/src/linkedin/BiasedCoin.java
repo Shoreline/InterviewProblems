@@ -11,7 +11,7 @@ package linkedin;
  */
 
 /*
- * We know foo() returns 0 with 60% probability. How can we ensure that 0 and 1
+ * We know foo() returns 0 with 60% probabilitsy. How can we ensure that 0 and 1
  * are returned with 50% probability?
  * 
  * The solution is similar to this post. If we can somehow get two cases with
