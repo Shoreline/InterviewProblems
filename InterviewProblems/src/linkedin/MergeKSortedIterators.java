@@ -21,7 +21,7 @@ public class MergeKSortedIterators {
 	    Integer curVal;
 	    Iterator<Integer> itr;
 
-	    public ItrWrapper(Iterator _itr) {
+	    public ItrWrapper(Iterator<Integer> _itr) {
 		itr = _itr;
 		curVal = itr.next();
 	    }
@@ -33,7 +33,7 @@ public class MergeKSortedIterators {
 	    }
 	}
 
-	public Iterable<Integer> mergeKSortedIterators(Iterator[] iters) {
+	public Iterable<Integer> mergeKSortedIterators(Iterator<Integer>[] iters) {
 	    List<Integer> res = new ArrayList<>();
 	    PriorityQueue<ItrWrapper> minHeap = new PriorityQueue<>(iters.length, new Comparator<ItrWrapper>() {
 		@Override
@@ -42,7 +42,7 @@ public class MergeKSortedIterators {
 		}
 	    });
 
-	    for (Iterator itr : iters) {
+	    for (Iterator<Integer> itr : iters) {
 		ItrWrapper w = new ItrWrapper(itr);
 		if (w.curVal != null) {
 		    minHeap.add(w);

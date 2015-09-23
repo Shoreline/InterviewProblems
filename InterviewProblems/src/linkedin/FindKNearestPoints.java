@@ -9,7 +9,7 @@ public class FindKNearestPoints {
     class Method1 {
 	class Point {
 	    int x, y;
-	    double dist;
+	    //double dist;
 
 	    public Point(int x, int y) {
 		this.x = x;
@@ -23,14 +23,15 @@ public class FindKNearestPoints {
 
 	public List<Point> getClosestPoints(List<Point> points, int k, Point o) {
 	    final Point x = o;
-	    PriorityQueue<Point> minHeap = new PriorityQueue<Point>(k, new Comparator<Point>() {
+	    
+	    // save in descending order
+	    PriorityQueue<Point> pq = new PriorityQueue<Point>(new Comparator<Point>() {
 		@Override
 		public int compare(Point p1, Point p2) {
-
 		    if (getDist(p1, x) - getDist(p2, x) > 0) {
-			return 1;
-		    } else if (getDist(p1, x) - getDist(p2, x) < 0) {
 			return -1;
+		    } else if (getDist(p1, x) - getDist(p2, x) < 0) {
+			return 1;
 		    } else {
 			return 0;
 		    }
@@ -38,10 +39,13 @@ public class FindKNearestPoints {
 	    });
 
 	    for (Point p : points) {
-		minHeap.add(p);
+		pq.add(p);
+		if (pq.size() > k) {
+		    pq.poll();
+		}
 	    }
 
-	    return new ArrayList<Point>(minHeap);
+	    return new ArrayList<Point>(pq);
 	}
     }
 
