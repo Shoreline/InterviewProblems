@@ -27,12 +27,12 @@ package string;
  * 
  * Check by order:
  * 
- * For '.': there mustn't be other dot or E ahead; it cannot be the only
- * character in S; at least one of its adjacent two characters must be a digit.
+ * For '.': there mustn't be other dot or E ahead (e.xx -> irrational number);
+ * There must be a digit before or after it.
  * 
- * For '+' and '-': cannot be the last character of S; if it is not the first
- * character of S, then the character before it must be E ('e' or 'E'); the
- * character behind it must be a digit or dot.
+ * For '+' and '-': if it is not the first character of S, then the character
+ * before it must be E ('e' or 'E'); it must be followed by either a digit or a
+ * '.'
  * 
  * For 'e' and 'E': there mustn't be other E ahead of it; it cannot be the first
  * or last character
@@ -42,6 +42,58 @@ package string;
  */
 public class ValidNumber {
     public class Solution {
+	public boolean isNumber(String s) {
+	    if (s == null) {
+		return false;
+	    }
+	    s = s.trim();
+	    if (s.isEmpty()) {
+		return false;
+	    }
+
+	    boolean usedDot = false;
+	    boolean usedE = false;
+	    for (int i = 0; i < s.length(); i++) {
+		char c = s.charAt(i);
+		if (c == '.') {
+		    if (usedDot || usedE) {
+			return false;
+		    }
+
+		    if (!(i > 0 && Character.isDigit(s.charAt(i - 1))
+			    || (i < s.length() - 1 && Character.isDigit(s.charAt(i + 1))))) {
+			return false;
+		    }
+		    usedDot = true;
+		} else if (c == '+' || c == '-') {
+		    if (i > 0 && Character.toLowerCase(s.charAt(i - 1)) != 'e') {
+			return false;
+		    }
+
+		    if (!(i < s.length() - 1 && (s.charAt(i + 1) == '.' || Character.isDigit(s.charAt(i + 1))))) {
+			return false;
+		    }
+
+		} else if (c == 'E' || c == 'e') {
+		    if (usedE) {
+			return false;
+		    }
+
+		    if (i == 0 || i == s.length() - 1) {
+			return false;
+		    }
+
+		    usedE = true;
+		} else if (!Character.isDigit(c)) {
+		    return false;
+		}
+	    }
+
+	    return true;
+	}
+    }
+
+    public class Solution2 {
 	public boolean isNumber(String s) {
 	    if (s == null) {
 		return false;
@@ -106,7 +158,7 @@ public class ValidNumber {
 	}
     }
 
-    public class Solution2 {
+    public class Solution3 {
 	public boolean isNumber(String s) {
 	    if (s == null)
 		return false;

@@ -14,7 +14,7 @@ import java.util.Map;
 /*
  * The idea is to compute and compare the slopes.
  * 
- * For a straight line that passes Pi, Pj: slope = (yi-yj)/(xi-xj)
+ * For a straight line that passes Pi, Pj: slope = ((double)xi-xj)/(yi-yj)
  * 
  * For each point Pi, compute all slopes for Pj -> O(N^2) time complexity
  * 
