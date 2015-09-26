@@ -19,7 +19,7 @@ package linkedin;
  * n-1轮(后手): 当前的数组中选任何一个数 X 都不能使得 Sum > target. 但是当后手选完之后存在一个数可使得 Sum > target
  * 
  */
-public class AlgoGame {
+public class AlgoGamePickNumbers {
     class Method2 {
 	public boolean canIWin(int[] numberPool, int target) {
 
