@@ -30,20 +30,20 @@ package string;
 public class ReadNCharactersGivenRead4 {
     public class Solution extends Reader4 {
 	public int read(char[] buf, int n) {
-	    int ptr = 0;
+	    int len = 0;
 	    char[] tmp = new char[4];
-	    while (ptr < n) {
+	    while (len < n) {
 		int count = read4(tmp);
-		for (int i = 0; i < count && ptr < n; i++) {
-		    buf[ptr] = tmp[i];
-		    ptr++;
+		for (int i = 0; i < count && len < n; i++) {
+		    buf[len] = tmp[i];
+		    len++;
 		}
 		if (count < 4) {
 		    break;
 		}
 	    }
 
-	    return ptr;
+	    return len;
 	}
     }
 }

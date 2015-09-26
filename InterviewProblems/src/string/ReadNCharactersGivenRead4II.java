@@ -27,8 +27,39 @@ import java.util.List;
  */
 public class ReadNCharactersGivenRead4II {
     public class Solution extends Reader4 {
+	char[] tmp = new char[4];
+	int ptr = 0;
+	int size = 0;
 
+	public int read(char[] buf, int n) {
+	    int len = 0;
+
+	    while (ptr < size && len < n) {
+		buf[len] = tmp[ptr];
+		ptr++;
+		len++;
+	    }
+
+	    while (len < n) {
+		size = read4(tmp);
+		ptr = 0;
+		while (ptr < size && len < n) {
+		    buf[len] = tmp[ptr];
+		    ptr++;
+		    len++;
+		}
+		if (size < 4) {
+		    break;
+		}
+	    }
+
+	    return len;
+	}
+    }
+
+    public class Solution2 extends Reader4 {
 	List<Character> remains = new ArrayList<>();
+
 	public int read(char[] buf, int n) {
 	    int ptr = 0;
 	    for (int i = 0; i < remains.size() && ptr < n; i++) {
