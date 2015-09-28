@@ -26,6 +26,51 @@ public class StrobogrammaticNumberII {
     public class Solution {
 	public List<String> findStrobogrammatic(int n) {
 	    List<String> res = new ArrayList<>();
+	    if (n < 1) {
+		return res;
+	    }
+
+	    Map<Integer, Integer> map = new HashMap<>();
+	    map.put(0, 0);
+	    map.put(1, 1);
+	    map.put(6, 9);
+	    map.put(8, 8);
+	    map.put(9, 6);
+	    dfs(n, 0, new char[n], map, res);
+	    return res;
+	}
+
+	private void dfs(int n, int pos, char[] tmp, Map<Integer, Integer> map, List<String> res) {
+	    if (pos == n / 2) {
+		if (n % 2 == 1) {
+		    for (int key : map.keySet()) {
+			int value = map.get(key);
+			if (key == value) {
+			    tmp[pos] = (char) ('0' + key);
+			    res.add(new String(tmp));
+			}
+		    }
+		} else {
+		    res.add(new String(tmp));
+		}
+		return;
+	    }
+
+	    for (int key : map.keySet()) {
+		if (pos == 0 && key == 0) {
+		    continue;
+		}
+		int value = map.get(key);
+		tmp[pos] = (char) ('0' + key);
+		tmp[n - 1 - pos] = (char) ('0' + value);
+		dfs(n, pos + 1, tmp, map, res);
+	    }
+	}
+    }
+
+    public class Solution2 {
+	public List<String> findStrobogrammatic(int n) {
+	    List<String> res = new ArrayList<>();
 	    if (n <= 0) {
 		return res;
 	    }

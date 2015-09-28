@@ -23,6 +23,9 @@ package array;
  * Answer: 3
  *
  */
+/*
+ * DFS can pass ac. But similar to Surrounded regions, better use BFS.
+ */
 public class NumberOfIslands {
     /*
      * DFS

@@ -20,8 +20,7 @@ public class PerfectSquares {
     /*
      * there is a O(sqrtN) solution based on number theory
      */
-    
-    
+
     /*
      * Time: O(n * sqrt n); space: O(N)
      * 
@@ -30,7 +29,7 @@ public class PerfectSquares {
     public class Solution_DP {
 	public int numSquares(int n) {
 	    int[] dp = new int[n + 1];
-	    Arrays.fill(dp, Integer.MAX_VALUE);
+	    Arrays.fill(dp, Integer.MAX_VALUE); // shall let dp[i]=i
 
 	    // in case of overflow, do not use i*i <= n
 	    for (int i = 1; i <= n / i; i++) {
@@ -40,6 +39,28 @@ public class PerfectSquares {
 	    for (int i = 1; i <= n; i++) {
 		for (int j = 1; j <= (n - i) / j; j++) {
 		    dp[i + j * j] = Math.min(dp[i] + 1, dp[i + j * j]);
+		}
+	    }
+
+	    return dp[n];
+	}
+    }
+
+    /*
+     * TLE for n = 9990
+     */
+    public class Wrong2 {
+	public int numSquares(int n) {
+	    int[] dp = new int[n + 1];
+	    Arrays.fill(dp, Integer.MAX_VALUE);
+
+	    for (int i = 1; i <= n / i; i++) {
+		dp[i * i] = 1;
+	    }
+
+	    for (int i = 2; i <= n; i++) {
+		for (int j = 1; j < i; j++) {
+		    dp[i] = Math.min(dp[i], dp[i - j] + dp[j]);
 		}
 	    }
 

@@ -14,26 +14,29 @@ import java.util.*;
  * For example, the numbers "69", "88", and "818" are all strobogrammatic.
  *
  */
+
+/*
+ * Unlike isPalindrom(), need to check the middle digit if num has odd number of
+ * digits
+ */
 public class StrobogrammaticNumber {
     public class Solution {
 	public boolean isStrobogrammatic(String num) {
-	    if (num == null || num.length() == 0) {
+	    if (num == null || num.isEmpty()) {
 		return false;
 	    }
 	    Map<Integer, Integer> map = new HashMap<>();
-	    map.put(6, 9);
-	    map.put(9, 6);
-	    map.put(8, 8);
-	    map.put(1, 1);
 	    map.put(0, 0);
+	    map.put(1, 1);
+	    map.put(6, 9);
+	    map.put(8, 8);
+	    map.put(9, 6);
 
-	    for (int i = 0; i < num.length(); i++) {
-		int digit = num.charAt(i) - '0';
-
-		Integer stro = map.get(digit);
-		if (stro == null) {
-		    return false;
-		} else if (num.charAt(num.length() - 1 - i) - '0' != stro) {
+	    // i <= len/2. not usually < len/2
+	    for (int i = 0; i <= num.length() / 2; i++) {
+		int d1 = num.charAt(i) - '0';
+		int d2 = num.charAt(num.length() - 1 - i) - '0';
+		if (!map.containsKey(d1) || map.get(d1) != d2) {
 		    return false;
 		}
 	    }

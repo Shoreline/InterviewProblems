@@ -112,6 +112,45 @@ public class SurroundedRegions {
     }
 
     /*
+     * Stack overflow. The floodFill() is actually using dfs
+     */
+    public class Wrong_Attempt2 {
+	public void solve(char[][] board) {
+	    if (board == null || board.length == 0 || board[0].length == 0) {
+		return;
+	    }
+
+	    for (int i = 0; i < board.length; i++) {
+		floodFill(board, i, 0, 'O', '#');
+		floodFill(board, i, board[0].length - 1, 'O', '#');
+	    }
+
+	    for (int j = 0; j < board[0].length; j++) {
+		floodFill(board, 0, j, 'O', '#');
+		floodFill(board, board.length - 1, j, 'O', '#');
+	    }
+
+	    for (int i = 0; i < board.length; i++) {
+		for (int j = 0; j < board[0].length; j++) {
+		    board[i][j] = (board[i][j] == '#' ? 'O' : 'X');
+		}
+	    }
+	}
+
+	private void floodFill(char[][] board, int i, int j, char oldColor, char newColor) {
+	    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != oldColor
+		    || board[i][j] == newColor) {
+		return;
+	    }
+	    board[i][j] = newColor;
+	    floodFill(board, i + 1, j, oldColor, newColor);
+	    floodFill(board, i - 1, j, oldColor, newColor);
+	    floodFill(board, i, j + 1, oldColor, newColor);
+	    floodFill(board, i, j - 1, oldColor, newColor);
+	}
+    }
+
+    /*
      * Even scan twice is not enough. May need to scan four times, each time
      * from a corner. Not a good way.
      */
