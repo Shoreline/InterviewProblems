@@ -29,14 +29,23 @@ import java.util.*;
  * http://dongxicheng.org/structure/union-find-set/
  * 
  * 
- * While grouping, use the ID of each contact record (#1->0; #2->1, etc) instead of contact name to represent each contact record.
+ * While grouping, use the ID of each contact record (#1->0; #2->1, etc) instead
+ * of contact name to represent each contact record.
  */
-public class GroupContacts {
 
-    class Contact {
+class Contact {
+	int id;
 	String name;
 	List<String> emails;
-    }
+	
+	public Contact(int id, String name, List<String> emails) {
+	    this.id = id;
+	    this.name = name;
+	    this.emails = emails;
+	}
+}
+
+public class GroupContacts {
 
     // Use Integers to represent elements
     class UnionFind {
@@ -87,24 +96,62 @@ public class GroupContacts {
 	}
     }
 
+    class UnionFindSimple {
+	int[] parent;
+
+	/*
+	 * Initially, each element's father is itself; and initial rank is 0
+	 */
+	public UnionFindSimple(int size) {
+	    parent = new int[size];
+	    for (int i = 0; i < size; i++) {
+		parent[i] = i;
+	    }
+	}
+
+	// find the father of an element
+	int find(int x) {
+	    if (parent[x] == x) {
+		return x;
+	    }
+
+	    return find(parent[x]);
+	}
+
+	/*
+	 * union two groups, only need to deal with their fathers: making the
+	 * lower rank father to be the child of the higher rank father.
+	 */
+	void union(int x, int y) {
+	    int fx = find(x); // father of x
+	    int fy = find(y);
+
+	    if (fx == fy) {
+		return;
+	    } else {
+		parent[fx] = fy;
+	    }
+	}
+    }
+
     public List<List<Contact>> groupContacts(List<Contact> input) {
 	List<List<Contact>> res = new ArrayList<List<Contact>>();
 	if (input == null || input.size() == 0) {
 	    return res;
 	}
 
+	// construct email -> list<uid> map
 	Map<String, List<Integer>> emailMap = new HashMap<>();
-
-	for (int i = 0; i < input.size(); i++) {
-	    for (String email : input.get(i).emails) {
+	for (Contact c : input) {
+	    for (String email : c.emails) {
 		if (!emailMap.containsKey(email)) {
 		    emailMap.put(email, new ArrayList<Integer>());
 		}
+		emailMap.get(email).add(c.id);
 	    }
 	}
 
-	UnionFind uf = new UnionFind(input.size());
-
+	UnionFindSimple uf = new UnionFindSimple(input.size());
 	for (String email : emailMap.keySet()) {
 	    List<Integer> contactIds = emailMap.get(email);
 	    for (int i = 0; i < contactIds.size() - 1; i++) {
@@ -112,17 +159,18 @@ public class GroupContacts {
 	    }
 	}
 
-	// fatherID-> List<contactID>
+	// rootID-> List<contactID>
 	Map<Integer, List<Integer>> groups = new HashMap<>();
 	for (int i = 0; i < input.size(); i++) {
-	    int fi = uf.find(i);
+	    int root = uf.find(i);
 
-	    if (!groups.containsKey(fi)) {
-		groups.put(fi, new ArrayList<Integer>());
+	    if (!groups.containsKey(root)) {
+		groups.put(root, new ArrayList<Integer>());
 	    }
-
-	    groups.get(fi).add(i);
+	    groups.get(root).add(i);
 	}
+	
+	System.out.print(groups); //testing
 
 	for (int father : groups.keySet()) {
 	    List<Contact> group = new ArrayList<>();
@@ -131,8 +179,24 @@ public class GroupContacts {
 	    }
 	    res.add(group);
 	}
-
 	return res;
+    }
+
+    public static void main(String[] args) {
+	Contact c1 = new Contact(0,"John", Arrays.asList(new String[]{"john@gmail.com"}));
+	Contact c2 = new Contact(1,"Mary", Arrays.asList(new String[]{"mary@gmail.com"}));
+	Contact c3 = new Contact(2,"John", Arrays.asList(new String[]{"john@yahoo.com"}));
+	Contact c4 = new Contact(3,"John", Arrays.asList(new String[]{"john@gmail.com", "john@yahoo.com", "john@hotmail.com"}));
+	Contact c5 = new Contact(4,"Bob", Arrays.asList(new String[]{"bob@gmail.com"}));
+	List<Contact> contacts = new ArrayList<>();
+	contacts.add(c1);
+	contacts.add(c2);
+	contacts.add(c3);
+	contacts.add(c4);
+	contacts.add(c5);
+	
+	new GroupContacts().groupContacts(contacts);
+	
     }
 
 }
