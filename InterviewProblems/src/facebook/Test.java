@@ -10,7 +10,7 @@ public class Test {
 	System.out.println(new SmallestPrefixSubset().new Method_noTrie().smallestPrefixSubset(input));
 	
 	int[] tasks = new int[]{1,2,1,2};
-	System.out.println(new ExecutionTime().new Method().getExecTime(tasks, 3));
+	System.out.println(new TasksExecutionTime().new Method().getExecTime(tasks, 3));
     }
 
 }

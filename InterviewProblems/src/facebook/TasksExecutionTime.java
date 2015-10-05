@@ -3,7 +3,8 @@ package facebook;
 import java.util.*;
 
 /**
- * 给一个vector 里面的元素表示task type，给一个N，表示执行相同task时要等上N个单位时间 例子中用‘_’表示
+ * 给一个vector 里面的元素表示task type，给一个N，表示执行相同task时要等上N个单位时间 例子中用‘_’表示.
+ * 问按顺序执行这些tasks最后要花多少时间。
  * 
  * [1,2,1,2], N=3: 1,2,_,_,1,2--> 6
  * 
@@ -11,7 +12,7 @@ import java.util.*;
  * [1,2,1,2], N=2: 1,2,_,1,2 --> 5,
  *
  */
-public class ExecutionTime {
+public class TasksExecutionTime {
     /*
      * Use a map to save task_id -> last finishing time
      * 
@@ -30,8 +31,7 @@ public class ExecutionTime {
 	    int timeStamp = 0;
 
 	    while (i < tasks.length) {
-		if (!map.containsKey(tasks[i])
-			|| timeStamp - map.get(tasks[i]) > N) {
+		if (!map.containsKey(tasks[i]) || timeStamp - map.get(tasks[i]) > N) {
 
 		    map.put(tasks[i], timeStamp);
 		    i++;
