@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 /*
- * The tricky part is that this problem requires to return the indice, not just
+ * The tricky part is that this problem requires to return the indices, not just
  * the values
  * 
  * Use an additional class to store both the value and index info for the

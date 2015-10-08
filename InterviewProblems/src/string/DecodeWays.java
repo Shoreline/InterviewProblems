@@ -36,7 +36,7 @@ public class DecodeWays {
 	    int res = dp2;
 
 	    // dp[i]= dp[i-1] + dp[i-2];
-	    for (int i = 1; i < s.length(); i++) {		
+	    for (int i = 1; i < s.length(); i++) {
 		res = 0;
 		if (s.charAt(i) != '0') {
 		    res = dp1;
@@ -83,9 +83,31 @@ public class DecodeWays {
     }
 
     /*
+     * TLE for long s
+     */
+    public class Method_Recursion {
+	public int numDecodings(String s) {
+	    return dfs(s, 0);
+	}
+
+	private int dfs(String s, int pos) {
+	    if (s == null || pos == s.length()) {
+		return 1;
+	    }
+
+	    int res = 0;
+	    if (s.charAt(pos) != '0') {
+		res += dfs(s, pos + 1);
+		if (pos < s.length() - 1 && s.charAt(pos + 1) - '0' <= 6) {
+		    res += dfs(s, pos + 2);
+		}
+	    }
+	    return res;
+	}
+    }
+
+    /*
      * My own dp solution
-     * 
-     * 
      * 
      * dp1[i] Decode ways if using the i-th digit as a letter. (the i-th digit
      * is s.charAt(i-1))
