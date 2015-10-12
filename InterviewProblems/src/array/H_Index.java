@@ -51,7 +51,7 @@ public class H_Index {
 	    /*
 	     * the earlier return, the higher h-index
 	     * 
-	     * i: at_least_cititons_a_paper_get
+	     * i: at_least_cititons_each_paper_get
 	     */
 	    int sum = 0;
 	    for (int i = len; i >= 0; i--) {
