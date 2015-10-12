@@ -43,6 +43,57 @@ public class MaximumSubarray {
     }
 
     /*
+     * Time: O(nlogn)
+     * 
+     * 但是题目中要求，不要用这个O(n)解法，而是采用Divide & Conquer。这就暗示了，解法必然是二分。分析如下：
+     * 
+     * 假设数组A[left, right]存在最大值区间[i, j](i>=left & j<=right)，以mid = (left +
+     * right)/2 分界，无非以下三种情况：
+     * 
+     * subarray A[i,..j] is
+     * 
+     * (1) Entirely in A[low,mid-1]
+     * 
+     * (2) Entirely in A[mid+1,high]
+     * 
+     * (3) Across mid
+     * 
+     * 对于(1) and (2)，直接递归求解即可，对于(3)，则需要以min为中心，向左及向右扫描求最大值，意味着在A[left,
+     * Mid]区间中找出A[i..mid], 而在A[mid+1, right]中找出A[mid+1..j]，两者加和即为(3)的解。
+     */
+    public class Solution_divide_and_conquer {
+
+	public int maxSubArray(int[] nums) {
+	    return divide(nums, 0, nums.length - 1);
+	}
+
+	public int divide(int nums[], int low, int high) {
+	    if (low == high)
+		return nums[low];
+	    if (low == high - 1)
+		return Math.max(nums[low] + nums[high], Math.max(nums[low], nums[high]));
+
+	    int mid = (low + high) / 2;
+	    int lmax = divide(nums, low, mid - 1);
+	    int rmax = divide(nums, mid + 1, high);
+
+	    int mmax = nums[mid];
+	    int tmp = mmax;
+	    for (int i = mid - 1; i >= low; i--) {
+		tmp += nums[i];
+		mmax = Math.max(tmp, mmax);
+	    }
+	    tmp = mmax;
+	    for (int i = mid + 1; i <= high; i++) {
+		tmp += nums[i];
+		mmax = Math.max(tmp, mmax);
+	    }
+	    return Math.max(mmax, Math.max(lmax, rmax));
+	}
+
+    }
+
+    /*
      * be careful, do not forget the lines marked as "*notice!"
      */
     public class Solution_Lame {

@@ -21,6 +21,7 @@ package string;
  * Easy to forget deal with '0's
  */
 public class DecodeWays {
+
     /*
      * Be careful about how to handle initial status
      */
@@ -33,23 +34,21 @@ public class DecodeWays {
 	    // dp[i]: how many decode ways for i characters.
 	    int dp1 = 1; // 0 character
 	    int dp2 = 1; // 1 character
-	    int res = dp2;
 
 	    // dp[i]= dp[i-1] + dp[i-2];
 	    for (int i = 1; i < s.length(); i++) {
-		res = 0;
+		int next = 0;
 		if (s.charAt(i) != '0') {
-		    res = dp1;
+		    next = dp1;
 		}
-		if (s.charAt(i - 1) != '0'
-			&& Integer.parseInt(s.substring(i - 1, i + 1)) <= 26) {
-		    res += dp2;
+		if (s.charAt(i - 1) != '0' && Integer.parseInt(s.substring(i - 1, i + 1)) <= 26) {
+		    next += dp2;
 		}
 		dp2 = dp1;
-		dp1 = res;
+		dp1 = next;
 	    }
 
-	    return res;
+	    return dp1;
 	}
     }
 
@@ -72,8 +71,7 @@ public class DecodeWays {
 	    for (int i = len - 1; i >= 0; i--) {
 		if (s.charAt(i) != '0') {
 		    dp[i] = dp[i + 1];
-		    if (i < len - 1
-			    && Integer.parseInt(s.substring(i, i + 2)) <= 26)
+		    if (i < len - 1 && Integer.parseInt(s.substring(i, i + 2)) <= 26)
 			dp[i] += dp[i + 2];
 		}
 	    }
@@ -135,8 +133,7 @@ public class DecodeWays {
 		    dp1[i] = 0;
 		}
 
-		if (i >= 2 && s.charAt(i - 2) != '0'
-			&& Integer.valueOf(s.substring(i - 2, i)) <= 26
+		if (i >= 2 && s.charAt(i - 2) != '0' && Integer.valueOf(s.substring(i - 2, i)) <= 26
 			&& Integer.valueOf(s.substring(i - 2, i)) >= 1) {
 		    dp2[i] = dp1[i - 2] + dp2[i - 2];
 		} else {
@@ -173,8 +170,7 @@ public class DecodeWays {
 		    result = numDecodings(s.substring(2));
 		}
 
-		result = (1 + numDecodings(s.substring(2)))
-			+ numDecodings(s.substring(1));
+		result = (1 + numDecodings(s.substring(2))) + numDecodings(s.substring(1));
 	    } else {
 		result = numDecodings(s.substring(1));
 	    }

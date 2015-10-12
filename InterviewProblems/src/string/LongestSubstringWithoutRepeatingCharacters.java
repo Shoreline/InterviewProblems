@@ -45,6 +45,34 @@ public class LongestSubstringWithoutRepeatingCharacters {
     }
 
     /*
+     * classic sliding window using for loop
+     */
+    public class Solution_sliding_windw {
+	public int lengthOfLongestSubstring(String s) {
+	    if (s == null || s.isEmpty()) {
+		return 0;
+	    }
+
+	    Map<Character, Integer> lastPos = new HashMap<>();
+	    int max = 1;
+	    int left = 0;
+	    for (int right = 0; right < s.length(); right++) {
+		char c = s.charAt(right);
+		// condition easy to forget: lastPos.get(c) >= left
+		if (lastPos.containsKey(c) && lastPos.get(c) >= left) {
+		    max = Math.max(max, right - left);
+		    left = lastPos.get(c) + 1;
+		}
+		lastPos.put(c, right);
+	    }
+
+	    max = Math.max(max, s.length() - left);
+
+	    return max;
+	}
+    }
+
+    /*
      * Jan 2015 O(n), sliding window
      */
     public static int lengthOfLongestSubstring3(String s) {

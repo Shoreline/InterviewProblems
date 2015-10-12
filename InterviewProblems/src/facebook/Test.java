@@ -5,12 +5,36 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-	
-	String[] input = new String[]{"foo", "foog", "food", "asdf"};
-	System.out.println(new SmallestPrefixSubset().new Method_noTrie().smallestPrefixSubset(input));
-	
-	int[] tasks = new int[]{1,2,1,2};
-	System.out.println(new TasksExecutionTime().new Method().getExecTime(tasks, 3));
+	System.out.println(isOneEditDistance("ab", "acd"));
     }
+
+    public static boolean isOneEditDistance(String s, String t) {
+	    if (s.length() > t.length()) {
+		return isOneEditDistance(t, s);
+	    }
+	    if (t.length() - s.length() > 1) {
+		return false;
+	    }
+
+	    boolean hasDiff = false;
+
+	    for (int i = 0, j = 0; i < s.length(); i++, j++) {
+		if (s.charAt(i) != t.charAt(j)) {
+		    if (hasDiff) {
+			return false;
+		    }
+		    hasDiff = true;
+		    if (s.length() < t.length()) {
+			/* 
+			 * cannot use j++. fail on "ab", "acd"
+			 * 
+			 */
+			i--;
+		    }
+		}
+	    }
+
+	    return hasDiff || s.length() < t.length();
+	}
 
 }

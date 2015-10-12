@@ -23,6 +23,32 @@ public class RemoveDuplicatesFromSortedArrayII {
      */
     public class Solution {
 	public int removeDuplicates(int[] nums) {
+	    int k = 2;
+	    if (nums == null || nums.length == 0) {
+		return 0;
+	    }
+
+	    int count = 1;
+	    int ptr = 1;
+	    for (int i = 1; i < nums.length; i++) {
+		if (nums[i] != nums[i - 1]) {
+		    count = 0;
+		}
+
+		if (count < k) {
+		    nums[ptr] = nums[i];
+		    ptr++;
+		}
+
+		count++;
+	    }
+
+	    return ptr;
+	}
+    }
+
+    public class Solution2 {
+	public int removeDuplicates(int[] nums) {
 	    if (nums == null || nums.length == 0) {
 		return 0;
 	    }
