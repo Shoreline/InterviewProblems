@@ -32,14 +32,12 @@ public class SmallestPrefixSubset {
 	    }
 
 	    Set<String> words = new HashSet<>();
-	    for (String word : input) {
-		words.add(word);
-	    }
+	    words.addAll(Arrays.asList(input));
 
 	    for (String word : input) {
 		boolean add = true;
 		for (int i = 0; i < word.length(); i++) {
-		    String prefix = word.substring(0, word.length() -1 - i);
+		    String prefix = word.substring(0, word.length() - 1 - i);
 		    if (words.contains(prefix)) {
 			add = false;
 			break;
@@ -54,5 +52,5 @@ public class SmallestPrefixSubset {
 	    return res;
 	}
     }
-    
+
 }

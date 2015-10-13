@@ -40,36 +40,74 @@ import java.util.*;
 // [[1, 2, 1]]
 // [[2, 1, 0]]
 
+/*
+ * better replace all 1) "2" to "-1"; 2) 1 to 0; 3) 0 to Integer.MAX_VALUE at the beginning.
+ * 
+ * Then equivalent to Walls and Gates. Just change all Integer.MAX_VALUE to -1 in the end 
+ */
 public class Maze {
     class Method_1 {
-	public class Position {
-	    public int x;
-	    public int y;
-
-	    public Position(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public void maze(int[][] rooms) {
+	    if (rooms == null || rooms.length == 0 || rooms[0].length == 0) {
+		return;
 	    }
-	}
-
-	public int[][] minDistance(int[][] input) {
-	    // queue of cops
-	    Queue<Position> queue = new LinkedList<>();
-	    int m = input.length;
-	    int n = input[0].length;
-
+	    int m = rooms.length;
+	    int n = rooms[0].length;
+	    List<Integer> gates = new ArrayList<>();
 	    for (int i = 0; i < m; i++) {
 		for (int j = 0; j < n; j++) {
-		    
+		    if (rooms[i][j] == 2) {
+			rooms[i][j] = -1;
+		    } else if (rooms[i][j] == 1) {
+			rooms[i][j] = 0;
+		    } else if (rooms[i][j] == 0) {
+			rooms[i][j] = Integer.MAX_VALUE;
+			gates.add(i * n + j);
+		    }
 		}
 	    }
 
-	    return null;
+	    for (int gate : gates) {
+		Queue<Integer> q = new LinkedList<>();
+		q.add(gate);
+		int step = 1;
+		while (!q.isEmpty()) {
+		    int count = q.size();
+		    for (int c = 0; c < count; c++) {
+			int pos = q.poll();
+			int i = pos / n;
+			int j = pos % n;
+
+			if (i + 1 < m && rooms[i + 1][j] > step) {
+			    rooms[i + 1][j] = step;
+			    q.add((i + 1) * n + j);
+			}
+			if (i - 1 >= 0 && rooms[i - 1][j] > step) {
+			    rooms[i - 1][j] = step;
+			    q.add((i - 1) * n + j);
+			}
+			if (j + 1 < n && rooms[i][j + 1] > step) {
+			    rooms[i][j + 1] = step;
+			    q.add(i * n + j + 1);
+			}
+			if (j - 1 >= 0 && rooms[i][j - 1] > step) {
+			    rooms[i][j - 1] = step;
+			    q.add(i * n + j - 1);
+			}
+		    }
+		    step++;
+		}
+	    }
+
+	    for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+		    if (rooms[i][j] == Integer.MAX_VALUE) {
+			rooms[i][j] = -1;
+		    }
+		}
+	    }
 	}
 
-	private void updateDistance(int[][] input, int[][] res) {
-
-	}
     }
 
     class Method_2 {
@@ -130,8 +168,7 @@ public class Maze {
 	    if (m < 1)
 		return false;
 	    int n = maze[0].length;
-	    if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j]
-		    || maze[i][j] == -1)
+	    if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j] || maze[i][j] == -1)
 		return false;
 	    return true;
 	}
@@ -168,7 +205,7 @@ public class Maze {
 	    int y = rdm.nextInt(size);
 	    test[x][y] = -1;
 	}
-//	printMaze(test);
-//	printMaze(solution(test));
+	// printMaze(test);
+	// printMaze(solution(test));
     }
 }

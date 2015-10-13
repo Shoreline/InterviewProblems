@@ -21,7 +21,7 @@ public class PairPalindrome {
 	list.add("ba");
 	Solution_Baseline sol = new PairPalindrome().new Solution_Baseline();
 	System.out.println(sol.pairPalindrome(list));
-	
+
 	Method_Hash sol2 = new PairPalindrome().new Method_Hash();
 	System.out.println(sol2.pairPalindrome(list));
 
@@ -33,9 +33,6 @@ public class PairPalindrome {
 	    if (words == null || words.size() < 2) {
 		return res;
 	    }
-
-	    
-
 	    return res;
 	}
     }
