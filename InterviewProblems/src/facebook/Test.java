@@ -2,39 +2,35 @@ package facebook;
 
 import java.util.*;
 
+import string.WordPatternII;
+
 public class Test {
 
     public static void main(String[] args) {
-	System.out.println(isOneEditDistance("ab", "acd"));
+	System.out.println(canWin2("++++".toCharArray()));
     }
 
-    public static boolean isOneEditDistance(String s, String t) {
-	    if (s.length() > t.length()) {
-		return isOneEditDistance(t, s);
-	    }
-	    if (t.length() - s.length() > 1) {
-		return false;
-	    }
+    public static boolean canWin2(char[] s) {
+	for (int i = 1; i < s.length; i++) {
+	    if (s[i - 1] == '+' && s[i] == '+') {
+		s[i] = '-';
+		s[i - 1] = '-';
 
-	    boolean hasDiff = false;
-
-	    for (int i = 0, j = 0; i < s.length(); i++, j++) {
-		if (s.charAt(i) != t.charAt(j)) {
-		    if (hasDiff) {
-			return false;
-		    }
-		    hasDiff = true;
-		    if (s.length() < t.length()) {
-			/* 
-			 * cannot use j++. fail on "ab", "acd"
-			 * 
-			 */
-			i--;
-		    }
+		if (new String(s).equals("+--+")) {
+		    System.out.println();
 		}
-	    }
 
-	    return hasDiff || s.length() < t.length();
+		if (!canWin2(s)) {
+		    s[i] = '+';
+		    s[i - 1] = '+';
+		    return true;
+		}
+		s[i] = '+';
+		s[i - 1] = '+';
+	    }
 	}
+
+	return false;
+    }
 
 }
