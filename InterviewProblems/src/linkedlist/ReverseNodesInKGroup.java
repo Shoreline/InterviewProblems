@@ -22,11 +22,14 @@ package linkedlist;
 
 /*
  * my solution is not the most concise but easy to understand
+ * 
+ * Inclusively reverse [segHead, cur]. Set cur.next = null before reversing.
  */
 public class ReverseNodesInKGroup {
+
     public class Solution_mine {
 	public ListNode reverseKGroup(ListNode head, int k) {
-	    if (head == null || k < 2) {
+	    if (head == null || k <= 1) {
 		return head;
 	    }
 
@@ -37,11 +40,11 @@ public class ReverseNodesInKGroup {
 	    ListNode segHead = head;
 	    int c = 1;
 	    while (cur != null) {
-		ListNode next = cur.next;
+		ListNode next = cur.next; // cur may change, so save cur.next to
+					  // next beforehand
 		if (c % k == 1) {
 		    segHead = cur;
-		} 
-		else if (c % k == 0) {
+		} else if (c % k == 0) {
 		    cur.next = null;
 		    segPre.next = reverse(segHead);
 		    segPre = segHead;
@@ -55,13 +58,10 @@ public class ReverseNodesInKGroup {
 	    return preHead.next;
 	}
 
-	private ListNode reverse(ListNode segHead) {
-	    if (segHead == null) {
-		return segHead;
-	    }
-
+	private ListNode reverse(ListNode head) {
+	    ListNode cur = head;
 	    ListNode pre = null;
-	    ListNode cur = segHead;
+
 	    while (cur != null) {
 		ListNode next = cur.next;
 		cur.next = pre;
