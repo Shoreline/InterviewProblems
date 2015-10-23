@@ -10,6 +10,8 @@ package array;
  */
 
 /*
+ * Only compare nums[mid] with nums[high]: 3 cases: >, <, or ==
+ *
  * if use the same way as dealing with array with unique elements, we can not
  * guarantee that if A[I]<=A[m] than I~m is a ascending sub-array (ex: 1,1,3,1)
  * 
@@ -24,27 +26,27 @@ package array;
  */
 public class SearchInRotatedSortedArrayII {
     public class Solution {
-	public boolean search(int[] A, int target) {
-	    if (A == null || A.length == 0) {
+	public boolean search(int[] nums, int target) {
+	    if (nums == null || nums.length == 0) {
 		return false;
 	    }
 
 	    int low = 0;
-	    int high = A.length - 1;
+	    int high = nums.length - 1;
 	    while (low <= high) {
 		int mid = (low + high) / 2;
-		if (A[mid] == target) {
+		if (nums[mid] == target) {
 		    return true;
 		}
 
-		if (A[mid] < A[high]) {
-		    if (target > A[mid] && target <= A[high]) {
+		if (nums[mid] < nums[high]) {
+		    if (target > nums[mid] && target <= nums[high]) {
 			low = mid + 1;
 		    } else {
 			high = mid - 1;
 		    }
-		} else if (A[mid] > A[high]) {
-		    if (target >= A[low] && target < A[mid]) {
+		} else if (nums[mid] > nums[high]) {
+		    if (target >= nums[low] && target < nums[mid]) {
 			high = mid - 1;
 		    } else {
 			low = mid + 1;

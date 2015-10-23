@@ -12,9 +12,38 @@ package string;
  * 
  * Note: The sequence of integers will be represented as a string.
  */
-
+/*
+ * Be noticed that the first round is "1", not "11".
+ */
 public class CountAndSay {
     public class Solution {
+	public String countAndSay(int n) {
+	    StringBuilder sb = new StringBuilder();
+	    if (n < 1) {
+		return sb.toString();
+	    }
+
+	    String s = "1";
+	    for (int i = 0; i < n - 1; i++) { // i< n-1 !
+		int count = 1;
+		for (int j = 0; j < s.length(); j++) {
+		    if (j + 1 < s.length() && s.charAt(j) == s.charAt(j + 1)) {
+			count++;
+		    } else {
+			sb.append(String.valueOf(count)).append(s.charAt(j));
+			count = 1;
+		    }
+		}
+
+		s = sb.toString();
+		sb.setLength(0);
+	    }
+
+	    return s;
+	}
+    }
+
+    public class Solution3 {
 	public String countAndSay(int n) {
 	    String input = "1";
 

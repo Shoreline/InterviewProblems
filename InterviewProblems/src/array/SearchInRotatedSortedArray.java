@@ -32,11 +32,12 @@ public class SearchInRotatedSortedArray {
 	    int high = nums.length - 1;
 
 	    while (low <= high) {
-		int mid = (low + high) / 2;
+		int mid = low + (high - low) / 2;
 
 		if (nums[mid] == target)
 		    return mid;
 
+		// index mid may be the same as low, so use >=!
 		if (nums[mid] >= nums[low]) {
 		    // {lowEnd ~ mid} is the sorted half
 
