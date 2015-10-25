@@ -44,6 +44,46 @@ public class MinimumSizeSubarraySum {
 	}
     }
 
+    /*
+     * Time: O(NlogN)
+     * 
+     * Search for window sizes
+     */
+    public class Solution_binary_search {
+	public int minSubArrayLen(int s, int[] nums) {
+	    int i = 1; // start with 1 and nums.length.
+	    int j = nums.length;
+	    int min = 0;
+	    while (i <= j) {
+		int mid = i + (j - i) / 2;
+		if (windowExist(mid, nums, s)) {
+		    j = mid - 1;
+		    min = mid; // only update min while there is a smaller
+			       // window size
+		} else {
+		    i = mid + 1;
+		}
+	    }
+	    return min;
+	}
+
+	private boolean windowExist(int size, int[] nums, int s) {
+	    int sum = 0;
+	    for (int i = 0; i < nums.length; i++) {
+		if (i >= size) {
+		    sum -= nums[i - size];
+		}
+
+		sum += nums[i];
+
+		if (sum >= s) {
+		    return true;
+		}
+	    }
+	    return false;
+	}
+    }
+
     public class Solution3 {
 	public int minSubArrayLen(int s, int[] nums) {
 	    if (nums == null || nums.length == 0) {

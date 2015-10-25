@@ -20,7 +20,7 @@ import java.util.Map;
  */
 
 /*
- * allow resilient characters in the window substring.
+ * allow redundant characters in the window substring.
  * 
  * First keep extending right side of the window to include every needed
  * character, when done (count == t.length()), start to try shrinking the left
