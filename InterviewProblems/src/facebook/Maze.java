@@ -41,7 +41,8 @@ import java.util.*;
 // [[2, 1, 0]]
 
 /*
- * better replace all 1) "2" to "-1"; 2) 1 to 0; 3) 0 to Integer.MAX_VALUE at the beginning.
+ * better replace all 1) "2" to "-1" (let obstacles be -1) ; 2) 1 to 0 (let gate be 0); 
+ * 3) 0 to Integer.MAX_VALUE at the beginning. ( min distance to gates are infinite large)
  * 
  * Then equivalent to Walls and Gates. Just change all Integer.MAX_VALUE to -1 in the end 
  */

@@ -1,8 +1,29 @@
 package linkedin;
 
+/**
+ * Paint Hourse II
+ * 
+ * There are a row of n houses, each house can be painted with one of the k
+ * colors. The cost of painting each house with a certain color is different.
+ * You have to paint all the houses such that no two adjacent houses have the
+ * same color.
+ * 
+ * The cost of painting each house with a certain color is represented by a n x
+ * k cost matrix. For example, costs[0][0] is the cost of painting house 0 with
+ * color 0; costs[1][2] is the cost of painting house 1 with color 2, and so
+ * on... Find the minimum cost to paint all houses.
+ * 
+ * Note: All costs are positive integers.
+ * 
+ * Follow up: Could you solve it in O(nk) runtime?
+ *
+ */
 public class PaintHouseII {
     /*
      * O(nk) time, O(k) space
+     * 
+     * min and secondMin are two smallest values. Be noticed that min may equal
+     * to secondMin.
      */
     public class Solution_DP2 {
 	public int minCostII(int[][] costs) {
@@ -10,7 +31,7 @@ public class PaintHouseII {
 		return 0;
 	    }
 
-	    int[] dp = new int[costs[0].length];
+	    int[] dp = new int[costs[0].length]; // dp[num of colors]
 	    int preMin = Integer.MAX_VALUE;
 	    int pre2ndMin = Integer.MAX_VALUE;
 

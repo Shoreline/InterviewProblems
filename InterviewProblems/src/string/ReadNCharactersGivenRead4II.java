@@ -28,8 +28,8 @@ import java.util.List;
 public class ReadNCharactersGivenRead4II {
     public class Solution extends Reader4 {
 	char[] tmp = new char[4];
-	int ptr = 0;
-	int size = 0;
+	int ptr = 0;	// ptr of tmp
+	int size = 0;	// size of valid characters in tmp
 
 	public int read(char[] buf, int n) {
 	    int len = 0;

@@ -41,8 +41,11 @@ import java.util.*;
  */
 
 /*
+ * Do num_gate round of BFS
+ * 
  * use rooms[i + 1][j] > step as an additional stopping condition: can avoid
- * using a "visited" set
+ * using a "visited" set. The obstacle blocks and other gate blocks are -1 and
+ * 0, so will never be replaced
  */
 public class WallsAndGates {
     public class Solution {

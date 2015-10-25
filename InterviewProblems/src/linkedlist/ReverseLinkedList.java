@@ -27,6 +27,10 @@ public class ReverseLinkedList {
 	}
     }
 
+    /*
+     * newHead will be used only once, to save the original tail node as the new
+     * head
+     */
     public class Solution_Recursion {
 	public ListNode reverseList(ListNode head) {
 	    ListNode[] newHead = new ListNode[1];
@@ -41,10 +45,10 @@ public class ReverseLinkedList {
 		return cur;
 	    }
 
-	    ListNode next = helper(cur.next, newHead);
+	    ListNode newPre = helper(cur.next, newHead);
 
 	    cur.next = null;
-	    next.next = cur;
+	    newPre.next = cur;
 
 	    return cur;
 	}

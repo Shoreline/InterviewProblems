@@ -74,6 +74,13 @@ public class RegularExpressionMatching {
      * '\0' (char c = 0) is a special control char, use it for null
      * 
      * corner case: s = "", p = "a*b*c*"; they still match
+     * 
+     * Logic: 
+     * if the second char of p is 'x*': ( 'x' is any char)
+     * 		a): 'x*' matches nothing of s;
+     * 		b): s is not empty, and 'x*' matches the first character of s. (note: 'x*' may match the rest of s, so do not modify p for next recursion)
+     * else
+     * 		the first char of p matches the first char of s.
      */
     public class Solution_recursion2 {
 	public boolean isMatch(String s, String p) {
@@ -82,10 +89,11 @@ public class RegularExpressionMatching {
 	    }
 
 	    if (p.length() > 1 && p.charAt(1) == '*') {
-		return isMatch(s, p.substring(2)) || s != null && s.length() > 0
+		return isMatch(s, p.substring(2)) || s != null && !s.isEmpty()
 			&& (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.') && isMatch(s.substring(1), p);
 	    } else {
-		return s != null && s.length() > 0 && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
+
+		return s != null && !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
 			&& isMatch(s.substring(1), p.substring(1));
 	    }
 	}

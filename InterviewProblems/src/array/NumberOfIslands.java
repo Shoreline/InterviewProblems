@@ -1,5 +1,8 @@
 package array;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Number of Islands
  * 
@@ -27,13 +30,65 @@ package array;
  * DFS can pass ac. But similar to Surrounded regions, better use BFS.
  */
 public class NumberOfIslands {
+    public class Solution {
+	public int numIslands(char[][] grid) {
+	    if (grid == null || grid.length == 0 || grid[0].length == 0) {
+		return 0;
+	    }
+
+	    int res = 0;
+	    for (int i = 0; i < grid.length; i++) {
+		for (int j = 0; j < grid[0].length; j++) {
+		    if (grid[i][j] == '1') {
+			res++;
+			bfs(grid, i, j);
+		    }
+		}
+	    }
+
+	    return res;
+	}
+
+	private void bfs(char[][] grid, int i, int j) {
+	    int m = grid.length;
+	    int n = grid[0].length;
+	    Queue<Integer> q = new LinkedList<>();
+	    q.add(i * n + j);
+	    grid[i][j] = '0';
+
+	    while (!q.isEmpty()) {
+		int pos = q.poll();
+		int x = pos / n;
+		int y = pos % n;
+
+		if (x + 1 < m && grid[x + 1][y] == '1') {
+		    grid[x + 1][y] = '0';
+		    q.add(pos + n);
+		}
+		if (x - 1 >= 0 && grid[x - 1][y] == '1') {
+		    grid[x - 1][y] = '0';
+		    q.add(pos - n);
+		}
+		if (y + 1 < n && grid[x][y + 1] == '1') {
+		    grid[x][y + 1] = '0';
+		    q.add(pos + 1);
+		}
+		if (y - 1 >= 0 && grid[x][y - 1] == '1') {
+		    grid[x][y - 1] = '0';
+		    q.add(pos - 1);
+		}
+	    }
+
+	}
+    }
+    
     /*
      * DFS
      * 
      * Once see '1', count++ and mark all adjacent blocks to '0' (avoid repeated
      * count of the same island in future)
      */
-    public class Solution {
+    public class Solution_DFS {
 	public int numIslands(char[][] grid) {
 	    if (grid == null || grid.length == 0) {
 		return 0;

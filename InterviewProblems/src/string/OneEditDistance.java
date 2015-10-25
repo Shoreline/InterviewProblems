@@ -7,6 +7,10 @@ package string;
  * apart.
  *
  */
+
+/*
+ * Return true if there is one, and only one edit distance
+ */
 public class OneEditDistance {
     public class Solution {
 	public boolean isOneEditDistance(String s, String t) {
@@ -19,6 +23,7 @@ public class OneEditDistance {
 
 	    boolean hasDiff = false;
 
+	    // increase i and j at the same time
 	    for (int i = 0, j = 0; i < s.length(); i++, j++) {
 		if (s.charAt(i) != t.charAt(j)) {
 		    if (hasDiff) {
