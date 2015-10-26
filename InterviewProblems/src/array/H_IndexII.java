@@ -11,6 +11,13 @@ package array;
  * Expected runtime complexity is in O(log n) and the input is sorted.
  * 
  */
+/*
+ * Binary search
+ * 
+ * A little bit of reversed thinking: The potential h-value is len - mid. If
+ * there is a higher h-value, the "boundary paper" is on the left side of mid,
+ * so high = mid - 1.
+ */
 public class H_IndexII {
     public class Solution {
 	public int hIndex(int[] citations) {
@@ -27,7 +34,7 @@ public class H_IndexII {
 		if (citations[mid] == citations.length - mid) {
 		    return citations.length - mid;
 		} else if (citations[mid] > citations.length - mid) {
-		    high = mid - 1; 
+		    high = mid - 1;
 		    last = citations.length - mid; // may be the answer
 		} else {
 		    low = mid + 1;

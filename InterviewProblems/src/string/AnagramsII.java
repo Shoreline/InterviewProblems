@@ -57,6 +57,8 @@ public class AnagramsII {
 	 * between 'a' - 'z'. So the count[] is only of size 26. For regular
 	 * sorting, the element space is infinite large, like an number, can be
 	 * (-infinite, +infinite)
+	 * 
+	 * For "baatt", the returned String is "aabtt". 
 	 */
 	private String sort(String str) {
 	    char[] res = new char[str.length()];

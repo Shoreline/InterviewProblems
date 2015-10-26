@@ -7,30 +7,25 @@ import string.WordPatternII;
 public class Test {
 
     public static void main(String[] args) {
-	System.out.println(canWin2("++++".toCharArray()));
+	System.out.println(sort("baatt"));
     }
 
-    public static boolean canWin2(char[] s) {
-	for (int i = 1; i < s.length; i++) {
-	    if (s[i - 1] == '+' && s[i] == '+') {
-		s[i] = '-';
-		s[i - 1] = '-';
-
-		if (new String(s).equals("+--+")) {
-		    System.out.println();
-		}
-
-		if (!canWin2(s)) {
-		    s[i] = '+';
-		    s[i - 1] = '+';
-		    return true;
-		}
-		s[i] = '+';
-		s[i - 1] = '+';
+    private static String sort(String str) {
+	    char[] res = new char[str.length()];
+	    int[] count = new int[26];
+	    for (int i = 0; i < str.length(); i++) {
+		count[str.charAt(i) - 'a']++;
 	    }
-	}
 
-	return false;
-    }
+	    int ptr = 0;
+	    for (int i = 0; i < count.length; i++) {
+		while (count[i] > 0) {
+		    res[ptr] = (char) ('a' + i);
+		    ptr++;
+		    count[i]--;
+		}
+	    }
+	    return new String(res);
+	}
 
 }

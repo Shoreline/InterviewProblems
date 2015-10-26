@@ -35,9 +35,9 @@ import java.util.*;
  * Build a directed graph, compute in-degrees for each node (character), then
  * BFS topological sort.
  * 
- * The direction information only relies on comparing the first different set of
- * characters in two words (the order of characters within one word does not
- * mean anything)
+ * The direction information only relies on comparing the first pair of
+ * different characters in two words (the order of characters within one word
+ * does not mean anything)
  */
 public class AlienDictionary {
     public class Solution {
@@ -74,6 +74,11 @@ public class AlienDictionary {
 	    return res.toString();
 	}
 
+	/*
+	 * Each two words can only give direction info of one edge. However, we
+	 * still need to check each character of them, add unseen chars into
+	 * graph
+	 */
 	private Map<Character, Set<Character>> buildGraph(String[] words) {
 	    Map<Character, Set<Character>> graph = new HashMap<>();
 
@@ -85,10 +90,12 @@ public class AlienDictionary {
 		for (int j = 0; j < Math.max(word1.length(), word2.length()); j++) {
 		    char c1 = j < word1.length() ? word1.charAt(j) : ' ';
 		    char c2 = j < word2.length() ? word2.charAt(j) : ' ';
+
 		    if (c1 != ' ' && !graph.containsKey(c1))
 			graph.put(c1, new HashSet<Character>());
 		    if (c2 != ' ' && !graph.containsKey(c2))
 			graph.put(c2, new HashSet<Character>());
+
 		    if (c1 != ' ' && c2 != ' ' && c1 != c2 && !found) {
 			graph.get(c1).add(c2);
 			found = true;

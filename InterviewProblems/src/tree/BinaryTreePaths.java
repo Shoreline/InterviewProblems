@@ -9,11 +9,7 @@ import java.util.*;
  * 
  * For example, given the following binary tree:
  * 
-   1
- /   \
-2     3
- \
-  5
+ * 1 / \ 2 3 \ 5
  * 
  * All root-to-leaf paths are:
  * 
@@ -41,6 +37,8 @@ public class BinaryTreePaths {
 	    int valLen = String.valueOf(root.val).length();
 	    if (root.left == null && root.right == null) {
 		res.add(tmp.toString());
+		// backtracking, since using StringBuilder. No need if use
+		// String as tmp
 		tmp.setLength(tmp.length() - valLen);
 		return;
 	    }
@@ -56,6 +54,37 @@ public class BinaryTreePaths {
 	    }
 
 	    tmp.setLength(tmp.length() - valLen - 2);
+	}
+    }
+
+    /*
+     * use String as tmp
+     */
+    public class Solution2 {
+	public List<String> binaryTreePaths(TreeNode root) {
+	    List<String> res = new ArrayList<>();
+	    if (root == null) {
+		return res;
+	    }
+
+	    dfs(root, "", res);
+
+	    return res;
+	}
+
+	private void dfs(TreeNode root, String tmp, List<String> res) {
+	    tmp = tmp + root.val;
+	    if (root.left == null && root.right == null) {
+		res.add(tmp);
+		return;
+	    }
+	    tmp += "->";
+	    if (root.left != null) {
+		dfs(root.left, tmp, res);
+	    }
+	    if (root.right != null) {
+		dfs(root.right, tmp, res);
+	    }
 	}
     }
 }

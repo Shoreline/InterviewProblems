@@ -31,6 +31,10 @@ import java.util.Arrays;
  * together in edges.
  *
  */
+
+/*
+ * One key attribute of the nodes is that they are numbered from 0 to n-1.
+ */
 public class GraphValidTree {
     public class Solution {
 	public boolean validTree(int n, int[][] edges) {

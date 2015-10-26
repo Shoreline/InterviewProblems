@@ -58,4 +58,32 @@ public class MeetingRoomesII {
 	}
     }
 
+    public class Solution2 {
+	public int minMeetingRooms(Interval[] intervals) {
+	    if (intervals == null || intervals.length == 0)
+		return 0;
+	    int N = intervals.length;
+	    int[] starts = new int[N];
+	    int[] ends = new int[N];
+	    for (int i = 0; i < intervals.length; i++) {
+		starts[i] = intervals[i].start;
+		ends[i] = intervals[i].end;
+	    }
+	    Arrays.sort(starts);
+	    Arrays.sort(ends);
+	    int e = 0, rooms = 0, available = 0;
+	    for (int start : starts) {
+		while (ends[e] <= start) {
+		    available++;
+		    e++;
+		}
+		if (available > 0)
+		    available--;
+		else
+		    rooms++;
+	    }
+	    return rooms;
+	}
+    }
+
 }

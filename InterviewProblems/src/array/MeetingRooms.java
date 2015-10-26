@@ -32,7 +32,7 @@ public class MeetingRooms {
 		    if (i1.start != i2.start) {
 			return i1.start - i2.start;
 		    } else
-			return i1.end - i2.start;
+			return i1.end - i2.end;
 		}
 	    });
 

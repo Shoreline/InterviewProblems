@@ -2,6 +2,18 @@ package array;
 
 import java.util.PriorityQueue;
 
+/**
+ * Kth Largest Element in an Array
+ * 
+ * Find the kth largest element in an unsorted array. Note that it is the kth
+ * largest element in the sorted order, not the kth distinct element.
+ * 
+ * For example, Given [3,2,1,5,6,4] and k = 2, return 5.
+ * 
+ * Note: You may assume k is always valid, 1 ≤ k ≤ array's length.
+ *
+ * 
+ */
 /*
  * http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
  * 
@@ -14,12 +26,12 @@ public class KthLargestElementInUnsortedArray {
      */
     public class Solution_QuickSelect {
 	public int findKthLargest(int[] nums, int k) {
-	    k = nums.length + 1 - k;
+	    k = nums.length + 1 - k; // k-th largest = (len+1-k)-th smallest
 	    int left = 0;
 	    int right = nums.length - 1;
 	    while (left <= right) {
 		int p = partition(nums, left, right);
-		if (p == k - 1) {
+		if (p == k - 1) { // k-th smallest element is of k-1 index
 		    return nums[p];
 		} else if (p < k - 1) {
 		    left = p + 1;
@@ -31,8 +43,14 @@ public class KthLargestElementInUnsortedArray {
 	    return nums[right];
 	}
 
+	/*
+	 * move all elements < pivot_value to the left hand side; all >=
+	 * pivot_value to right hand side.
+	 * 
+	 * Eventually return an index p where nums[p] = pivot_value
+	 */
 	private int partition(int[] nums, int start, int end) {
-	    int p = start + (int) Math.floor(Math.random() * (end - start + 1));
+	    int p = start + (int) (Math.random() * (end - start + 1));
 	    int pVal = nums[p];
 
 	    // Move pivot to end
@@ -55,6 +73,7 @@ public class KthLargestElementInUnsortedArray {
 	    nums[j] = tmp;
 	}
     }
+
     /*
      * Min Heap. Time: O(NlogK) ?
      */

@@ -23,7 +23,9 @@ package string;
 public class DecodeWays {
 
     /*
-     * Be careful about how to handle initial status
+     * Be careful about how to handle initial status: set them both to 1!
+     * 
+     * The two if blocks are parallel, not nested.
      */
     public class Solution {
 	public int numDecodings(String s) {

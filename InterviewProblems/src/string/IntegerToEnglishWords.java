@@ -31,7 +31,9 @@ package string;
  * printed out) *
  */
 /*
- * Since i< 2^31 - 1, so i is at most about 23 billion 
+ * Since i< 2^31 - 1, so i is at most about 23 billion
+ * 
+ * underThousand() only deal with values from [0, 999]
  */
 public class IntegerToEnglishWords {
     class Solution {
@@ -66,7 +68,7 @@ public class IntegerToEnglishWords {
 	    int low = num % 10;
 
 	    if (high > 0) {
-		res.append(arr1[high]).append(" Hundred ");
+		res.append(arr1[high]).append(" Hundred "); // an additional " " is attached to the end
 	    }
 
 	    if (midLow == 0) {
