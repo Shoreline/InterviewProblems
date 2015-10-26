@@ -33,9 +33,20 @@ import java.util.*;
  * 
  * isUnique("make") -> true
  */
+
+/*
+ * Condition of uniqueness: 1) the given word's abb is never seen; 2) There is
+ * only one word in the dictionary has the same abb as the given word, plus the
+ * word having this abb in dictionary is identical as the given word
+ * 
+ * 3 Cases for the map
+ * 1) map does not have a key;
+ * 2) map has this key but the value is null;
+ * 3) map has this key and the value is not null
+ */
 public class UniqueWordAbbreviation {
     public class ValidWordAbbr {
-	Map<String, String> map = new HashMap<>();
+	Map<String, String> map = new HashMap<>(); // abb -> word map
 
 	public ValidWordAbbr(String[] dictionary) {
 	    for (String word : dictionary) {
@@ -54,7 +65,7 @@ public class UniqueWordAbbreviation {
 	}
 
 	private String getAbb(String word) {
-	    if (word.length() <= 2) {
+	    if (word.length() <= 2) {	// corner case
 		return word;
 	    }
 	    return word.substring(0, 1) + (word.length() - 2) + word.charAt(word.length() - 1);

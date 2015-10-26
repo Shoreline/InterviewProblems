@@ -17,12 +17,14 @@ public class InorderSuccessorInBST {
 		return null;
 
 	    TreeNode suc = null;
-	    while (root != null) {
-		if (p.val >= root.val) {
-		    root = root.right;
+	    // can use variable root directly. but 'cur' looks less misleading
+	    TreeNode cur = root;
+	    while (cur != null) {
+		if (cur.val > p.val) { // the suc's val must > p.val
+		    suc = cur;
+		    cur = cur.left;
 		} else {
-		    suc = root;
-		    root = root.left;
+		    cur = cur.right;
 		}
 	    }
 	    return suc;

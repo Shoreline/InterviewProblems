@@ -10,7 +10,11 @@ package array;
  * 2, 5, 3, 4].
  * 
  */
+
 public class WiggleSort {
+    /*
+     * keep swapping nums[i] and nums[i-1]
+     */
     public class Solution {
 	public void wiggleSort(int[] nums) {
 	    for (int i = 1; i < nums.length; i++) {

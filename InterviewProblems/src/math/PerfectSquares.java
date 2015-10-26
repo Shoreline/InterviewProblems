@@ -37,6 +37,7 @@ public class PerfectSquares {
 	    }
 
 	    for (int i = 1; i <= n; i++) {
+		// the condition is actually i + j^2 < n
 		for (int j = 1; j <= (n - i) / j; j++) {
 		    dp[i + j * j] = Math.min(dp[i] + 1, dp[i + j * j]);
 		}

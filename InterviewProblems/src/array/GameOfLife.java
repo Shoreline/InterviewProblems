@@ -27,6 +27,18 @@ package array;
  *
  */
 public class GameOfLife {
+    /*
+     * 4 possible state transitions
+     * 
+     * 1 -> 0: -1;
+     * 
+     * 1 -> 1: 1;
+     * 
+     * 0 -> 0: 0;
+     * 
+     * 0 -> 1: 2;
+     * 
+     */
     public class Solution {
 	public void gameOfLife(int[][] board) {
 	    if (board == null || board.length == 0 || board[0].length == 0) {

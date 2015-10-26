@@ -22,9 +22,12 @@ package array;
  *
  */
 /*
+ * Easy to prove this is at least one duplicate. (the algorithm relies on this
+ * premise)
+ * 
  * The main idea is the same with problem Linked List Cycle II
  * 
- * walker and runner are indices.
+ * Important: walker and runner are indices.
  * 
  * If there is no duplicate: say values in nums are from 0 to n (not 1 to n),
  * then they will form a big cycle.
