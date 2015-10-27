@@ -1,5 +1,7 @@
 package facebook;
 
+import java.util.*;
+
 /**
  * 给两个vectors, 例如{0,3,2} 和{1,3,5}。 那么dot product 就是 0*1+3*3+2*5 ＝ 19 。
  * 那么如果每个vector 有millions of elements, 怎样优化 可以让 running time 比 o(n) 小
@@ -18,5 +20,5 @@ package facebook;
  * search找到(3,2)然后再找(5,1)的时候我就只search A[2:]这部分
  */
 public class DotProduct {
-
+    List<int[]> haha = new ArrayList<>();
 }

@@ -3,7 +3,7 @@ package facebook;
 import java.util.Random;
 
 /**
- * find random maximum。就是一个int array 里面会有一到多个maximum，返回一个随机maximum的index
+ * find random maximum。就是一个int array 里面会有一到多个maximum value，返回一个随机maximum value的index
  *
  */
 /*

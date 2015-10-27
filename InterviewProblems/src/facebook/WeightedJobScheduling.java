@@ -32,7 +32,7 @@ import java.util.Comparator;
  * 
  * Time: O(N^2); Space: O(N)
  * 
- * dp[i]: the maximum profit of job_0 ~ job_i, must including job_i.
+ * dp[i]: the maximum profit of job_0 ~ job_i, (may or may not include job_i).
  * 
  * http://www.geeksforgeeks.org/weighted-job-scheduling/ 
  */
@@ -68,19 +68,20 @@ public class WeightedJobScheduling {
 
 	    int[] dp = new int[jobs.length];
 	    dp[0] = jobs[0].profit;
-	    int max = dp[0];
 
 	    for (int i = 1; i < jobs.length; i++) {
+		// Find the latest job (in sorted array) that doesn't
+		// conflict with the job[i]
 		int j = i - 1;
 		while (j >= 0 && jobs[j].end > jobs[i].start) {
 		    j--;
 		}
-
-		dp[i] = jobs[i].profit + (j >= 0 ? jobs[j].profit : 0);
-		max = Math.max(max, dp[i]);
+		
+		int include = jobs[i].profit + (j >= 0 ? dp[j] : 0);
+		dp[i] = Math.max(include, dp[i-1]);
 	    }
 
-	    return max;
+	    return dp[dp.length-1];
 	}
     }
 

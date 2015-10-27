@@ -49,28 +49,28 @@ public class GroupContacts {
 
     // Use Integers to represent elements
     class UnionFind {
-	int[] father;
+	int[] parent;
 	int[] rank;
 
 	/*
 	 * Initially, each element's father is itself; and initial rank is 0
 	 */
 	public UnionFind(int size) {
-	    father = new int[size];
+	    parent = new int[size];
 	    rank = new int[size];
 	    for (int i = 0; i < size; i++) {
-		father[i] = i;
+		parent[i] = i;
 		rank[i] = 0;
 	    }
 	}
 
 	// find the father of an element
 	int find(int x) {
-	    if (father[x] == x) {
+	    if (parent[x] == x) {
 		return x;
 	    }
 
-	    return find(father[x]);
+	    return find(parent[x]);
 	}
 
 	/*
@@ -86,9 +86,9 @@ public class GroupContacts {
 	    }
 
 	    if (rank[fx] < rank[fy]) {
-		father[fx] = fy;
+		parent[fx] = fy;
 	    } else {
-		father[fy] = fx;
+		parent[fy] = fx;
 		if (rank[fx] == rank[fy]) {
 		    rank[fx]++;
 		}

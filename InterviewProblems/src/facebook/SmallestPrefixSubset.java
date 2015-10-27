@@ -15,7 +15,8 @@ import java.util.*;
  * 
  * a). 先对原来的list建一个trie
  * 
- * b) 从trie的root开始做BFS，有非空的child就往下走，直到找到第一个是词的child， 在这 个过程中把path放到result中.
+ * b) 从trie的root开始做BFS，有非空的child就往下走，直到找到第一个是词的child, 那么这个branch就可在此结束.
+ * 在这个过程中把path放到result中.
  * 
  * -> But implementing a Trie is too troublesome.
  */
