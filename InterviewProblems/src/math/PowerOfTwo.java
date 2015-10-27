@@ -7,7 +7,19 @@ package math;
  *
  */
 public class PowerOfTwo {
+    /*
+     * Straightforward way
+     */
     public class Solution {
+	public boolean isPowerOfTwo(int n) {
+	    while (n > 0 && n % 2 == 0) {
+		n = n / 2;
+	    }
+	    return n == 1;
+	}
+    }
+
+    public class Solution2 {
 	public boolean isPowerOfTwo(int n) {
 	    int val = 1;
 	    while (val != n && val <= Integer.MAX_VALUE / 2) {

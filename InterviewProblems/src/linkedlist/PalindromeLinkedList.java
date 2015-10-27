@@ -15,6 +15,10 @@ public class PalindromeLinkedList {
      * Thought: find middle node, cut the list into two half, reverse one of
      * them, then compare values
      * 
+     * *Even if there is odd number of nodes in original list, the middle node
+     * later become the last node of the reversed second half. It will not be
+     * compared. So it is fine to ignore it.
+     * 
      * one time AC!
      */
     public class Solution {

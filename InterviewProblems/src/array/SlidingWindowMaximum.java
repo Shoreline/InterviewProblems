@@ -43,7 +43,9 @@ import java.util.LinkedList;
  * Each element in nums can only be enqueue and dequeue for at most once each,
  * so the amortized time complexity is still O(N)
  * 
- * deque saves indices. The elements of these indices are in descending order
+ * deque saves indices. 
+ * 
+ * **The elements of these indices in deque are in descending order
  */
 public class SlidingWindowMaximum {
     public class Solution {
@@ -69,6 +71,7 @@ public class SlidingWindowMaximum {
 		    res[i - k + 1] = nums[deque.peekFirst()];
 		}
 
+		// if the biggest number in deque ( the first one) is out of range, remove it
 		if (i - deque.peekFirst() == k - 1) {
 		    deque.pollFirst();
 		}

@@ -57,6 +57,7 @@ public class DifferentWaysToAddParentheses {
 		}
 	    }
 
+	    // important
 	    if (res.isEmpty()) {
 		res.add(Integer.valueOf(input));
 	    }
