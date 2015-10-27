@@ -23,9 +23,9 @@ package array;
  * 
  * Just consider the larger loot for two cases: (not strictly separated)
  * 
- * 1) the first house may be robbed -> not allow to rob the last house;
+ * 1) allow to rob the first house -> not allow to rob the last house;
  * 
- * 2) the first house is surely not robbed -> allow to rob the last house
+ * 2) not allow to rob the first house -> allow to rob the last house
  * 
  */
 public class HouseRobberII {

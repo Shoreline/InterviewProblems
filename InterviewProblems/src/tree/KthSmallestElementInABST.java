@@ -27,6 +27,9 @@ import java.util.*;
  * our search in the right subtree for the (K – N – 1)-th smallest element
  */
 public class KthSmallestElementInABST {
+    /*
+     * Iteratively in-order traverse
+     */
     public class Solution {
 	public int kthSmallest(TreeNode root, int k) {
 	    Stack<TreeNode> stack = new Stack<>(); // only save non-null node
